@@ -11,6 +11,7 @@ include_directories(.
 
 add_executable(vm
         ./srcs/vm.c
+        ./srcs/read_champ.c
         )
 
 add_dependencies(vm libft_target)

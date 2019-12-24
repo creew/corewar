@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vm.c                                               :+:      :+:    :+:   */
+/*   read_be.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eklompus <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/24 13:32:42 by eklompus          #+#    #+#             */
-/*   Updated: 2019/12/24 13:32:43 by eklompus         ###   ########.fr       */
+/*   Created: 2019/12/24 13:50:47 by eklompus          #+#    #+#             */
+/*   Updated: 2019/12/24 13:50:47 by eklompus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "vm.h"
 
-int main(int ac, char *av[])
+t_ushort read_ushort_be(t_ushort a)
 {
+	return (a >> 8 | (a & 0xFF) << 8);
+}
 
-
-
+t_uint read_uint_be(t_uint a)
+{
+	return (a >> 24 | ((a >> 8) & 0xFF00) |
+		((a & 0xFF00) << 8) | ((a & 0xFF) << 24));
 }
