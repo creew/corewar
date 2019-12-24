@@ -14,6 +14,8 @@ add_executable(vm
         ./srcs/read_champ.c
         ./srcs/read_be.c
         ./srcs/read_options.c
+        ./srcs/control.c
+        ./srcs/game_field.c
         )
 
 add_dependencies(vm libft_target)

@@ -14,6 +14,8 @@ ALL_C =	vm.c \
         read_be.c \
         read_champ.c \
         read_options.c \
+        control.c \
+        game_field.c
 
 SRCDIR = ./srcs
 OBJDIR = ./objs
