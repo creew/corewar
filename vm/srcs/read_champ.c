@@ -40,12 +40,9 @@ t_result	read_champ(char *filename, t_player **player)
 	if (pl == NULL)
 		return (close_and_ret(f, NULL, ERR_ENOMEM));
 	if (read(f, pl->prog, player_size) != player_size)
-		return (close_and_ret(f, pl, ERR_CHAMP_TO_BIG));
+		return (close_and_ret(f, pl, ERR_READ_BODY_CHAMP));
 	ft_strlcpy(pl->name, header.prog_name, sizeof(pl->name));
 	ft_strlcpy(pl->comment, header.comment, sizeof(pl->comment));
 	*player = pl;
 	return (RET_OK);
 }
-
-
-

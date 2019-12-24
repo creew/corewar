@@ -23,5 +23,7 @@ typedef int t_result;
 #define ERR_CHAMP_TO_BIG		(-4)
 #define ERR_ENOMEM				(-5)
 #define ERR_READ_BODY_CHAMP		(-6)
+#define ERR_TO_MUCH_PLAYERS		(-7)
+
 
 #endif

@@ -28,10 +28,13 @@ typedef struct		s_player {
 }					t_player;
 
 typedef struct		s_vm {
+	t_ftarray	players;
 
 
 }					t_vm;
 
+int			read_option(int ac, char *av[]);
+t_result	read_champ(char *filename, t_player **player);
 t_ushort	read_ushort_be(t_ushort a);
 t_uint		read_uint_be(t_uint a);
 

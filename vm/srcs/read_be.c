@@ -12,12 +12,12 @@
 
 #include "vm.h"
 
-t_ushort read_ushort_be(t_ushort a)
+t_ushort	read_ushort_be(t_ushort a)
 {
 	return (a >> 8 | (a & 0xFF) << 8);
 }
 
-t_uint read_uint_be(t_uint a)
+t_uint		read_uint_be(t_uint a)
 {
 	return (a >> 24 | ((a >> 8) & 0xFF00) |
 		((a & 0xFF00) << 8) | ((a & 0xFF) << 24));
