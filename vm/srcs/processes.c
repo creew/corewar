@@ -1,24 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   control.c                                          :+:      :+:    :+:   */
+/*   processes.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eklompus <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/24 16:42:22 by eklompus          #+#    #+#             */
-/*   Updated: 2019/12/24 16:42:22 by eklompus         ###   ########.fr       */
+/*   Created: 2019/12/25 17:18:09 by eklompus          #+#    #+#             */
+/*   Updated: 2019/12/25 17:18:09 by eklompus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm.h"
 
-void		start_pause(t_vm *vm)
+void	process_processes(t_vm *vm)
 {
-	vm->started = !vm->started;
-}
+	t_process *pr;
 
-void 		inc_counter(t_vm *vm)
-{
-	if (vm->started)
-		vm->cycles++;
+	pr = vm->processes_root;
+	while (pr)
+	{
+		if (pr->state == NOT_INITED)
+		{
+
+
+
+		}
+
+
+
+
+	}
+
+
+
 }

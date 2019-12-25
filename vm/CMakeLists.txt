@@ -13,6 +13,7 @@ include_directories(.
         )
 
 add_executable(vm
+        ./../common_resources/op.c
         ./srcs/vm.c
         ./srcs/read_champ.c
         ./srcs/read_be.c
@@ -24,7 +25,10 @@ add_executable(vm
         ./visu/srcs/print.c
         ./visu/srcs/reload_fonts.c
         ./visu/srcs/process.c
-        ./visu/srcs/draw_all.c)
+        ./visu/srcs/draw_all.c
+        ./srcs/dl_list.c
+        ./srcs/processes.c
+        )
 
 add_dependencies(vm libft_target)
 add_dependencies(vm ft_printf_target)

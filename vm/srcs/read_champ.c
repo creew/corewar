@@ -31,7 +31,6 @@ t_result	create_player(t_header *header, t_player **player)
 	pl->prog_size = swap_uint_be(header->prog_size);
 	ft_strlcpy(pl->name, header->prog_name, sizeof(pl->name));
 	ft_strlcpy(pl->comment, header->comment, sizeof(pl->comment));
-	ft_array_init(&pl->carriages, 256);
 	*player = pl;
 	return (RET_OK);
 }

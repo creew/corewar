@@ -26,44 +26,28 @@ static int	get_pt_size(t_vis *vis)
 	int ptw;
 	int	pth;
 
-	ptw = (vis->wwidth - 40) / (64 * 2 + 64 / 2 + 64);
+	ptw = (vis->wwidth - 40) / (64 * 2 + 64 / 2 + 32);
 	pth = (vis->wheight - 20) / (64);
 	ptw = ptw * 100 / vis->font100.width;
 	pth = pth * 100 / vis->font100.height;
 	return (ft_min(pth, ptw));
 }
 
-void		destroy_surfaces(t_vis *vis)
-{
-	int i;
-	int j;
-
-	i = -1;
-	while (++i < (sizeof(vis->glyph_textures) / sizeof(vis->glyph_textures[0])))
-	{
-		j = -1;
-		while (++j < (sizeof(vis->glyph_textures[0]) / sizeof(vis->glyph_textures[0][0])))
-		{
-			SDL_DestroyTexture(vis->glyph_textures[i][j]);
-			vis->glyph_textures[i][j] = NULL;
-		}
-	}
-}
-
 void		init_glyphs(t_vis *vis)
 {
-	int i;
-	int j;
-	SDL_Surface *surface;
+	int				i;
+	int				j;
+	SDL_Surface		*surface;
 
-	destroy_surfaces(vis);
+	destroy_glyph_textures(vis);
 	i = -1;
 	while (++i < (sizeof(vis->glyph_textures) / sizeof(vis->glyph_textures[0])))
 	{
 		j = -1;
-		while (++j < (sizeof(vis->glyph_textures[0]) / sizeof(vis->glyph_textures[0][0])))
+		while (++j < (sizeof(vis->glyph_textures[0]) /
+			sizeof(vis->glyph_textures[0][0])))
 		{
-			surface = TTF_RenderGlyph_Solid(vis->field_font,
+			surface = TTF_RenderGlyph_Blended(vis->field_font,
 				(j > 9 ? (j - 10 + 'a') : (j + '0')), g_colors[i]);
 			vis->glyph_textures[i][j] =
 				SDL_CreateTextureFromSurface(vis->ren, surface);

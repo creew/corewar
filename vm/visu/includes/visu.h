@@ -44,9 +44,9 @@ typedef struct	s_vis
 void		print_sdl_error(const char *err);
 int			init_sdl(t_vis *vis);
 void 		sdl_destroy(t_vis *vis);
+void		destroy_glyph_textures(t_vis *vis);
 
 int			reload_font(t_vis *vis);
 void		text_out(t_vis *vis, SDL_Point *xy, char *txt, SDL_Color color);
-
 
 #endif

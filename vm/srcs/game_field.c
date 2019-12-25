@@ -12,22 +12,6 @@
 
 #include "vm.h"
 
-t_result	pl_add_carriage(t_player *pl, unsigned int place)
-{
-	t_carriage	*carriage;
-
-	carriage = ft_memalloc(sizeof(*carriage));
-	if (carriage == NULL)
-		return (ERR_ENOMEM);
-	carriage->pc = place;
-	if (ft_array_add(&pl->carriages, carriage) != 0)
-	{
-		ft_memdel((void **)&carriage);
-		return (ERR_ENOMEM);
-	}
-	return (RET_OK);
-}
-
 void		init_vm(t_vm *vm)
 {
 	t_uint 		i;
@@ -44,6 +28,6 @@ void		init_vm(t_vm *vm)
 		j = -1;
 		while (++j < pl->prog_size)
 			vm->field[start + j] = pl->prog[j] | ((i + 1u) << 8u);
-		pl_add_carriage(pl, start);
+		add_process(&vm->processes_root, i, start);
 	}
 }

@@ -26,7 +26,6 @@ int main(int ac, char *av[])
 	if ((ac - n) > MAX_PLAYERS)
 		return (ERR_TO_MUCH_PLAYERS);
 	ft_bzero(&vm, sizeof(vm));
-	vm.delay = 10000;
 	vm.visualize = 1;
 	ft_array_init(&vm.players, 0);
 	while (n < ac)
