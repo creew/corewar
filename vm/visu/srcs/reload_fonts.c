@@ -25,7 +25,7 @@ static int	get_pt_size(t_vis *vis)
 	return (ft_min(pth, ptw));
 }
 
-int 		load_font(t_vis *vis)
+int			reload_font(t_vis *vis)
 {
 	if (vis->field_font)
 		TTF_CloseFont(vis->field_font);
@@ -35,6 +35,7 @@ int 		load_font(t_vis *vis)
 		print_sdl_error(TTF_GetError());
 		return (1);
 	}
+	TTF_SetFontHinting(vis->field_font, TTF_HINTING_MONO);
 	TTF_SizeText(vis->field_font, "X",
 		&vis->cur_font.width, &vis->cur_font.height);
 	return (0);
@@ -46,7 +47,11 @@ void		text_out(t_vis *vis, SDL_Point *xy, char *txt, SDL_Color color)
 	SDL_Texture		*msg;
 	SDL_Rect		rect;
 
+	SDL_Color back = {11,22,33,0};
+
 	surface = TTF_RenderUTF8_Solid(vis->field_font, txt, color);
+	//surface = TTF_RenderUTF8_Blended(vis->field_font, txt, color);
+
 	msg = SDL_CreateTextureFromSurface(vis->ren, surface);
 	rect.x = xy->x;
 	rect.y = xy->y;

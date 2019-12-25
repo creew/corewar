@@ -11,12 +11,17 @@
 /* ************************************************************************** */
 
 #include "visu.h"
+#include "ft_printf.h"
 
 void		recalc_room_size(t_vis *vis, int w, int h)
 {
+	char	buf[128];
+	vis->wwidth = w;
+	vis->wheight = h;
 
+	ft_sprintf(buf, "width: %d, height: %d", w, h);
+	SDL_SetWindowTitle(vis->window, buf);
 }
-
 
 int			process_event(t_vis *vis)
 {

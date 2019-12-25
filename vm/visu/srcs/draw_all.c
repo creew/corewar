@@ -10,15 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vm.h"
 #include "visu.h"
+#include "vm.h"
+
+#include <SDL2_gfxPrimitives.h>
 
 const SDL_Color g_colors[] = {
-	{0, 0, 0, 0},
-	{255, 0, 0, 0},
-	{0, 255, 0, 0},
-	{0, 0, 255, 0},
-	{255, 255, 0, 0},
+	{104, 104, 100, 255},
+	{180, 48, 27, 255},
+	{0, 255, 0, 255},
+	{0, 0, 255, 255},
+	{255, 255, 0, 255},
 };
 
 static char			half_byte_to_char(t_uint hc)
@@ -65,10 +67,35 @@ static void			draw_field(t_vis *vis, t_vm *vm)
 	}
 }
 
+Uint32		get_uint32_color(int r, int g, int b, int a)
+{
+	Uint32	color;
+
+	color = ((Uint32)a & 0xFFu) << 24u;
+	color |= ((Uint32)b & 0xFFu) << 16u;
+	color |= ((Uint32)g & 0xFFu) << 8u;
+	color |= ((Uint32)r & 0xFFu);
+	return (color);
+}
+
+void				draw_borders(t_vis *vis)
+{
+	roundedRectangleColor(vis->ren,
+		1,
+		1,
+		START_FIELD_X + 64 * vis->cur_font.width * 2
+		+ 64 * vis->cur_font.width / 2 + 1,
+		START_FIELD_Y + 64 * vis->cur_font.height +1 ,
+		10,
+		get_uint32_color(49, 51, 53, 255));
+}
+
 void				draw_all(t_vis *vis, t_vm *vm)
 {
-	SDL_SetRenderDrawColor(vis->ren, 0xFF, 0xFF, 0xFF, 0xFF);
+
+	SDL_SetRenderDrawColor(vis->ren, 0, 0, 0, 0xFF);
 	SDL_RenderClear(vis->ren);
+	draw_borders(vis);
 	draw_field(vis, vm);
 	SDL_RenderPresent(vis->ren);
 }

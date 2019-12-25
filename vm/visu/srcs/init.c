@@ -61,7 +61,7 @@ int			init_sdl(t_vis *vis)
 {
 	ft_bzero(vis, sizeof(*vis));
 	vis->wwidth = 2000;
-	vis->wheight = 1200;
+	vis->wheight = 1400;
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_EVENTS) != 0)
 	{
 		print_sdl_error("Init");
@@ -78,6 +78,6 @@ int			init_sdl(t_vis *vis)
 	}
 	if (calc_font(vis) != 0)
 		return (1);
-	load_font(vis);
+	reload_font(vis);
 	return (0);
 }

@@ -19,7 +19,7 @@ t_result	pl_add_carriage(t_player *pl, unsigned int place)
 	carriage = ft_memalloc(sizeof(*carriage));
 	if (carriage == NULL)
 		return (ERR_ENOMEM);
-	carriage->pos = place;
+	carriage->pc = place;
 	if (ft_array_add(&pl->carriages, carriage) != 0)
 	{
 		ft_memdel((void **)&carriage);

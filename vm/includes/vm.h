@@ -23,7 +23,9 @@ typedef unsigned short	t_ushort;
 typedef unsigned char	t_uchar;
 
 typedef struct		s_carriage {
-	t_uint			pos;
+	t_uint			pc;
+	t_uchar			regs[REG_NUMBER][REG_SIZE];
+	t_uchar 		carry;
 }					t_carriage;
 
 typedef struct		s_color
