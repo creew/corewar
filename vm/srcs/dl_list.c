@@ -26,3 +26,20 @@ t_process *add_process(t_process **root, t_uint id, t_uint pc)
 	}
 	return (process);
 }
+
+void 	remove_process(t_process **root, t_process *pr)
+{
+	if (pr == *root)
+	{
+		ft_memdel((void **)&pr);
+		*root = NULL;
+	}
+	else
+	{
+		if (pr->prev)
+			pr->prev->next = pr->next;
+		if (pr->next)
+			pr->next->prev = pr->prev;
+		ft_memdel((void **)&pr);
+	}
+}

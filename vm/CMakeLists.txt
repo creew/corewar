@@ -28,7 +28,7 @@ add_executable(vm
         ./visu/srcs/draw_all.c
         ./srcs/dl_list.c
         ./srcs/processes.c
-        )
+        srcs/read_from_map.c)
 
 add_dependencies(vm libft_target)
 add_dependencies(vm ft_printf_target)

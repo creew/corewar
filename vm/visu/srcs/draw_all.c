@@ -107,11 +107,45 @@ void				draw_borders(t_vis *vis)
 		get_uint32_color(49, 51, 53, 255));
 }
 
+void 				draw_processes(t_vis *vis, t_vm *vm)
+{
+	t_process	*pr;
+	int			x;
+	int 		y;
+
+	pr = vm->processes_root;
+	while (pr)
+	{
+		x = START_FIELD_X + (pr->pc % 64) * vis->cur_font.width * 2 +
+			 (pr->pc % 64) * vis->cur_font.width / 2;
+		y = START_FIELD_Y + (pr->pc / 64) * vis->cur_font.height;
+		roundedRectangleColor(vis->ren,
+							  x,
+							  y,
+							  x + vis->cur_font.width * 2,
+							  y + vis->cur_font.height,
+							  3,
+							  get_uint32_color(g_colors[pr->id + 1].r,
+											   g_colors[pr->id + 1].g,
+											   g_colors[pr->id + 1].b,
+											   g_colors[pr->id + 1].a));
+		roundedBoxColor(vis->ren,
+						x,
+						y,
+						x + vis->cur_font.width * 2,
+						y + vis->cur_font.height,
+						3,
+						get_uint32_color(255,255,255,255));
+		pr = pr->next;
+	}
+}
+
 void				draw_all(t_vis *vis, t_vm *vm)
 {
 	SDL_SetRenderDrawColor(vis->ren, 0, 0, 0, 0xFF);
 	SDL_RenderClear(vis->ren);
 	draw_borders(vis);
+	draw_processes(vis, vm);
 	draw_field(vis, vm);
 	draw_cycles(vis, vm);
 	SDL_RenderPresent(vis->ren);

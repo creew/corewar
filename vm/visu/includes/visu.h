@@ -23,6 +23,8 @@
 # define START_FIELD_X	(10)
 # define START_FIELD_Y	(10)
 
+extern const SDL_Color g_colors[];
+
 typedef struct	s_wh
 {
 	int				width;

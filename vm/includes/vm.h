@@ -22,6 +22,7 @@ typedef unsigned int	t_uint;
 typedef unsigned short	t_ushort;
 typedef unsigned char	t_uchar;
 
+
 typedef	t_ftarray		t_arrplayers;
 
 typedef enum {
@@ -39,6 +40,7 @@ typedef struct		s_process
 	t_uchar 			carry;
 	t_pstates			state;
 	t_uint				wait;
+	t_uchar 			opcode;
 }					t_process;
 
 typedef struct		s_color
@@ -83,4 +85,9 @@ t_process	*add_process(t_process **root, t_uint id, t_uint pc);
 
 void		write_varlen_be(t_uchar *data, t_uint val, t_uint size);
 t_uint		read_varlen_be(const t_uchar *data, t_uint size);
+
+t_uint		read_be_map(const t_uchar *data, t_uint offset, t_uint size);
+void		write_be_map(t_uchar *data, t_uint val, t_uint offset, t_uint size);
+
+void		process_processes(t_vm *vm);
 #endif

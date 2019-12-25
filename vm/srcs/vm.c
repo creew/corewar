@@ -57,8 +57,8 @@ int main(int ac, char *av[])
 
 		if (vm.started)
 		{
+			process_processes(&vm);
 			inc_counter(&vm);
-
 		}
 	}
 	sdl_destroy(&vm.vis);
