@@ -16,6 +16,7 @@
 # include <SDL.h>
 # include <SDL_ttf.h>
 # include <SDL_image.h>
+# include "op.h"
 
 # define FIELD_FONT		"monaco.ttf"
 
@@ -37,6 +38,7 @@ typedef struct	s_vis
 	int				wheight;
 	t_wh			font100;
 	t_wh 			cur_font;
+	SDL_Texture		*glyph_textures[MAX_PLAYERS + 1][16];
 }				t_vis;
 
 void		print_sdl_error(const char *err);
@@ -46,5 +48,5 @@ void 		sdl_destroy(t_vis *vis);
 int			reload_font(t_vis *vis);
 void		text_out(t_vis *vis, SDL_Point *xy, char *txt, SDL_Color color);
 
-int			process_event(t_vis *vis);
+
 #endif

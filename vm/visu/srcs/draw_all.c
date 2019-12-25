@@ -12,45 +12,35 @@
 
 #include "visu.h"
 #include "vm.h"
-
+#include "ft_printf.h"
 #include <SDL2_gfxPrimitives.h>
 
-const SDL_Color g_colors[] = {
-	{104, 104, 100, 255},
-	{180, 48, 27, 255},
-	{0, 255, 0, 255},
-	{0, 0, 255, 255},
-	{255, 255, 0, 255},
-};
-
-static char			half_byte_to_char(t_uint hc)
+static void			draw_text(t_vis *vis, int x, int y, t_ushort val)
 {
-	hc &= 0xFu;
-	return ((char)(hc > 9 ? (hc - 10 + 'a') : (hc + '0')));
-}
+	SDL_Rect		rect;
+	t_uint			player;
 
-static SDL_Color	get_field_text(char *buf, t_ushort val)
-{
-	t_uint		player;
-
-	buf[0] = half_byte_to_char(val >> 4u);
-	buf[1] = half_byte_to_char(val);
-	buf[2] = '\0';
-	if ((player = val >> 8u) != 0)
-	{
-		if (player >= 1 && player <= 4)
-			return (g_colors[player]);
-	}
-	return (g_colors[0]);
+	player = val >> 8u < 5 ? val >> 8u : 0;
+	rect.x = x;
+	rect.y = y;
+	rect.w = vis->cur_font.width;
+	rect.h = vis->cur_font.height;
+	SDL_RenderCopy(vis->ren,
+		vis->glyph_textures[player][(val >> 4u) & 0xFu], NULL, &rect);
+	rect.x = x + vis->cur_font.width;
+	rect.y = y;
+	rect.w = vis->cur_font.width;
+	rect.h = vis->cur_font.height;
+	SDL_RenderCopy(vis->ren,
+		vis->glyph_textures[player][val & 0xFu], NULL, &rect);
 }
 
 static void			draw_field(t_vis *vis, t_vm *vm)
 {
 	int			x;
 	int			y;
-	SDL_Point	xy;
-	char		buf[8];
-	SDL_Color	color;
+	int			px;
+	int 		py;
 
 	y = -1;
 	while (++y < 64)
@@ -58,16 +48,43 @@ static void			draw_field(t_vis *vis, t_vm *vm)
 		x = -1;
 		while (++x < 64)
 		{
-			xy.x = START_FIELD_X + x * vis->cur_font.width * 2 +
+			px = START_FIELD_X + x * vis->cur_font.width * 2 +
 				x * vis->cur_font.width / 2;
-			xy.y = START_FIELD_Y + y * vis->cur_font.height;
-			color = get_field_text(buf, vm->field[y * 64 + x]);
-			text_out(vis, &xy, buf, color);
+			py = START_FIELD_Y + y * vis->cur_font.height;
+			draw_text(vis, px, py, vm->field[y * 64 + x]);
 		}
 	}
 }
 
-Uint32		get_uint32_color(int r, int g, int b, int a)
+
+SDL_Color	get_color(int r, int g, int b, int a)
+{
+	SDL_Color	color;
+
+	color.a = a;
+	color.r = r;
+	color.g = g;
+	color.b = b;
+	return (color);
+}
+
+void				draw_cycles(t_vis *vis, t_vm *vm)
+{
+	SDL_Point	xy;
+	char 		buf[64];
+	SDL_Color	color;
+
+	xy.x = START_FIELD_X + 64 * vis->cur_font.width * 2
+		   + 64 * vis->cur_font.width / 2 + 10;
+	xy.y = START_FIELD_Y + 50;
+	ft_sprintf(buf, "Cycles: %zu", vm->cycles);
+	color = get_color(68, 113, 82, 255);
+	text_out(vis, &xy, buf, color);
+}
+
+
+
+Uint32				get_uint32_color(int r, int g, int b, int a)
 {
 	Uint32	color;
 
@@ -92,10 +109,10 @@ void				draw_borders(t_vis *vis)
 
 void				draw_all(t_vis *vis, t_vm *vm)
 {
-
 	SDL_SetRenderDrawColor(vis->ren, 0, 0, 0, 0xFF);
 	SDL_RenderClear(vis->ren);
 	draw_borders(vis);
 	draw_field(vis, vm);
+	draw_cycles(vis, vm);
 	SDL_RenderPresent(vis->ren);
 }

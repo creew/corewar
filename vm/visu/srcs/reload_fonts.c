@@ -13,6 +13,14 @@
 #include "visu.h"
 #include "libft.h"
 
+const SDL_Color g_colors[] = {
+	{104, 104, 100, 255},
+	{180, 48, 27, 255},
+	{0, 255, 0, 255},
+	{0, 0, 255, 255},
+	{255, 255, 0, 255},
+};
+
 static int	get_pt_size(t_vis *vis)
 {
 	int ptw;
@@ -23,6 +31,45 @@ static int	get_pt_size(t_vis *vis)
 	ptw = ptw * 100 / vis->font100.width;
 	pth = pth * 100 / vis->font100.height;
 	return (ft_min(pth, ptw));
+}
+
+void		destroy_surfaces(t_vis *vis)
+{
+	int i;
+	int j;
+
+	i = -1;
+	while (++i < (sizeof(vis->glyph_textures) / sizeof(vis->glyph_textures[0])))
+	{
+		j = -1;
+		while (++j < (sizeof(vis->glyph_textures[0]) / sizeof(vis->glyph_textures[0][0])))
+		{
+			SDL_DestroyTexture(vis->glyph_textures[i][j]);
+			vis->glyph_textures[i][j] = NULL;
+		}
+	}
+}
+
+void		init_glyphs(t_vis *vis)
+{
+	int i;
+	int j;
+	SDL_Surface *surface;
+
+	destroy_surfaces(vis);
+	i = -1;
+	while (++i < (sizeof(vis->glyph_textures) / sizeof(vis->glyph_textures[0])))
+	{
+		j = -1;
+		while (++j < (sizeof(vis->glyph_textures[0]) / sizeof(vis->glyph_textures[0][0])))
+		{
+			surface = TTF_RenderGlyph_Solid(vis->field_font,
+				(j > 9 ? (j - 10 + 'a') : (j + '0')), g_colors[i]);
+			vis->glyph_textures[i][j] =
+				SDL_CreateTextureFromSurface(vis->ren, surface);
+			SDL_FreeSurface(surface);
+		}
+	}
 }
 
 int			reload_font(t_vis *vis)
@@ -38,6 +85,7 @@ int			reload_font(t_vis *vis)
 	TTF_SetFontHinting(vis->field_font, TTF_HINTING_MONO);
 	TTF_SizeText(vis->field_font, "X",
 		&vis->cur_font.width, &vis->cur_font.height);
+	init_glyphs(vis);
 	return (0);
 }
 
@@ -47,11 +95,7 @@ void		text_out(t_vis *vis, SDL_Point *xy, char *txt, SDL_Color color)
 	SDL_Texture		*msg;
 	SDL_Rect		rect;
 
-	SDL_Color back = {11,22,33,0};
-
 	surface = TTF_RenderUTF8_Solid(vis->field_font, txt, color);
-	//surface = TTF_RenderUTF8_Blended(vis->field_font, txt, color);
-
 	msg = SDL_CreateTextureFromSurface(vis->ren, surface);
 	rect.x = xy->x;
 	rect.y = xy->y;

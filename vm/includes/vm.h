@@ -61,6 +61,10 @@ t_ushort	swap_ushort_be(t_ushort a);
 t_uint		swap_uint_be(t_uint a);
 
 void		init_vm(t_vm *vm);
+
 void		start_pause(t_vm *vm);
+void 		inc_counter(t_vm *vm);
+
 void 		draw_all(t_vis *vis, t_vm *vm);
+int			process_event(t_vis *vis, t_vm *vm);
 #endif

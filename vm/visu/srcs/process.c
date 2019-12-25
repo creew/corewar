@@ -10,20 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "visu.h"
+#include "vm.h"
 #include "ft_printf.h"
 
-void		recalc_room_size(t_vis *vis, int w, int h)
+void		recalc_room_size(t_vis *vis, t_vm *vm, int w, int h)
 {
-	char	buf[128];
 	vis->wwidth = w;
 	vis->wheight = h;
-
-	ft_sprintf(buf, "width: %d, height: %d", w, h);
-	SDL_SetWindowTitle(vis->window, buf);
+	reload_font(vis);
+	draw_all(vis, vm);
 }
 
-int			process_event(t_vis *vis)
+int			process_event(t_vis *vis, t_vm *vm)
 {
 	int			run;
 	SDL_Event	e;
@@ -36,7 +34,7 @@ int			process_event(t_vis *vis)
 		else if (e.type == SDL_WINDOWEVENT)
 		{
 			if (e.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
-				recalc_room_size(vis, e.window.data1, e.window.data2);
+				recalc_room_size(vis, vm, e.window.data1, e.window.data2);
 		}
 	}
 	return (run);

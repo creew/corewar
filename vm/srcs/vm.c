@@ -26,7 +26,7 @@ int main(int ac, char *av[])
 	if ((ac - n) > MAX_PLAYERS)
 		return (ERR_TO_MUCH_PLAYERS);
 	ft_bzero(&vm, sizeof(vm));
-	vm.delay = 1000;
+	vm.delay = 10000;
 	vm.visualize = 1;
 	ft_array_init(&vm.players, 0);
 	while (n < ac)
@@ -46,17 +46,19 @@ int main(int ac, char *av[])
 			vm.visualize = 0;
 		}
 	}
+	start_pause(&vm);
 	while (!is_winner_exist())
 	{
 		if (vm.visualize)
 		{
-			if (process_event(&vm.vis) == 0)
+			if (process_event(&vm.vis, &vm) == 0)
 				break;
 			draw_all(&vm.vis, &vm);
 		}
+
 		if (vm.started)
 		{
-
+			inc_counter(&vm);
 
 		}
 	}
