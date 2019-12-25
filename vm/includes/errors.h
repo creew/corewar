@@ -11,19 +11,20 @@
 /* ************************************************************************** */
 
 #ifndef ERRORS_H
-#define ERRORS_H
+# define ERRORS_H
 
-typedef int t_result;
+# define ERR_MAXMIN		(-200)
 
-
-#define RET_OK					(0)
-#define ERR_OPEN_CHAMP			(-1)
-#define ERR_READ_CHAMP			(-2)
-#define ERR_WRONG_MAGIC			(-3)
-#define ERR_CHAMP_TO_BIG		(-4)
-#define ERR_ENOMEM				(-5)
-#define ERR_READ_BODY_CHAMP		(-6)
-#define ERR_TO_MUCH_PLAYERS		(-7)
-
+typedef enum
+{
+	ERR_OPEN_CHAMP = ERR_MAXMIN,
+	ERR_READ_CHAMP,
+	ERR_WRONG_MAGIC,
+	ERR_CHAMP_TO_BIG,
+	ERR_ENOMEM,
+	ERR_READ_BODY_CHAMP,
+	ERR_TO_MUCH_PLAYERS,
+	RET_OK = 0,
+}	t_result;
 
 #endif

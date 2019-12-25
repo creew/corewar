@@ -1,24 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_be.c                                          :+:      :+:    :+:   */
+/*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eklompus <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/24 13:50:47 by eklompus          #+#    #+#             */
-/*   Updated: 2019/12/24 13:50:47 by eklompus         ###   ########.fr       */
+/*   Created: 2019/12/25 10:59:51 by eklompus          #+#    #+#             */
+/*   Updated: 2019/12/25 10:59:52 by eklompus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vm.h"
+#include "visu.h"
 
-t_ushort	swap_ushort_be(t_ushort a)
+void		recalc_room_size(t_vis *vis, int w, int h)
 {
-	return (a >> 8u | ((a & 0xFFu) << 8u));
+
 }
 
-t_uint		swap_uint_be(t_uint a)
+
+int			process_event(t_vis *vis)
 {
-	return (a >> 24u | ((a >> 8u) & 0xFF00u) |
-		((a & 0xFF00u) << 8u) | ((a & 0xFFu) << 24u));
+	int			run;
+	SDL_Event	e;
+
+	run = 1;
+	if (SDL_PollEvent(&e) != 0)
+	{
+		if (e.type == SDL_QUIT)
+			run = 0;
+		else if (e.type == SDL_WINDOWEVENT)
+		{
+			if (e.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
+				recalc_room_size(vis, e.window.data1, e.window.data2);
+		}
+	}
+	return (run);
 }

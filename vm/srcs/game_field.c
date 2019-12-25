@@ -40,7 +40,7 @@ void		init_vm(t_vm *vm)
 	size = ft_array_size(&vm->players);
 	while (ft_array_get(&vm->players, ++i, (void **)&pl) == 0)
 	{
-		start = (sizeof(vm->field) / size) * i;
+		start = ((sizeof(vm->field) / sizeof (*vm->field)) / size) * i;
 		j = -1;
 		while (++j < pl->prog_size)
 			vm->field[start + j] = pl->prog[j] | ((i + 1u) << 8u);

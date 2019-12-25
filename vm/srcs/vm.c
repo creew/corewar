@@ -27,6 +27,7 @@ int main(int ac, char *av[])
 		return (ERR_TO_MUCH_PLAYERS);
 	ft_bzero(&vm, sizeof(vm));
 	vm.delay = 1000;
+	vm.visualize = 1;
 	ft_array_init(&vm.players, 0);
 	while (n < ac)
 	{
@@ -35,15 +36,29 @@ int main(int ac, char *av[])
 		ft_array_insert(&vm.players, pl, 0);
 		n++;
 	}
+	init_vm(&vm);
+	if (vm.visualize)
+	{
+		if (init_sdl(&vm.vis) != 0)
+		{
+			ft_putendl("Error initialize sdl");
+			sdl_destroy(&vm.vis);
+			vm.visualize = 0;
+		}
+	}
 	while (!is_winner_exist())
 	{
+		if (vm.visualize)
+		{
+			if (process_event(&vm.vis) == 0)
+				break;
+			draw_all(&vm.vis, &vm);
+		}
 		if (vm.started)
 		{
 
 
-
-
-
 		}
 	}
+	sdl_destroy(&vm.vis);
 }

@@ -25,10 +25,10 @@ t_result	create_player(t_header *header, t_player **player)
 {
 	t_player *pl;
 
-	pl = ft_memalloc(sizeof(t_player) + sizeof(char) *
-		read_uint_be(header->prog_size));
+	pl = ft_memalloc(sizeof(t_player) + sizeof(char) * swap_uint_be(header->prog_size));
 	if (pl == NULL)
 		return (ERR_ENOMEM);
+	pl->prog_size = swap_uint_be(header->prog_size);
 	ft_strlcpy(pl->name, header->prog_name, sizeof(pl->name));
 	ft_strlcpy(pl->comment, header->comment, sizeof(pl->comment));
 	ft_array_init(&pl->carriages, 256);
@@ -47,9 +47,9 @@ t_result	read_champ(char *filename, t_player **player)
 		return (ERR_OPEN_CHAMP);
 	if (read(f, &header, sizeof(header)) != sizeof(header))
 		return (close_and_ret(f, NULL, ERR_READ_CHAMP));
-	if (read_uint_be(header.magic) != COREWAR_EXEC_MAGIC)
+	if (swap_uint_be(header.magic) != COREWAR_EXEC_MAGIC)
 		return (close_and_ret(f, NULL, ERR_WRONG_MAGIC));
-	player_size = read_uint_be(header.prog_size);
+	player_size = swap_uint_be(header.prog_size);
 	if (player_size > CHAMP_MAX_SIZE)
 		return (close_and_ret(f, NULL, ERR_CHAMP_TO_BIG));
 	if (create_player(&header, player) != RET_OK)

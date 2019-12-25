@@ -1,24 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_be.c                                          :+:      :+:    :+:   */
+/*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eklompus <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/24 13:50:47 by eklompus          #+#    #+#             */
-/*   Updated: 2019/12/24 13:50:47 by eklompus         ###   ########.fr       */
+/*   Created: 2019/12/25 09:28:53 by eklompus          #+#    #+#             */
+/*   Updated: 2019/12/25 09:28:53 by eklompus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vm.h"
+#include "visu.h"
+#include "libft.h"
 
-t_ushort	swap_ushort_be(t_ushort a)
+void	print_sdl_error(const char *err)
 {
-	return (a >> 8u | ((a & 0xFFu) << 8u));
-}
-
-t_uint		swap_uint_be(t_uint a)
-{
-	return (a >> 24u | ((a >> 8u) & 0xFF00u) |
-		((a & 0xFF00u) << 8u) | ((a & 0xFFu) << 24u));
+	ft_putstr("SDL Error: ");
+	ft_putendl(err);
 }
