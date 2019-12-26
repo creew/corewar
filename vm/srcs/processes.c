@@ -13,40 +13,50 @@
 #include "vm.h"
 
 
-
-
-void 	process_ld(t_process *pr, t_runner *run)
+void 	process_ld_run(t_process *pr, t_runner *run)
 {
-	t_uint	arg;
 	long	a1;
-	long	reg;
 
 	a1 = 0;
 	if (run->types[0] == DIR_CODE)
 		a1 = run->args[0];
-	else (run->types[0] == IND_CODE)
-	a1 = read_be_map(run->field, pr->pc + run->types[0], DIR_SIZE, 1);
+	else if (run->types[0] == IND_CODE)
+		a1 = read_be_map(run->field, pr->pc + (run->types[0] % IDX_MOD),
+			DIR_SIZE, 1);
 
 	pr->carry = a1 == 0;
-	write_varlen_be(pr->regs[reg - 1], a1, REG_SIZE);
-
-	if (((arg >> 4u) & 0x3u) == REG_CODE)
-	{
-		if (read_register(vm->field, pr->pc, offset, &reg) == 0)
-		{
-			pr->carry = a1 == 0;
-			write_varlen_be(pr->regs[reg - 1], a1, REG_SIZE);
-		}
-	}
-	else
-		ft_putendl("Error invalid arg2");
+	write_varlen_be(pr->regs[run->args[1] - 1], a1, REG_SIZE);
 }
 
+void 	process_st_run(t_process *pr, t_runner *run)
+{
+	if (run->types[1] == REG_CODE)
+		ft_memcpy(pr->regs[run->args[1] - 1], pr->regs[run->args[0] - 1],
+			sizeof(pr->regs));
+	else if (run->types[1] == IND_CODE)
+		set_field_vals(run->field, pr->pc + (run->args[1] % IDX_MOD),
+			pr, run->args[0]);
+}
 
+void 	process_add_run(t_process *pr, t_runner *run)
+{
+	long	res;
 
+	res = read_varlen_be(pr->regs[run->args[0] - 1], sizeof(pr->regs[0]));
+	res += read_varlen_be(pr->regs[run->args[1] - 1], sizeof(pr->regs[0]));
+	write_varlen_be(pr->regs[run->args[2] - 1], res, sizeof(pr->regs[0]));
+	pr->carry = res == 0;
+}
 
+void 	process_sub_run(t_process *pr, t_runner *run)
+{
+	long	res;
 
-
+	res = read_varlen_be(pr->regs[run->args[0] - 1], sizeof(pr->regs[0]));
+	res -= read_varlen_be(pr->regs[run->args[1] - 1], sizeof(pr->regs[0]));
+	write_varlen_be(pr->regs[run->args[2] - 1], res, sizeof(pr->regs[0]));
+	pr->carry = res == 0;
+}
 
 
 

@@ -10,6 +10,7 @@ include_directories(.
         ./visu/includes
         ./includes
         ~/.brew/include/SDL2
+        /usr/include/SDL2
         )
 
 add_executable(vm
@@ -37,6 +38,7 @@ find_library(SDL2s SDL2 ~/.brew/lib)
 find_library(SDL2i SDL2_image ~/.brew/lib)
 find_library(SDL2t SDL2_ttf ~/.brew/lib)
 find_library(SDL2g SDL2_gfx ~/.brew/lib)
+
 find_library(FT ft ${PROJECT_SOURCE_DIR}/../libft)
 find_library(FT_PRINTF ftprintf ${PROJECT_SOURCE_DIR}/../ft_printf)
 
