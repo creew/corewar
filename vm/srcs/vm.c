@@ -17,6 +17,24 @@ int 	is_winner_exist()
 	return (0);
 }
 
+void    infinite_loop(t_vm *vm)
+{
+    while (!is_winner_exist())
+    {
+        if (vm->visualize)
+        {
+            if (process_event(&vm->vis, vm) == 0)
+                break;
+            draw_all(&vm->vis, vm);
+        }
+        if (vm->started)
+        {
+            process_processes(vm);
+            inc_counter(vm);
+        }
+    }
+}
+
 int main(int ac, char *av[])
 {
 	t_player	*pl;
@@ -36,30 +54,6 @@ int main(int ac, char *av[])
 		n++;
 	}
 	init_vm(&vm);
-	if (vm.visualize)
-	{
-		if (init_sdl(&vm.vis) != 0)
-		{
-			ft_putendl("Error initialize sdl");
-			sdl_destroy(&vm.vis);
-			vm.visualize = 0;
-		}
-	}
-	start_pause(&vm);
-	while (!is_winner_exist())
-	{
-		if (vm.visualize)
-		{
-			if (process_event(&vm.vis, &vm) == 0)
-				break;
-			draw_all(&vm.vis, &vm);
-		}
-
-		if (vm.started)
-		{
-			process_processes(&vm);
-			inc_counter(&vm);
-		}
-	}
+	infinite_loop(&vm);
 	sdl_destroy(&vm.vis);
 }

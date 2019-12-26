@@ -36,10 +36,10 @@
 
 # define COMMENT_CHAR			'#'
 # define LABEL_CHAR				':'
-# define DIRECT_CHAR				'%'
+# define DIRECT_CHAR			'%'
 # define SEPARATOR_CHAR			','
 
-# define LABEL_CHARS				"abcdefghijklmnopqrstuvwxyz_0123456789"
+# define LABEL_CHARS			"abcdefghijklmnopqrstuvwxyz_0123456789"
 
 # define NAME_CMD_STRING		".name"
 # define COMMENT_CMD_STRING		".comment"
@@ -87,6 +87,6 @@ typedef struct		s_op
 	int				wait;
 	char			*desc;
 	int 			is_argtype;
-	int 			unk1;
+	int 			is_tdir_2bytes;
 }					t_op;
 #endif

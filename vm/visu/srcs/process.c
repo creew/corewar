@@ -21,6 +21,14 @@ void		recalc_room_size(t_vis *vis, t_vm *vm, int w, int h)
 	draw_all(vis, vm);
 }
 
+void		process_keyboard(SDL_KeyboardEvent *e, t_vis *vis, t_vm *vm)
+{
+	if (e->keysym.sym == ' ')
+	{
+		start_pause(vm);
+	}
+}
+
 int			process_event(t_vis *vis, t_vm *vm)
 {
 	int			run;
@@ -35,6 +43,10 @@ int			process_event(t_vis *vis, t_vm *vm)
 		{
 			if (e.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
 				recalc_room_size(vis, vm, e.window.data1, e.window.data2);
+		}
+		else if (e.type == SDL_KEYDOWN)
+		{
+			process_keyboard(&e.key, vis, vm);
 		}
 	}
 	return (run);

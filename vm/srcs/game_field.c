@@ -12,6 +12,19 @@
 
 #include "vm.h"
 
+void		init_visu(t_vm *vm)
+{
+	if (vm->visualize)
+	{
+		if (init_sdl(&vm->vis) != 0)
+		{
+			ft_putendl("Error initialize sdl");
+			sdl_destroy(&vm->vis);
+			vm->visualize = 0;
+		}
+	}
+}
+
 void		init_vm(t_vm *vm)
 {
 	t_uint 		i;
@@ -28,6 +41,9 @@ void		init_vm(t_vm *vm)
 		j = -1;
 		while (++j < pl->prog_size)
 			vm->field[start + j] = pl->prog[j] | ((i + 1u) << 8u);
-		add_process(&vm->processes_root, i, start);
+		add_process(&vm->processes_root, (1 + i), start, &vm->process_max);
 	}
+	vm->cycle_decrease = CYCLE_TO_DIE;
+	vm->live = 0;
+	init_visu(vm);
 }

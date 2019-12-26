@@ -23,7 +23,7 @@ t_uint		swap_uint_be(t_uint a)
 		((a & 0xFF00u) << 8u) | ((a & 0xFFu) << 24u));
 }
 
-void		write_varlen_be(t_uchar *data, t_uint val, t_uint size)
+void		write_varlen_be(t_uchar *data, t_ulong val, t_uint size)
 {
 	while (size > 0)
 	{
@@ -33,10 +33,10 @@ void		write_varlen_be(t_uchar *data, t_uint val, t_uint size)
 	}
 }
 
-t_uint		read_varlen_be(const t_uchar *data, t_uint size)
+t_ulong		read_varlen_be(const t_uchar *data, t_uint size)
 {
-	t_uint val;
-	t_uint i;
+	t_ulong val;
+	t_uint	i;
 
 	i = 0;
 	val = 0;

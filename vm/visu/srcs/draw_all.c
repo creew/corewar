@@ -119,23 +119,23 @@ void 				draw_processes(t_vis *vis, t_vm *vm)
 		x = START_FIELD_X + (pr->pc % 64) * vis->cur_font.width * 2 +
 			 (pr->pc % 64) * vis->cur_font.width / 2;
 		y = START_FIELD_Y + (pr->pc / 64) * vis->cur_font.height;
-		roundedRectangleColor(vis->ren,
-							  x,
-							  y,
-							  x + vis->cur_font.width * 2,
-							  y + vis->cur_font.height,
-							  3,
-							  get_uint32_color(g_colors[pr->id + 1].r,
-											   g_colors[pr->id + 1].g,
-											   g_colors[pr->id + 1].b,
-											   g_colors[pr->id + 1].a));
 		roundedBoxColor(vis->ren,
 						x,
 						y,
 						x + vis->cur_font.width * 2,
 						y + vis->cur_font.height,
 						3,
-						get_uint32_color(255,255,255,255));
+						get_uint32_color(255,255,255,180));
+		roundedRectangleColor(vis->ren,
+							  x,
+							  y,
+							  x + vis->cur_font.width * 2,
+							  y + vis->cur_font.height,
+							  3,
+							  get_uint32_color(g_colors[pr->player_id + 1].r,
+											   g_colors[pr->player_id + 1].g,
+											   g_colors[pr->player_id + 1].b,
+											   g_colors[pr->player_id + 1].a));
 		pr = pr->next;
 	}
 }

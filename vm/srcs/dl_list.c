@@ -12,22 +12,23 @@
 
 #include "vm.h"
 
-t_process *add_process(t_process **root, t_uint id, t_uint pc)
+t_process		*add_process(t_process **root, t_uint id, t_uint pc, size_t *pr_max)
 {
 	t_process *process = ft_memalloc(sizeof(*process));
 	if (process)
 	{
+		process->id = (*pr_max)++;
 		process->next = *root;
 		process->prev = NULL;
-		process->id = id;
+		process->player_id = id;
 		process->pc = pc;
-		write_varlen_be(process->regs[0], id, REG_SIZE);
+		write_varlen_be(process->regs[0], -id, REG_SIZE);
 		*root = process;
 	}
 	return (process);
 }
 
-void 	remove_process(t_process **root, t_process *pr)
+void 			remove_process(t_process **root, t_process *pr)
 {
 	if (pr == *root)
 	{
@@ -42,4 +43,18 @@ void 	remove_process(t_process **root, t_process *pr)
 			pr->next->prev = pr->prev;
 		ft_memdel((void **)&pr);
 	}
+}
+
+t_process		*copy_process(t_process **root, t_process *copy,
+	size_t *pr_max, t_uint pc)
+{
+	t_process *process;
+
+	process = add_process(root, copy->player_id, pc, pr_max);
+	if (process)
+	{
+		ft_memcpy(process->regs, copy->regs, sizeof(copy->regs));
+		process->carry = copy->carry;
+	}
+	return (process);
 }

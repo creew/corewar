@@ -8,3 +8,5 @@
 /vm/objs/
 /vm/vm
 /ft_printf/libftprintf.a
+/vm/asm
+/vm/Car.s

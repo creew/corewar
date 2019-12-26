@@ -12,23 +12,34 @@
 
 #include "vm.h"
 
-t_uint		read_be_map(const t_uchar *data, t_uint offset, t_uint size)
+long		read_be_map(const t_fieldelem *data, int offset,
+	t_uint size, int boolean)
 {
-	t_uint val;
-	t_uint i;
+	t_ulong		val;
+	t_uint		i;
 
 	i = 0;
 	val = 0;
+	while (offset < 0)
+		offset += MEM_SIZE;
 	while (i < size)
 	{
 		val <<= 8u;
-		val |= data[(offset + i) % MEM_SIZE];
+		val |= data[(offset + i) % MEM_SIZE] & 0xFFu;
 		i++;
+	}
+	if (boolean && (val >> ((i << 3u) - 1u)) & 1u)
+	{
+		while (i < sizeof(val))
+		{
+			val |= (0xFFul << (i << 3u));
+			i++;
+		}
 	}
 	return (val);
 }
 
-void		write_be_map(t_uchar *data, t_uint val, t_uint offset, t_uint size)
+void		write_be_map(t_fieldelem *data, t_uint val, t_uint offset, t_uint size)
 {
 	while (size > 0)
 	{
