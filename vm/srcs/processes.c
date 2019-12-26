@@ -12,70 +12,47 @@
 
 #include "vm.h"
 
-extern t_op    op_tab[17];
 
-void	set_field_vals(t_fieldelem *field, int pos, t_process *pr, int reg)
+
+
+void 	process_ld(t_process *pr, t_runner *run)
 {
-	t_uint count;
+	t_uint	arg;
+	long	a1;
+	long	reg;
 
-	while (pos < 0)
-		pos += MEM_SIZE;
-	count = -1;
-	while (++count < sizeof(pr->regs[0]))
+	a1 = 0;
+	if (run->types[0] == DIR_CODE)
+		a1 = run->args[0];
+	else (run->types[0] == IND_CODE)
+	a1 = read_be_map(run->field, pr->pc + run->types[0], DIR_SIZE, 1);
+
+	pr->carry = a1 == 0;
+	write_varlen_be(pr->regs[reg - 1], a1, REG_SIZE);
+
+	if (((arg >> 4u) & 0x3u) == REG_CODE)
 	{
-		field[(pos + count) % MEM_SIZE] = pr->regs[reg - 1][count] |
-			((pr->player_id) << 8u);
+		if (read_register(vm->field, pr->pc, offset, &reg) == 0)
+		{
+			pr->carry = a1 == 0;
+			write_varlen_be(pr->regs[reg - 1], a1, REG_SIZE);
+		}
 	}
-}
-
-int		read_register(t_fieldelem *fieldelem, int pos, int *offset, long *reg)
-{
-	long r;
-
-	r = read_be_map(fieldelem, pos + *offset, 1, 1);
-	(*offset) += 1;
-	if (r >= 1 && r <= REG_NUMBER)
-	{
-		*reg = r;
-		return (0);
-	}
-	return (1);
-}
-
-int		read_reg_val(t_fieldelem *fieldelem, t_process *pr, int *offset, long *val)
-{
-	long reg;
-
-	if (read_register(fieldelem, pr->pc, offset, &reg) == 0)
-	{
-		*val = read_varlen_be(pr->regs[reg - 1], sizeof(pr->regs[0]));
-		return (0);
-	}
-	return (1);
+	else
+		ft_putendl("Error invalid arg2");
 }
 
 
-long	read_ind(t_fieldelem *field, int pos, int *offset, int is_idx)
-{
-	long res;
-	long ind;
 
-	ind = read_be_map(field, pos + *offset, IND_SIZE, 1);
-	(*offset) += IND_SIZE;
-	if (is_idx)
-		ind = ind % IDX_MOD;
-	res = read_be_map(field, pos + ind + *offset, DIR_SIZE, 1);
-	return (res);
-}
 
-long	read_dir(t_fieldelem *field, int pos, int *offset)
-{
-	long res;
 
-	res = read_be_map(field, pos + *offset, DIR_SIZE, 1);
-	(*offset) += DIR_SIZE;
-	return (res);
-}
+
+
+
+
+
+
+
 
 void 	process_live(t_vm *vm, t_process *pr, int *offset)
 {
@@ -91,7 +68,7 @@ void 	process_ld(t_vm *vm, t_process *pr, int *offset)
 	a1 = 0;
 	arg = (t_uint)read_be_map(vm->field, pr->pc + (*offset)++, 1, 0);
 	if (((arg >> 6u) & 0x3u) == DIR_CODE)
-		a1 = read_dir(vm->field, pr->pc, offset);
+		a1 = read_dir(vm->field, pr->pc, offset, 0);
 	else if (((arg >> 6u) & 0x3u) == IND_CODE)
 		a1 = read_ind(vm->field, pr->pc, offset, 1);
 	else
@@ -239,12 +216,11 @@ void 	process_and(t_vm *vm, t_process *pr, int *offset)
 			ft_putendl("and error invalid reg 1");
 	}
 	else if (((arg >> 6u) & 0x3u) == DIR_CODE)
-		val1 = read_dir(vm->field, pr->pc, offset);
+		val1 = read_dir(vm->field, pr->pc, offset, 0);
 	else if (((arg >> 6u) & 0x3u) == IND_CODE)
 		val1 = read_ind(vm->field, pr->pc, offset, 1);
 	else
 		ft_putendl("and error invalid 1");
-
 
 	if (((arg >> 4u) & 0x3u) == REG_CODE)
 	{
@@ -252,7 +228,7 @@ void 	process_and(t_vm *vm, t_process *pr, int *offset)
 			ft_putendl("and error invalid reg 2");
 	}
 	else if (((arg >> 4u) & 0x3u) == DIR_CODE)
-		val2 = read_dir(vm->field, pr->pc, offset);
+		val2 = read_dir(vm->field, pr->pc, offset, 0);
 	else if (((arg >> 4u) & 0x3u) == IND_CODE)
 		val2 = read_ind(vm->field, pr->pc, offset, 1);
 	else
@@ -289,7 +265,7 @@ void 	process_or(t_vm *vm, t_process *pr, int *offset)
 			ft_putendl("or error invalid reg 1");
 	}
 	else if (((arg >> 6u) & 0x3u) == DIR_CODE)
-		val1 = read_dir(vm->field, pr->pc, offset);
+		val1 = read_dir(vm->field, pr->pc, offset, 0);
 	else if (((arg >> 6u) & 0x3u) == IND_CODE)
 		val1 = read_ind(vm->field, pr->pc, offset, 1);
 	else
@@ -302,7 +278,7 @@ void 	process_or(t_vm *vm, t_process *pr, int *offset)
 			ft_putendl("or error invalid reg 2");
 	}
 	else if (((arg >> 4u) & 0x3u) == DIR_CODE)
-		val2 = read_dir(vm->field, pr->pc, offset);
+		val2 = read_dir(vm->field, pr->pc, offset, 0);
 	else if (((arg >> 4u) & 0x3u) == IND_CODE)
 		val2 = read_ind(vm->field, pr->pc, offset, 1);
 	else
@@ -339,7 +315,7 @@ void 	process_xor(t_vm *vm, t_process *pr, int *offset)
 			ft_putendl("xor error invalid reg 1");
 	}
 	else if (((arg >> 6u) & 0x3u) == DIR_CODE)
-		val1 = read_dir(vm->field, pr->pc, offset);
+		val1 = read_dir(vm->field, pr->pc, offset, 0);
 	else if (((arg >> 6u) & 0x3u) == IND_CODE)
 		val1 = read_ind(vm->field, pr->pc, offset, 1);
 	else
@@ -351,7 +327,7 @@ void 	process_xor(t_vm *vm, t_process *pr, int *offset)
 			ft_putendl("xor error invalid reg 2");
 	}
 	else if (((arg >> 4u) & 0x3u) == DIR_CODE)
-		val2 = read_dir(vm->field, pr->pc, offset);
+		val2 = read_dir(vm->field, pr->pc, offset, 0);
 	else if (((arg >> 4u) & 0x3u) == IND_CODE)
 		val2 = read_ind(vm->field, pr->pc, offset, 1);
 	else
@@ -377,8 +353,9 @@ void 	process_zjmp(t_vm *vm, t_process *pr, int *offset)
 	long	val;
 	if (pr->carry)
 	{
-		val = read_dir(vm->field, pr->pc, offset);
+		val = read_dir(vm->field, pr->pc, offset, 1);
 		pr->pc += (val % IDX_MOD);
+		*offset = 0;
 	}
 }
 
@@ -397,7 +374,7 @@ void 	process_ldi(t_vm *vm, t_process *pr, int *offset)
 			ft_putendl("ldi error invalid reg 1");
 	}
 	else if (((arg >> 6u) & 0x3u) == DIR_CODE)
-		val1 = read_dir(vm->field, pr->pc, offset);
+		val1 = read_dir(vm->field, pr->pc, offset, 1);
 	else if (((arg >> 6u) & 0x3u) == IND_CODE)
 		val1 = read_ind(vm->field, pr->pc, offset, 0);
 	else
@@ -409,13 +386,13 @@ void 	process_ldi(t_vm *vm, t_process *pr, int *offset)
 			ft_putendl("ldi error invalid reg 2");
 	}
 	else if (((arg >> 4u) & 0x3u) == DIR_CODE)
-		val2 = read_dir(vm->field, pr->pc, offset);
+		val2 = read_dir(vm->field, pr->pc, offset, 1);
 	else
 		ft_putendl("ldi error invalid 2");
 
 	if (((arg >> 2u) & 0x3u) == REG_CODE)
 	{
-		if (read_register(vm->field, pr, offset, &reg3) != 0)
+		if (read_register(vm->field, pr->pc, offset, &reg3) != 0)
 			ft_putendl("ldi error invalid reg 3");
 		else
 		{
@@ -438,7 +415,7 @@ void 	process_sti(t_vm *vm, t_process *pr, int *offset)
 	arg = (t_uint)read_be_map(vm->field, pr->pc + (*offset)++, 1, 0);
 	if (((arg >> 6u) & 0x3u) == REG_CODE)
 	{
-		if (read_reg_val(vm->field, pr, offset, &reg1) != 0)
+		if (read_register(vm->field, pr->pc, offset, &reg1) != 0)
 			ft_putendl("sti error invalid reg 1");
 	}
 	else
@@ -450,7 +427,7 @@ void 	process_sti(t_vm *vm, t_process *pr, int *offset)
 			ft_putendl("sti error invalid reg 2");
 	}
 	else if (((arg >> 4u) & 0x3u) == DIR_CODE)
-		val2 = read_dir(vm->field, pr->pc, offset);
+		val2 = read_dir(vm->field, pr->pc, offset, 1);
 	else if (((arg >> 4u) & 0x3u) == IND_CODE)
 		val2 = read_ind(vm->field, pr->pc, offset, 1);
 	else
@@ -462,7 +439,7 @@ void 	process_sti(t_vm *vm, t_process *pr, int *offset)
 			ft_putendl("sti error invalid reg 2");
 	}
 	else if (((arg >> 2u) & 0x3u) == DIR_CODE)
-		val3 = read_dir(vm->field, pr->pc, offset);
+		val3 = read_dir(vm->field, pr->pc, offset, 1);
 	else
 		ft_putendl("sti error invalid 3");
 
@@ -473,8 +450,7 @@ void 	process_fork(t_vm *vm, t_process *pr, int *offset)
 {
 	long	arg;
 
-	arg = read_be_map(vm->field, pr->pc + *offset, DIR_SIZE / 2, 1);
-	(*offset) += DIR_SIZE / 2;
+	arg = read_dir(vm->field, pr->pc, offset, 1);
 	copy_process(&vm->processes_root, pr, &vm->process_max, pr->pc + arg % IDX_MOD);
 }
 
@@ -487,7 +463,7 @@ void 	process_lld(t_vm *vm, t_process *pr, int *offset)
 	a1 = 0;
 	arg = (t_uint)read_be_map(vm->field, pr->pc + (*offset)++, 1, 0);
 	if (((arg >> 6u) & 0x3u) == DIR_CODE)
-		a1 = read_dir(vm->field, pr->pc, offset);
+		a1 = read_dir(vm->field, pr->pc, offset, 0);
 	else if (((arg >> 6u) & 0x3u) == IND_CODE)
 		a1 = read_ind(vm->field, pr->pc, offset, 0);
 	else
@@ -520,7 +496,7 @@ void 	process_lldi(t_vm *vm, t_process *pr, int *offset)
 			ft_putendl("lldi error invalid reg 1");
 	}
 	else if (((arg >> 6u) & 0x3u) == DIR_CODE)
-		val1 = read_dir(vm->field, pr->pc, offset);
+		val1 = read_dir(vm->field, pr->pc, offset, 1);
 	else if (((arg >> 6u) & 0x3u) == IND_CODE)
 		val1 = read_ind(vm->field, pr->pc, offset, 0);
 	else
@@ -532,13 +508,13 @@ void 	process_lldi(t_vm *vm, t_process *pr, int *offset)
 			ft_putendl("lldi error invalid reg 2");
 	}
 	else if (((arg >> 4u) & 0x3u) == DIR_CODE)
-		val2 = read_dir(vm->field, pr->pc, offset);
+		val2 = read_dir(vm->field, pr->pc, offset, 1);
 	else
 		ft_putendl("lldi error invalid 2");
 
 	if (((arg >> 2u) & 0x3u) == REG_CODE)
 	{
-		if (read_register(vm->field, pr, offset, &reg3) != 0)
+		if (read_register(vm->field, pr->pc, offset, &reg3) != 0)
 			ft_putendl("lldi error invalid reg 3");
 		else
 		{
@@ -555,8 +531,7 @@ void 	process_lfork(t_vm *vm, t_process *pr, int *offset)
 {
 	long	arg;
 
-	arg = read_be_map(vm->field, pr->pc + *offset, DIR_SIZE / 2, 1);
-	(*offset) += DIR_SIZE / 2;
+	arg = read_dir(vm->field, pr->pc, offset, 1);
 	copy_process(&vm->processes_root, pr, &vm->process_max, pr->pc + arg);
 }
 
@@ -585,23 +560,10 @@ void (*g_asm_funcs[])(t_vm *vm, t_process *pr, int *offset) = {
 	process_aff
 };
 
-t_op	*get_by_id(t_uint id)
-{
-	t_uint	i;
-
-	i = -1;
-	while (op_tab[++i].name)
-	{
-		if (op_tab[i].opcode == id)
-			return (op_tab +i);
-
-	}
-	return (NULL);
-}
-
 void	process_waiting(t_vm *vm, t_process *pr)
 {
 	int offset;
+	int	skip;
 
 	if (pr->wait > 0)
 		pr->wait--;
@@ -609,7 +571,15 @@ void	process_waiting(t_vm *vm, t_process *pr)
 	{
 		offset = 1;
 		if (pr->opcode >= 1 && pr->opcode <= 16)
-			g_asm_funcs[pr->opcode - 1](vm, pr, &offset);
+		{
+			skip = 0;
+			ft_putnbr(pr->opcode);
+			ft_putendl(get_op_by_id(pr->opcode)->name);
+			if (check_arguments(vm, pr, pr->opcode, &skip) == 0)
+				g_asm_funcs[pr->opcode - 1](vm, pr, &offset);
+			else
+				offset += skip;
+		}
 		pr->pc += offset;
 		pr->pc %= MEM_SIZE;
 		pr->state = NOT_INITED;
@@ -628,7 +598,7 @@ void	process_processes(t_vm *vm)
 		if (pr->state == NOT_INITED)
 		{
 			id = read_be_map(vm->field, pr->pc, 1, 0);
-			if ((op = get_by_id(id)) != NULL)
+			if ((op = get_op_by_id(id)) != NULL)
 				pr->wait = op->wait;
 			else
 				pr->wait = 0;

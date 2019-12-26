@@ -82,7 +82,7 @@ typedef struct		s_op
 {
 	char 			*name;
 	int 			args_count;
-	int 			args[3];
+	unsigned int 	args[3];
 	int 			opcode;
 	int				wait;
 	char			*desc;

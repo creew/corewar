@@ -32,6 +32,8 @@ typedef enum {
 	WAITING
 } t_pstates;
 
+
+
 typedef struct		s_process
 {
 	struct s_process	*prev;
@@ -75,6 +77,15 @@ typedef struct		s_vm {
 	t_vis			vis;
 }					t_vm;
 
+typedef struct		s_runner
+{
+	t_fieldelem		*field;;
+	t_process		*pr;
+	t_uint 			arg;
+	long 			args[3];
+	char			types[3];
+}					t_runner;
+
 int			read_option(int ac, char *av[]);
 t_result	read_champ(char *filename, t_player **player);
 t_ushort	swap_ushort_be(t_ushort a);
@@ -100,5 +111,14 @@ long		read_be_map(const t_fieldelem *data, int offset,
 						t_uint size, int boolean);
 void		write_be_map(t_fieldelem *data, t_uint val, t_uint offset, t_uint size);
 
+t_op		*get_op_by_id(t_uint id);
+int			check_arguments(t_vm *vm, t_process *pr, int index, int *skip);
+
 void		process_processes(t_vm *vm);
+
+void		set_field_vals(t_fieldelem *field, int pos, t_process *pr, int reg);
+int			read_register(t_fieldelem *fieldelem, int pos, int *offset, long *reg);
+int			read_reg_val(t_fieldelem *fieldelem, t_process *pr, int *offset, long *val);
+long		read_ind(t_fieldelem *field, int pos, int *offset, int is_idx);
+long		read_dir(t_fieldelem *field, int pos, int *offset, int is_half);
 #endif
