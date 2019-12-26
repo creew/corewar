@@ -1,0 +1,48 @@
+.idea
+.DS_Store
+a.out
+cmake-build-debug
+lem-in_generator
+a.out.dSYM
+object files
+*.o
+*.ko
+*.obj
+*.elf
+
+# Temp files
+*.swp
+
+# Libraries
+*.lib
+*.a
+
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# Executables
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+
+# File system
+.DS_Store
+
+# Other files
+*.txt
+cmake*
+.idea/
+main.c
+*.out*
+*.xml
+*.iml
+.plist
+pft/
+pft/
+42_UNIT_TESTS/
