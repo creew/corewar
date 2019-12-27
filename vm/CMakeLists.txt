@@ -21,15 +21,18 @@ add_executable(vm
         ./srcs/read_options.c
         ./srcs/control.c
         ./srcs/game_field.c
+        ./srcs/dl_list.c
+        ./srcs/processes.c
+        ./srcs/check_arguments.c
+        ./srcs/read_values.c
+        ./srcs/run_comands.c
         ./visu/srcs/init.c
         ./visu/srcs/deinit.c
         ./visu/srcs/print.c
         ./visu/srcs/reload_fonts.c
         ./visu/srcs/process.c
         ./visu/srcs/draw_all.c
-        ./srcs/dl_list.c
-        ./srcs/processes.c
-        srcs/check_arguments.c srcs/read_values.c srcs/run_comands.c)
+        )
 
 add_dependencies(vm libft_target)
 add_dependencies(vm ft_printf_target)

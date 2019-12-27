@@ -48,9 +48,9 @@ typedef struct		s_process
 	t_uchar				player_id;
 	t_uchar 			carry;
 	t_uchar 			opcode;
+	t_uchar				state;
 	int					pc;
 	t_uchar				regs[REG_NUMBER][REG_SIZE];
-	t_pstates			state;
 	t_uint				wait;
 	size_t 				cycle_live;
 }					t_process;
