@@ -10,8 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "visu.h"
 #include "libft.h"
+#include "visu.h"
+
+#include <SDL2_gfxPrimitives.h>
 
 const SDL_Color g_colors[] = {
 	{104, 104, 100, 255},
@@ -56,6 +58,32 @@ void		init_glyphs(t_vis *vis)
 	}
 }
 
+void 		init_carriages(t_vis *vis)
+{
+	int				i;
+
+	destroy_carriages_textures(vis);
+	i = -1;
+	while (++i < MAX_PLAYERS)
+	{
+		vis->carriages[i] = SDL_CreateTexture(vis->ren, SDL_PIXELFORMAT_RGBA8888,
+											  SDL_TEXTUREACCESS_TARGET,
+											  vis->cur_font.width * 2 + 1,
+											  vis->cur_font.height + 1);
+		SDL_SetRenderTarget(vis->ren, vis->carriages[i]);
+		SDL_SetRenderDrawColor(vis->ren, 0, 0, 0, 0);
+		SDL_RenderClear(vis->ren);
+		roundedBoxColor(vis->ren, 0,	0,	vis->cur_font.width * 2, vis->cur_font.height,
+						3, get_uint32_color(255,255,255,180));
+		roundedRectangleColor(vis->ren, 0, 0, vis->cur_font.width * 2,
+							  vis->cur_font.height, 3, get_uint32_color(g_colors[i + 1].r,
+																		g_colors[i + 1].g,
+																		g_colors[i + 1].b,
+																		g_colors[i + 1].a));
+		SDL_SetRenderTarget(vis->ren, NULL);
+	}
+}
+
 int			reload_font(t_vis *vis)
 {
 	if (vis->field_font)
@@ -70,6 +98,7 @@ int			reload_font(t_vis *vis)
 	TTF_SizeText(vis->field_font, "X",
 		&vis->cur_font.width, &vis->cur_font.height);
 	init_glyphs(vis);
+	init_carriages(vis);
 	return (0);
 }
 

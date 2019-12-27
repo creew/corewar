@@ -18,14 +18,14 @@
 ** On part du principe qu'un int fait 32 bits. Est-ce vrai chez vous ?
 */
 
-# define IND_SIZE				2
-# define REG_SIZE				4
+# define IND_SIZE				2u
+# define REG_SIZE				4u
 # define DIR_SIZE				REG_SIZE
 
 
-# define REG_CODE				1
-# define DIR_CODE				2
-# define IND_CODE				3
+# define REG_CODE				1u
+# define DIR_CODE				2u
+# define IND_CODE				3u
 
 
 # define MAX_ARGS_NUMBER		4
@@ -57,10 +57,10 @@
 
 typedef char	t_arg_type;
 
-# define T_REG					1
-# define T_DIR					2
-# define T_IND					4
-# define T_LAB					8
+# define T_REG					1u
+# define T_DIR					2u
+# define T_IND					4u
+# define T_LAB					8u
 
 /*
 **

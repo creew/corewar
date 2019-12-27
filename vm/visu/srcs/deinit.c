@@ -12,6 +12,18 @@
 
 #include "visu.h"
 
+void		destroy_carriages_textures(t_vis *vis)
+{
+	int i;
+
+	i = -1;
+	while (++i < (sizeof(vis->carriages) / sizeof(vis->carriages[0])))
+	{
+		SDL_DestroyTexture(vis->carriages[i]);
+		vis->carriages[i]= NULL;
+	}
+}
+
 void		destroy_glyph_textures(t_vis *vis)
 {
 	int i;
@@ -39,6 +51,7 @@ void 		sdl_destroy(t_vis *vis)
 	TTF_CloseFont(vis->field_font);
 	vis->field_font = NULL;
 	destroy_glyph_textures(vis);
+	destroy_carriages_textures(vis);
 	SDL_Quit();
 	TTF_Quit();
 }

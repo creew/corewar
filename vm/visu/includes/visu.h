@@ -41,13 +41,16 @@ typedef struct	s_vis
 	t_wh			font100;
 	t_wh 			cur_font;
 	SDL_Texture		*glyph_textures[MAX_PLAYERS + 1][16];
+	SDL_Texture     *carriages[MAX_PLAYERS];
 }				t_vis;
 
 void		print_sdl_error(const char *err);
 int			init_sdl(t_vis *vis);
 void 		sdl_destroy(t_vis *vis);
 void		destroy_glyph_textures(t_vis *vis);
+void		destroy_carriages_textures(t_vis *vis);
 
+Uint32		get_uint32_color(int r, int g, int b, int a);
 int			reload_font(t_vis *vis);
 void		text_out(t_vis *vis, SDL_Point *xy, char *txt, SDL_Color color);
 

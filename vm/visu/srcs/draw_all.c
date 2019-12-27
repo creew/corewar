@@ -110,32 +110,18 @@ void				draw_borders(t_vis *vis)
 void 				draw_processes(t_vis *vis, t_vm *vm)
 {
 	t_process	*pr;
-	int			x;
-	int 		y;
+	SDL_Rect	rect;
 
 	pr = vm->processes_root;
 	while (pr)
 	{
-		x = START_FIELD_X + (pr->pc % 64) * vis->cur_font.width * 2 +
-			 (pr->pc % 64) * vis->cur_font.width / 2;
-		y = START_FIELD_Y + (pr->pc / 64) * vis->cur_font.height;
-		roundedBoxColor(vis->ren,
-						x,
-						y,
-						x + vis->cur_font.width * 2,
-						y + vis->cur_font.height,
-						3,
-						get_uint32_color(255,255,255,180));
-		roundedRectangleColor(vis->ren,
-							  x,
-							  y,
-							  x + vis->cur_font.width * 2,
-							  y + vis->cur_font.height,
-							  3,
-							  get_uint32_color(g_colors[pr->player_id + 1].r,
-											   g_colors[pr->player_id + 1].g,
-											   g_colors[pr->player_id + 1].b,
-											   g_colors[pr->player_id + 1].a));
+		rect.x = START_FIELD_X + (pr->pc % 64) * vis->cur_font.width * 2 +
+				 (pr->pc % 64) * vis->cur_font.width / 2;
+		rect.y = START_FIELD_Y + (pr->pc / 64) * vis->cur_font.height;
+		rect.w = vis->cur_font.width * 2;
+		rect.h = vis->cur_font.height;
+		SDL_RenderCopy(vis->ren,
+					   vis->carriages[pr->player_id - 1], NULL, &rect);
 		pr = pr->next;
 	}
 }

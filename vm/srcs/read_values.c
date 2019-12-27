@@ -53,7 +53,6 @@ int		read_reg_val(t_fieldelem *fieldelem, t_process *pr, int *offset, long *val)
 	return (1);
 }
 
-
 long	read_ind(t_fieldelem *field, int pos, int *offset, int is_idx)
 {
 	long res;

@@ -24,15 +24,14 @@ typedef unsigned short	t_ushort;
 typedef unsigned char	t_uchar;
 typedef t_ushort		t_fieldelem;
 
-
 typedef	t_ftarray		t_arrplayers;
+
+extern t_op    op_tab[17];
 
 typedef enum {
 	NOT_INITED,
 	WAITING
 } t_pstates;
-
-
 
 typedef struct		s_process
 {
@@ -40,7 +39,7 @@ typedef struct		s_process
 	struct s_process	*next;
 	size_t 				id;
 	t_uint				player_id;
-	t_uint				pc;
+	int					pc;
 	t_uchar				regs[REG_NUMBER][REG_SIZE];
 	t_uchar 			carry;
 	t_pstates			state;
@@ -80,10 +79,13 @@ typedef struct		s_vm {
 typedef struct		s_runner
 {
 	t_fieldelem		*field;;
-	t_process		*pr;
 	t_uint 			arg;
 	long 			args[3];
 	char			types[3];
+	int				skip;
+	t_process		**processes_root;
+	size_t 			*process_max;
+	int				pc;
 }					t_runner;
 
 int			read_option(int ac, char *av[]);
@@ -112,7 +114,7 @@ long		read_be_map(const t_fieldelem *data, int offset,
 void		write_be_map(t_fieldelem *data, t_uint val, t_uint offset, t_uint size);
 
 t_op		*get_op_by_id(t_uint id);
-int			check_arguments(t_vm *vm, t_process *pr, int index, int *skip);
+int			check_arguments(t_runner *run, int index);
 
 void		process_processes(t_vm *vm);
 
@@ -121,4 +123,23 @@ int			read_register(t_fieldelem *fieldelem, int pos, int *offset, long *reg);
 int			read_reg_val(t_fieldelem *fieldelem, t_process *pr, int *offset, long *val);
 long		read_ind(t_fieldelem *field, int pos, int *offset, int is_idx);
 long		read_dir(t_fieldelem *field, int pos, int *offset, int is_half);
+
+
+void 		process_live_run(t_process *pr, t_runner *run);
+void 		process_ld_run(t_process *pr, t_runner *run);
+void 		process_st_run(t_process *pr, t_runner *run);
+void 		process_add_run(t_process *pr, t_runner *run);
+void 		process_sub_run(t_process *pr, t_runner *run);
+void 		process_and_run(t_process *pr, t_runner *run);
+void 		process_or_run(t_process *pr, t_runner *run);
+void 		process_xor_run(t_process *pr, t_runner *run);
+void 		process_zjmp_run(t_process *pr, t_runner *run);
+void 		process_ldi_run(t_process *pr, t_runner *run);
+void 		process_sti_run(t_process *pr, t_runner *run);
+void 		process_fork_run(t_process *pr, t_runner *run);
+void 		process_lld_run(t_process *pr, t_runner *run);
+void 		process_lldi_run(t_process *pr, t_runner *run);
+void 		process_lfork_run(t_process *pr, t_runner *run);
+void 		process_aff_run(t_process *pr, t_runner *run);
+
 #endif
