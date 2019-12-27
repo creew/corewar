@@ -36,7 +36,7 @@ void 	process_st_run(t_vm *vm, t_process *pr, t_runner *run)
 {
 	if (run->types[A2] == REG_CODE)
 		ft_memcpy(pr->regs[run->args[A2] - 1], pr->regs[run->args[A1] - 1],
-				  sizeof(pr->regs));
+				  sizeof(pr->regs[0]));
 	else if (run->types[A2] == IND_CODE)
 		set_field_vals(vm->field, pr->pc + (run->args[A2] % IDX_MOD),
 					   pr, run->args[A1]);
@@ -73,14 +73,14 @@ void 	process_and_run(t_vm *vm, t_process *pr, t_runner *run)
 	else if (run->types[A1] == DIR_CODE)
 		val1 = run->args[A1];
 	else
-		val1 = read_be_map(vm->field, pr->pc + (run->args[A1] % IDX_MOD), DIR_SIZE, 1);
+		val1 = read_be_map(vm->field, pr->pc + (run->args[A1] % IDX_MOD), DIR_SIZE, UNSIGNED);
 
 	if (run->types[A2] == REG_CODE)
 		val2 = read_varlen_be(pr->regs[run->args[A2] - 1], sizeof(pr->regs[0]), UNSIGNED);
 	else if (run->types[A2] == DIR_CODE)
 		val2 = run->args[A2];
 	else
-		val2 = read_be_map(vm->field, pr->pc + (run->args[A2] % IDX_MOD), DIR_SIZE, 1);
+		val2 = read_be_map(vm->field, pr->pc + (run->args[A2] % IDX_MOD), DIR_SIZE, UNSIGNED);
 
 	res = val1 & val2;
 	write_varlen_be(pr->regs[run->args[A3]], res, sizeof(pr->regs[0]));
@@ -98,14 +98,14 @@ void 	process_or_run(t_vm *vm, t_process *pr, t_runner *run)
 	else if (run->types[A1] == DIR_CODE)
 		val1 = run->args[A1];
 	else
-		val1 = read_be_map(vm->field, pr->pc + (run->args[A1] % IDX_MOD), DIR_SIZE, 1);
+		val1 = read_be_map(vm->field, pr->pc + (run->args[A1] % IDX_MOD), DIR_SIZE, UNSIGNED);
 
 	if (run->types[A2] == REG_CODE)
 		val2 = read_varlen_be(pr->regs[run->args[A2] - 1], sizeof(pr->regs[0]), UNSIGNED);
 	else if (run->types[A2] == DIR_CODE)
 		val2 = run->args[A2];
 	else
-		val2 = read_be_map(vm->field, pr->pc + (run->args[A2] % IDX_MOD), DIR_SIZE, 1);
+		val2 = read_be_map(vm->field, pr->pc + (run->args[A2] % IDX_MOD), DIR_SIZE, UNSIGNED);
 
 	res = val1 | val2;
 	write_varlen_be(pr->regs[run->args[A3]], res, sizeof(pr->regs[0]));
@@ -123,7 +123,7 @@ void 	process_xor_run(t_vm *vm, t_process *pr, t_runner *run)
 	else if (run->types[A1] == DIR_CODE)
 		val1 = run->args[A1];
 	else
-		val1 = read_be_map(vm->field, pr->pc + (run->args[A1] % IDX_MOD), DIR_SIZE, 0);
+		val1 = read_be_map(vm->field, pr->pc + (run->args[A1] % IDX_MOD), DIR_SIZE, UNSIGNED);
 
 	if (run->types[A2] == REG_CODE)
 		val2 = read_varlen_be(pr->regs[run->args[A2] - 1], sizeof(pr->regs[0]), UNSIGNED);
@@ -159,7 +159,7 @@ void 	process_ldi_run(t_vm *vm, t_process *pr, t_runner *run)
 	else if (run->types[A1] == DIR_CODE)
 		val1 = run->args[A1];
 	else
-		val1 = read_be_map(vm->field, pr->pc + (run->args[A1] % IDX_MOD), DIR_SIZE, 1);
+		val1 = read_be_map(vm->field, pr->pc + (run->args[A1] % IDX_MOD), DIR_SIZE, SIGNED);
 
 	if (run->types[A2] == REG_CODE)
 		val2 = read_varlen_be(pr->regs[run->args[A2] - 1], sizeof(pr->regs[0]), SIGNED);
@@ -180,7 +180,7 @@ void 	process_sti_run(t_vm *vm, t_process *pr, t_runner *run)
 	else if (run->types[A2] == DIR_CODE)
 		val2 = run->args[A2];
 	else
-		val2 = read_be_map(vm->field, pr->pc + (run->args[A2] % IDX_MOD), DIR_SIZE, 1);
+		val2 = read_be_map(vm->field, pr->pc + (run->args[A2] % IDX_MOD), DIR_SIZE, SIGNED);
 
 	if (run->types[A3] == REG_CODE)
 		val3 = read_varlen_be(pr->regs[run->args[A3] - 1], sizeof(pr->regs[0]), SIGNED);
@@ -204,7 +204,7 @@ void 	process_lld_run(t_vm *vm, t_process *pr, t_runner *run)
 	if (run->types[A1] == DIR_CODE)
 		a1 = run->args[A1];
 	else if (run->types[A1] == IND_CODE)
-		a1 = read_be_map(vm->field, pr->pc + run->args[A1], DIR_SIZE / 2, 1);
+		a1 = read_be_map(vm->field, pr->pc + run->args[A1], DIR_SIZE / 2, SIGNED);
 
 	write_varlen_be(pr->regs[run->args[A2] - 1], a1, REG_SIZE);
 	pr->carry = a1 == 0;
@@ -221,7 +221,7 @@ void 	process_lldi_run(t_vm *vm, t_process *pr, t_runner *run)
 	else if (run->types[A1] == DIR_CODE)
 		val1 = run->args[A1];
 	else
-		val1 = read_be_map(vm->field, pr->pc + run->args[A1] % IDX_MOD, DIR_SIZE, 1);
+		val1 = read_be_map(vm->field, pr->pc + run->args[A1] % IDX_MOD, DIR_SIZE, SIGNED);
 
 	if (run->types[A2] == REG_CODE)
 		val2 = read_varlen_be(pr->regs[run->args[A2] - 1], sizeof(pr->regs[0]), SIGNED);

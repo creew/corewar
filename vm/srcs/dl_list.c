@@ -57,6 +57,7 @@ t_process		*copy_process(t_process **root, t_process *copy,
 	{
 		ft_memcpy(process->regs, copy->regs, sizeof(copy->regs));
 		process->carry = copy->carry;
+		process->cycle_live = copy->cycle_live;
 	}
 	return (process);
 }

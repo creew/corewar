@@ -2,6 +2,7 @@
 .DS_Store
 /libft/libft.a
 *.cor
+*.s
 /libft/objs
 /vm/cmake-build-debug
 /vm/corewar
