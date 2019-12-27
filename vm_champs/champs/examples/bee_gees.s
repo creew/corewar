@@ -2,13 +2,12 @@
 .comment "Ha, Ha, Ha, stayiiiiin' aliiiiiiiiiive"
 	
 		;change live by the right value
-sti	r1, %:live2, %1
+sti r1,%:live2,%1
 sti	r1, %:live, %1	;change live by the right value
 ld	%1, r3
 ld	%33, r6
 #While (r2 < 10)
-forks:
-   add	r2, r3, r2		;increment r2
+forks:add	r2,r3,r2		;increment r2
 xor	r2, %15, r4		;if (r4) {carry = 0}
 live2:
 	live 	%4

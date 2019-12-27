@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rmarni <marvin@42.fr>                      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/21 16:35:21 by rmarni            #+#    #+#             */
-/*   Updated: 2019/11/30 19:30:40 by rmarni           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "get_next_line.h"
 
 int				ft_where_n(char *s)
@@ -32,16 +20,12 @@ int				ft_give_line(char **str, char **line, int fd)
 	num_n = ft_where_n(str[fd]);
 	if (str[fd][num_n] == '\0' || str[fd][num_n + 1] == '\0')
 	{
-		if (str[fd][num_n] == '\n')
-			*line = ft_strcpy(*line, "\n");
-		else
-			*line = ft_strsub(str[fd], 0, num_n);
+		*line = ft_strsub(str[fd], 0, num_n);
 		free(str[fd]);
 		str[fd] = NULL;
 		return (1);
 	}
 	*line = ft_strsub(str[fd], 0, num_n);
-	*line = ft_strcpy(*line, "\n");
 	tmp = ft_strdup(str[fd] + (num_n + 1));
 	ft_strdel(&str[fd]);
 	str[fd] = tmp;
