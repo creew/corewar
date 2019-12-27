@@ -33,7 +33,7 @@ void		write_varlen_be(t_uchar *data, t_ulong val, t_uint size)
 	}
 }
 
-t_ulong		read_varlen_be(const t_uchar *data, t_uint size)
+long		read_varlen_be(const t_uchar *data, t_uint size, int is_signed)
 {
 	t_ulong val;
 	t_uint	i;
@@ -45,6 +45,41 @@ t_ulong		read_varlen_be(const t_uchar *data, t_uint size)
 		val <<= 8u;
 		val |= data[i];
 		i++;
+	}
+	if (is_signed == SIGNED && (val >> ((i << 3u) - 1u)) & 1u)
+	{
+		while (i < sizeof(val))
+		{
+			val |= (0xFFul << (i << 3u));
+			i++;
+		}
+	}
+	return (val);
+}
+
+long		read_be_map(const t_fieldelem *data, long offset,
+						t_uint size, int is_signed)
+{
+	t_ulong		val;
+	t_uint		i;
+
+	i = 0;
+	val = 0;
+	while (offset < 0)
+		offset += MEM_SIZE;
+	while (i < size)
+	{
+		val <<= 8u;
+		val |= data[(offset + i) % MEM_SIZE] & 0xFFu;
+		i++;
+	}
+	if (is_signed == SIGNED && (val >> ((i << 3u) - 1u)) & 1u)
+	{
+		while (i < sizeof(val))
+		{
+			val |= (0xFFul << (i << 3u));
+			i++;
+		}
 	}
 	return (val);
 }

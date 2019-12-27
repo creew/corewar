@@ -19,6 +19,5 @@ void		start_pause(t_vm *vm)
 
 void 		inc_counter(t_vm *vm)
 {
-	if (vm->started)
-		vm->cycles++;
+	vm->cycles++;
 }

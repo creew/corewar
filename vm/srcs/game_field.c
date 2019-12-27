@@ -43,7 +43,8 @@ void		init_vm(t_vm *vm)
 			vm->field[start + j] = pl->prog[j] | ((i + 1u) << 8u);
 		add_process(&vm->processes_root, (1 + i), start, &vm->process_max);
 	}
-	vm->cycle_decrease = CYCLE_TO_DIE;
+	vm->cycle_to_die = CYCLE_TO_DIE;
+	vm->cycles_check = vm->cycle_to_die;
 	vm->live = 0;
 	init_visu(vm);
 }

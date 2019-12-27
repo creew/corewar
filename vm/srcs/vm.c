@@ -27,8 +27,10 @@ void    infinite_loop(t_vm *vm)
                 break;
             draw_all(&vm->vis, vm);
         }
-        if (vm->started)
+        if (vm->started || vm->do_steps)
         {
+        	if (vm->do_steps)
+        		vm->do_steps--;
             process_processes(vm);
             inc_counter(vm);
         }

@@ -76,13 +76,25 @@ void				draw_cycles(t_vis *vis, t_vm *vm)
 
 	xy.x = START_FIELD_X + 64 * vis->cur_font.width * 2
 		   + 64 * vis->cur_font.width / 2 + 10;
-	xy.y = START_FIELD_Y + 50;
+	xy.y = START_FIELD_Y + 10 * vis->cur_font.width;
 	ft_sprintf(buf, "Cycles: %zu", vm->cycles);
 	color = get_color(68, 113, 82, 255);
 	text_out(vis, &xy, buf, color);
 }
 
+void				draw_max_processes(t_vis *vis, t_vm *vm)
+{
+	SDL_Point xy;
+	char	  buf[64];
+	SDL_Color color;
 
+	xy.x = START_FIELD_X + 64 * vis->cur_font.width * 2
+		   + 64 * vis->cur_font.width / 2 + 10;
+	xy.y = START_FIELD_Y + 12 * vis->cur_font.width;
+	ft_sprintf(buf, "Processes: %zu", vm->process_max);
+	color = get_color(68, 113, 82, 255);
+	text_out(vis, &xy, buf, color);
+}
 
 Uint32				get_uint32_color(int r, int g, int b, int a)
 {
@@ -111,17 +123,30 @@ void 				draw_processes(t_vis *vis, t_vm *vm)
 {
 	t_process	*pr;
 	SDL_Rect	rect;
+	t_ulong		map[MEM_SIZE / (sizeof(t_ulong) * 8)];
+	t_uint 		elem;
+	t_uint 		bit;
 
+	ft_bzero(map, sizeof(map));
 	pr = vm->processes_root;
 	while (pr)
 	{
-		rect.x = START_FIELD_X + (pr->pc % 64) * vis->cur_font.width * 2 +
-				 (pr->pc % 64) * vis->cur_font.width / 2;
-		rect.y = START_FIELD_Y + (pr->pc / 64) * vis->cur_font.height;
-		rect.w = vis->cur_font.width * 2;
-		rect.h = vis->cur_font.height;
-		SDL_RenderCopy(vis->ren,
-					   vis->carriages[pr->player_id - 1], NULL, &rect);
+		if (pr->pc >=0 && pr->pc < MEM_SIZE)
+		{
+			elem = pr->pc / (sizeof(t_ulong) * 8);
+			bit = pr->pc % (sizeof(t_ulong) * 8);
+			if (!(map[elem] & (1u << bit)))
+			{
+				rect.x = START_FIELD_X + (pr->pc % 64) * vis->cur_font.width * 2 +
+						 (pr->pc % 64) * vis->cur_font.width / 2;
+				rect.y = START_FIELD_Y + (pr->pc / 64) * vis->cur_font.height;
+				rect.w = vis->cur_font.width * 2;
+				rect.h = vis->cur_font.height;
+				SDL_RenderCopy(vis->ren,
+							   vis->carriages[pr->player_id - 1], NULL, &rect);
+				map[elem] |= (1u << bit);
+			}
+		}
 		pr = pr->next;
 	}
 }
@@ -134,5 +159,6 @@ void				draw_all(t_vis *vis, t_vm *vm)
 	draw_processes(vis, vm);
 	draw_field(vis, vm);
 	draw_cycles(vis, vm);
+	draw_max_processes(vis, vm);
 	SDL_RenderPresent(vis->ren);
 }

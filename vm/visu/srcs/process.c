@@ -27,6 +27,18 @@ void		process_keyboard(SDL_KeyboardEvent *e, t_vis *vis, t_vm *vm)
 	{
 		start_pause(vm);
 	}
+	if (e->keysym.sym == 'a')
+	{
+		vm->do_steps += 1;
+	}
+	if (e->keysym.sym == 's')
+	{
+		vm->do_steps += 10;
+	}
+	if (e->keysym.sym == 'd')
+	{
+		vm->do_steps += 100;
+	}
 }
 
 int			process_event(t_vis *vis, t_vm *vm)
