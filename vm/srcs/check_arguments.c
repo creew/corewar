@@ -15,13 +15,17 @@
 static int	check_reg(t_op *op, t_uint id, t_process *pr, t_runner *runner)
 {
 	int		valid;
+	long	r;
 
 	valid = 1;
 	if (op->args[id] & T_REG)
 	{
-		if (read_register(runner->field, pr->pc + runner->skip,
-			NULL, &runner->args[id]) == 0)
+		r = read_be_map(runner->field, pr->pc + runner->skip, 1, 1);
+		if (r >= 1 && r <= REG_NUMBER)
+		{
+			runner->args[id] = r;
 			valid = 0;
+		}
 	}
 	runner->skip++;
 	return (valid);

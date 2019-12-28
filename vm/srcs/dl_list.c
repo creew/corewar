@@ -34,8 +34,8 @@ void 			remove_process(t_process **root, t_process *pr)
 {
 	if (pr == *root)
 	{
-		ft_memdel((void **)&pr);
 		*root = NULL;
+		ft_memdel((void **)&pr);
 	}
 	else
 	{

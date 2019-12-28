@@ -97,8 +97,6 @@ typedef struct		s_runner
 
 int			read_option(int ac, char *av[]);
 t_result	read_champ(char *filename, t_player **player);
-t_ushort	swap_ushort_be(t_ushort a);
-t_uint		swap_uint_be(t_uint a);
 
 void		init_vm(t_vm *vm);
 
@@ -113,24 +111,16 @@ void 		remove_process(t_process **root, t_process *pr);
 t_process	*copy_process(t_process **root, t_process *copy,
 							   size_t *pr_max, long pc);
 
+t_uint		swap_uint_be(t_uint a);
 void		write_varlen_be(t_uchar *data, t_ulong val, t_uint size);
 long		read_varlen_be(const t_uchar *data, t_uint size, int is_signed);
-
 long		read_be_map(const t_fieldelem *data, long offset,
 						t_uint size, int boolean);
-void		write_be_map(t_fieldelem *data, t_uint val, t_uint offset, t_uint size);
+void		set_field_vals(t_fieldelem *field, long pos, t_process *pr, long reg);
 
 t_op		*get_op_by_id(t_uint id);
 int			check_arguments(t_process *pr, t_runner *run, int index);
-
 void		process_processes(t_vm *vm);
-
-void		set_field_vals(t_fieldelem *field, long pos, t_process *pr, long reg);
-int			read_register(t_fieldelem *fieldelem, int pos, int *offset, long *reg);
-int			read_reg_val(t_fieldelem *fieldelem, t_process *pr, int *offset, long *val);
-long		read_ind(t_fieldelem *field, int pos, int *offset, int is_idx);
-long		read_dir(t_fieldelem *field, int pos, int *offset, int is_half);
-
 
 void 		process_live_run(t_vm *vm, t_process *pr, t_runner *run);
 void 		process_ld_run(t_vm *vm, t_process *pr, t_runner *run);

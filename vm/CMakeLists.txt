@@ -24,7 +24,6 @@ add_executable(vm
         ./srcs/dl_list.c
         ./srcs/processes.c
         ./srcs/check_arguments.c
-        ./srcs/read_values.c
         ./srcs/run_comands.c
         ./visu/srcs/init.c
         ./visu/srcs/deinit.c

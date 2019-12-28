@@ -12,11 +12,6 @@
 
 #include "vm.h"
 
-t_ushort	swap_ushort_be(t_ushort a)
-{
-	return (a >> 8u | ((a & 0xFFu) << 8u));
-}
-
 t_uint		swap_uint_be(t_uint a)
 {
 	return (a >> 24u | ((a >> 8u) & 0xFF00u) |
@@ -82,4 +77,18 @@ long		read_be_map(const t_fieldelem *data, long offset,
 		}
 	}
 	return (val);
+}
+
+void	set_field_vals(t_fieldelem *field, long pos, t_process *pr, long reg)
+{
+	t_uint count;
+
+	while (pos < 0)
+		pos += MEM_SIZE;
+	count = -1;
+	while (++count < sizeof(pr->regs[0]))
+	{
+		field[(pos + count) % MEM_SIZE] = pr->regs[reg - 1][count] |
+										  ((pr->player_id) << 8u);
+	}
 }
