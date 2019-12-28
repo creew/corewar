@@ -14,18 +14,19 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-t_result	close_and_ret(int f, void **alloc, t_result err)
+static t_result		close_and_ret(int f, t_player **alloc, t_result err)
 {
 	close(f);
-	ft_memdel(alloc);
+	ft_memdel((void **)alloc);
 	return (err);
 }
 
-t_result	create_player(t_header *header, t_player **player)
+static t_result		create_player(t_header *header, t_player **player)
 {
 	t_player *pl;
 
-	pl = ft_memalloc(sizeof(t_player) + sizeof(char) * swap_uint_be(header->prog_size));
+	pl = ft_memalloc(sizeof(t_player) +
+		sizeof(char) * swap_uint_be(header->prog_size));
 	if (pl == NULL)
 		return (ERR_ENOMEM);
 	pl->prog_size = swap_uint_be(header->prog_size);
@@ -35,7 +36,7 @@ t_result	create_player(t_header *header, t_player **player)
 	return (RET_OK);
 }
 
-t_result	read_champ(char *filename, t_player **player)
+t_result			read_champ(char *filename, t_player **player)
 {
 	int			f;
 	t_header	header;
@@ -54,7 +55,7 @@ t_result	read_champ(char *filename, t_player **player)
 	if (create_player(&header, player) != RET_OK)
 		return (close_and_ret(f, NULL, ERR_ENOMEM));
 	if (read(f, (*player)->prog, player_size) != player_size)
-		return (close_and_ret(f, (void **)player, ERR_READ_BODY_CHAMP));
+		return (close_and_ret(f, player, ERR_READ_BODY_CHAMP));
 	close(f);
 	return (RET_OK);
 }

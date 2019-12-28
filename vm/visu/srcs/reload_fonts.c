@@ -16,9 +16,13 @@
 #include <SDL2_gfxPrimitives.h>
 
 const SDL_Color g_colors[] = {
-	{104, 104, 100, 255},
-	{90, 190, 55, 255},
-	{12, 40, 181, 255},
+	{85, 85, 85, 255},
+	{0, 185, 0, 255},
+	{0, 0, 185, 255},
+	{0, 0, 255, 255},
+	{255, 255, 0, 255},
+	{85, 255, 85, 255},
+	{85, 85, 255, 255},
 	{0, 0, 255, 255},
 	{255, 255, 0, 255},
 };
@@ -99,10 +103,13 @@ int			reload_font(t_vis *vis)
 		&vis->cur_font.width, &vis->cur_font.height);
 	init_glyphs(vis);
 	init_carriages(vis);
+	vis->info_box.x = START_FIELD_X + 64 * vis->cur_font.width * 2
+					  + 64 * vis->cur_font.width / 2 + 10;
+	vis->info_box.y = START_FIELD_Y;
 	return (0);
 }
 
-void		text_out(t_vis *vis, SDL_Point *xy, char *txt, SDL_Color color)
+void		text_out(t_vis *vis, SDL_Point *xy, const char *txt, SDL_Color color)
 {
 	SDL_Surface		*surface;
 	SDL_Texture		*msg;

@@ -22,7 +22,6 @@ typedef unsigned int	t_uint;
 typedef unsigned long	t_ulong;
 typedef unsigned short	t_ushort;
 typedef unsigned char	t_uchar;
-typedef t_ushort		t_fieldelem;
 
 typedef	t_ftarray		t_arrplayers;
 
@@ -33,12 +32,25 @@ typedef enum {
 	WAITING
 } t_pstates;
 
+typedef enum {
+	VALID = 0,
+	INVALID = 1
+} t_valids;
+
 #define SIGNED		(1)
 #define UNSIGNED	(0)
 
 #define A1 (0)
 #define A2 (1)
 #define A3 (2)
+
+typedef struct		s_fieldelem
+{
+	t_uchar		id;
+	t_uchar		live;
+	t_uchar		fresh;
+	t_uchar		cmd;
+}					t_fieldelem;
 
 typedef struct		s_process
 {
@@ -138,5 +150,8 @@ void 		process_lld_run(t_vm *vm, t_process *pr, t_runner *run);
 void 		process_lldi_run(t_vm *vm, t_process *pr, t_runner *run);
 void 		process_lfork_run(t_vm *vm, t_process *pr, t_runner *run);
 void 		process_aff_run(t_vm *vm, t_process *pr, t_runner *run);
+
+
+void		draw_info(t_vis *vis, t_vm *vm);
 
 #endif

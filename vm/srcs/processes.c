@@ -56,7 +56,6 @@ void	process_waiting(t_vm *vm, t_process *pr)
 		if (pr->opcode >= 1 && pr->opcode <= 16)
 		{
 			run.field = vm->field;
-			ft_putendl(get_op_by_id(pr->opcode)->name);
 			if (check_arguments(pr, &run, pr->opcode) == 0)
 				g_asm_funcs[pr->opcode - 1](vm, pr, &run);
 		}

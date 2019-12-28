@@ -40,7 +40,10 @@ void		init_vm(t_vm *vm)
 		start = ((sizeof(vm->field) / sizeof (*vm->field)) / size) * i;
 		j = -1;
 		while (++j < pl->prog_size)
-			vm->field[start + j] = pl->prog[j] | ((i + 1u) << 8u);
+		{
+			vm->field[start + j].cmd = pl->prog[j];
+			vm->field[start + j].id = i + 1;
+		}
 		add_process(&vm->processes_root, (1 + i), start, &vm->process_max);
 	}
 	vm->cycle_to_die = CYCLE_TO_DIE;

@@ -65,7 +65,7 @@ long		read_be_map(const t_fieldelem *data, long offset,
 	while (i < size)
 	{
 		val <<= 8u;
-		val |= data[(offset + i) % MEM_SIZE] & 0xFFu;
+		val |= data[(offset + i) % MEM_SIZE].cmd;
 		i++;
 	}
 	if (is_signed == SIGNED && (val >> ((i << 3u) - 1u)) & 1u)
@@ -81,14 +81,18 @@ long		read_be_map(const t_fieldelem *data, long offset,
 
 void	set_field_vals(t_fieldelem *field, long pos, t_process *pr, long reg)
 {
-	t_uint count;
+	t_uint	count;
+	long	index;
 
 	while (pos < 0)
 		pos += MEM_SIZE;
 	count = -1;
 	while (++count < sizeof(pr->regs[0]))
 	{
-		field[(pos + count) % MEM_SIZE] = pr->regs[reg - 1][count] |
-										  ((pr->player_id) << 8u);
+		index = (pos + count) % MEM_SIZE;
+		field[index].cmd = pr->regs[reg][count];
+		field[index].id = pr->player_id;
+		field[index].fresh = 50;
+		field[index].live = 0;
 	}
 }

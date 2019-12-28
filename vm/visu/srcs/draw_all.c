@@ -15,24 +15,23 @@
 #include "ft_printf.h"
 #include <SDL2_gfxPrimitives.h>
 
-static void			draw_text(t_vis *vis, int x, int y, t_ushort val)
+static void			draw_text(t_vis *vis, int x, int y, t_fieldelem *val)
 {
 	SDL_Rect		rect;
 	t_uint			player;
 
-	player = val >> 8u < 5 ? val >> 8u : 0;
+	player = val->id < 5 ? val->id : 0;
+	if (player != 0 && val->fresh)
+		player += 4;
 	rect.x = x;
 	rect.y = y;
 	rect.w = vis->cur_font.width;
 	rect.h = vis->cur_font.height;
 	SDL_RenderCopy(vis->ren,
-		vis->glyph_textures[player][(val >> 4u) & 0xFu], NULL, &rect);
-	rect.x = x + vis->cur_font.width;
-	rect.y = y;
-	rect.w = vis->cur_font.width;
-	rect.h = vis->cur_font.height;
+		vis->glyph_textures[player][(val->cmd & 0xF0u) >> 4u], NULL, &rect);
+	rect.x += vis->cur_font.width;
 	SDL_RenderCopy(vis->ren,
-		vis->glyph_textures[player][val & 0xFu], NULL, &rect);
+		vis->glyph_textures[player][val->cmd & 0xFu], NULL, &rect);
 }
 
 static void			draw_field(t_vis *vis, t_vm *vm)
@@ -51,7 +50,7 @@ static void			draw_field(t_vis *vis, t_vm *vm)
 			px = START_FIELD_X + x * vis->cur_font.width * 2 +
 				x * vis->cur_font.width / 2;
 			py = START_FIELD_Y + y * vis->cur_font.height;
-			draw_text(vis, px, py, vm->field[y * 64 + x]);
+			draw_text(vis, px, py, &vm->field[y * 64 + x]);
 		}
 	}
 }
@@ -66,34 +65,6 @@ SDL_Color	get_color(int r, int g, int b, int a)
 	color.g = g;
 	color.b = b;
 	return (color);
-}
-
-void				draw_cycles(t_vis *vis, t_vm *vm)
-{
-	SDL_Point	xy;
-	char 		buf[64];
-	SDL_Color	color;
-
-	xy.x = START_FIELD_X + 64 * vis->cur_font.width * 2
-		   + 64 * vis->cur_font.width / 2 + 10;
-	xy.y = START_FIELD_Y + 10 * vis->cur_font.width;
-	ft_sprintf(buf, "Cycles: %zu", vm->cycles);
-	color = get_color(68, 113, 82, 255);
-	text_out(vis, &xy, buf, color);
-}
-
-void				draw_max_processes(t_vis *vis, t_vm *vm)
-{
-	SDL_Point xy;
-	char	  buf[64];
-	SDL_Color color;
-
-	xy.x = START_FIELD_X + 64 * vis->cur_font.width * 2
-		   + 64 * vis->cur_font.width / 2 + 10;
-	xy.y = START_FIELD_Y + 12 * vis->cur_font.width;
-	ft_sprintf(buf, "Processes: %zu", vm->process_max);
-	color = get_color(68, 113, 82, 255);
-	text_out(vis, &xy, buf, color);
 }
 
 Uint32				get_uint32_color(int r, int g, int b, int a)
@@ -158,7 +129,6 @@ void				draw_all(t_vis *vis, t_vm *vm)
 	draw_borders(vis);
 	draw_processes(vis, vm);
 	draw_field(vis, vm);
-	draw_cycles(vis, vm);
-	draw_max_processes(vis, vm);
+	draw_info(vis, vm);
 	SDL_RenderPresent(vis->ren);
 }

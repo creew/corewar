@@ -25,6 +25,8 @@ t_process		*add_process(t_process **root, t_uint id, long pc, size_t *pr_max)
 		process->player_id = id;
 		process->pc = (int)pc;
 		write_varlen_be(process->regs[0], -id, REG_SIZE);
+		if (*root)
+			(*root)->prev = process;
 		*root = process;
 	}
 	return (process);
@@ -32,19 +34,13 @@ t_process		*add_process(t_process **root, t_uint id, long pc, size_t *pr_max)
 
 void 			remove_process(t_process **root, t_process *pr)
 {
+	if (pr->prev)
+		pr->prev->next = pr->next;
+	if (pr->next)
+		pr->next->prev = pr->prev;
 	if (pr == *root)
-	{
-		*root = NULL;
-		ft_memdel((void **)&pr);
-	}
-	else
-	{
-		if (pr->prev)
-			pr->prev->next = pr->next;
-		if (pr->next)
-			pr->next->prev = pr->prev;
-		ft_memdel((void **)&pr);
-	}
+		*root = pr->next;
+	ft_memdel((void **)&pr);
 }
 
 t_process		*copy_process(t_process **root, t_process *copy,
