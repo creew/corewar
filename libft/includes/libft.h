@@ -32,6 +32,8 @@
 # define FT_ATOI_EMPTY_ARG	(2)
 # define FT_ATOI_WRONG_CHAR	(3)
 
+typedef unsigned long t_bzero_elem;
+
 typedef struct	s_list
 {
 	void			*content;

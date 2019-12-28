@@ -14,11 +14,23 @@
 
 void	ft_bzero(void *s, size_t n)
 {
-	unsigned char	*arr;
-	size_t			count;
+	unsigned char	*sc;
 
-	count = 0;
-	arr = (unsigned char *)s;
-	while (count < n)
-		arr[count++] = 0;
+	sc = (unsigned char *)s;
+	while ((size_t)sc % sizeof(t_bzero_elem) && n)
+	{
+		*sc++ = 0;
+		n--;
+	}
+	while (n >= sizeof(t_bzero_elem))
+	{
+		*(t_bzero_elem *)sc = 0;
+		sc += sizeof(t_bzero_elem);
+		n -= sizeof(t_bzero_elem);
+	}
+	while (n)
+	{
+		*sc++ = 0;
+		n--;
+	}
 }
