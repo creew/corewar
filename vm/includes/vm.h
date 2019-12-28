@@ -87,7 +87,7 @@ typedef struct		s_vm {
 	t_process		*processes_root;
 	size_t			process_max;
 	size_t			cycles;
-	size_t			cycle_to_die;
+	int				cycle_to_die;
 	size_t			cycles_check;
 	size_t 			live;
 	size_t 			checks;

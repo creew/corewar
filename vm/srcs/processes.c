@@ -117,5 +117,6 @@ void	process_processes(t_vm *vm)
 			}
 		}
 		vm->cycles_check = vm->cycle_to_die;
+		vm->live = 0;
 	}
 }

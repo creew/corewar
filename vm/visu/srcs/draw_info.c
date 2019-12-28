@@ -99,5 +99,4 @@ void				draw_info(t_vis *vis, t_vm *vm)
 	draw_cycles(vis, vm);
 	last_index = draw_player_info(vis, vm);
 	draw_cycle_info(vis, vm, last_index);
-
 }
