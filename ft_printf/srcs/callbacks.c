@@ -46,3 +46,19 @@ void	s_write_c(void **param, char *data, size_t len)
 	s[len] = '\0';
 	*param = s + len;
 }
+
+void	sn_write_c(void **param, char *data, size_t len)
+{
+	t_snparam *par;
+
+	par = *param;
+	if (len > par->size)
+		len = par->size;
+	if (len <= par->size && len)
+	{
+		pf_memcpy(par->s, data, len);
+		par->s += len;
+		*par->s = '\0';
+		par->size -= len;
+	}
+}

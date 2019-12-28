@@ -1,0 +1,86 @@
+#clang_format for School 42 by N.Kats aka McBatz aka MC_Klatz#
+#https://zed0.co.uk/clang-format-configurator/0
+BasedOnStyle: Microsoft #базовый стиль
+Language: Cpp
+
+AlignAfterOpenBracket: Align #Выравнивать после открытой скобки
+
+AlignConsecutiveAssignments: true #Выравнивать значения инициализированных переменных
+
+AlignConsecutiveDeclarations: true #Выравнивать переменные после декларации типа
+
+AlignEscapedNewlines: Right #Варианты выравнивания обратной косой черты в экранированных символах новой строки
+
+AlignOperands: true #Выровнять операнды выражения (111 + '\n'2222), когда они на разных строках
+
+AlignTrailingComments: true #Выравнивает коментарии если тру
+
+AllowAllParametersOfDeclarationOnNextLine: true #Если объявление функции не помещается в строку,
+#разрешите поместить все параметры объявления функции в следующую строку,
+#даже если BinPackParameters имеет значение false.
+
+AllowShortBlocksOnASingleLine: false #Позволяет заключать простые скобки в одну строку. Например, if (a) {return; } ставится в одну строку.
+
+AllowShortFunctionsOnASingleLine: None
+
+AlwaysBreakAfterReturnType: None #Всегда переносить скобки после объявления функции (???)
+
+AlwaysBreakBeforeMultilineStrings: false #Переносить многострочные литералы на следующую строку
+
+BinPackArguments: true #Разрешить не переносить аргументы функции
+
+BinPackParameters: true #Разрешить не переносить параментры функции
+
+BreakBeforeBraces: Allman #Или (GNU), всегда переностиь скобки + добавлять отступ (в ГНУ без отступа)
+
+BreakBeforeTernaryOperators: false #Переносить тренарные конструкции
+
+BreakStringLiterals: true #Разрывать строковые литералы
+
+ColumnLimit: 80 #Количество столбцов
+
+DerivePointerAlignment: true #Выравнивание указателей
+
+IncludeBlocks: Regroup #Группирует блоки <> ""
+
+IndentPPDirectives: AfterHash #Стиль отступов для дирректив препроцессора
+
+IndentWidth: 4 #Количество столбцов для отсупа
+
+KeepEmptyLinesAtTheStartOfBlocks: false #Пустая линия после if
+
+MaxEmptyLinesToKeep: 1
+
+PointerAlignment: Right #Выравнивание указателей (void * p, void* p, void *p)
+
+PenaltyBreakBeforeFirstCallParameter: 1
+
+PenaltyBreakString: 1
+
+PenaltyExcessCharacter: 0
+
+#RawStringFormats: что то с автодополнением кажется, хз
+
+SortIncludes: true #Сортировка include
+
+SpaceAfterCStyleCast: true #Пробел в стиле (int) i;
+
+SpaceBeforeAssignmentOperators: true #Пробел после опреатора присваивания
+
+SpaceBeforeParens: ControlStatements #Пробелы только после ключевых слов (if, while & etc.)
+
+SpaceInEmptyParentheses: false #Пробел в пустых скобках
+
+SpacesBeforeTrailingComments: 2 #Пробелы после //
+
+SpacesInCStyleCastParentheses: false #Пробелы вида ( void )y
+
+SpacesInContainerLiterals: false #Пробелы до и после { }
+
+SpacesInParentheses: false #Пробелы до и после ( )
+
+SpacesInSquareBrackets: false #Пробелы до и после [ ]
+
+TabWidth: 4 #Пробелы при использовани tab
+
+UseTab: Always #Tab всегда

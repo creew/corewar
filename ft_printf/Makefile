@@ -31,13 +31,14 @@ SRC = 	ft_printf.c \
 		sub_functions.c \
 		long_ariph.c \
 		callbacks.c \
-		parse_colors.c
+		parse_colors.c \
+		main_funcs.c
 
 NAME = libftprintf.a
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g3
 
 INCLUDES = ./includes/ft_printf.h
 

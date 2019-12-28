@@ -6,7 +6,7 @@ set(CMAKE_C_STANDARD 11)
 include_directories(.
         ./includes)
 
-add_executable(ftprintf
+add_library(ftprintf
         srcs/add_double.c
         srcs/add_paddings.c
         srcs/add_prefix.c
@@ -14,7 +14,6 @@ add_executable(ftprintf
         srcs/add_unsigned.c
         srcs/calc_double.c
         srcs/ft_printf.c
-        includes/ft_printf.h
         srcs/long_ariph.c
         srcs/parse_character.c
         srcs/parse_double.c
@@ -28,5 +27,6 @@ add_executable(ftprintf
         srcs/parse_unsigned.c
         srcs/parse_width.c
         srcs/sub_functions.c
-        srcs/test.c
-        srcs/callbacks.c srcs/parse_colors.c)
+        srcs/callbacks.c
+        srcs/parse_colors.c
+        srcs/main_funcs.c)

@@ -74,6 +74,12 @@ typedef long double			t_ldouble;
 
 typedef unsigned int		t_uint;
 
+typedef struct	s_snparam
+{
+	char		*s;
+	size_t		size;
+}				t_snparam;
+
 typedef union	u_bldouble
 {
 	t_ldouble	val;
@@ -128,6 +134,10 @@ typedef struct	s_longb
 
 int				ft_printf(const char *format, ...);
 int				ft_sprintf(char *s, const char *format, ...);
+int				ft_snprintf(char *s, size_t size, const char *format, ...);
+
+int				ft_allprintf(const char *format, va_list *ptr,
+								void (f)(void **, char *, size_t), void *param);
 
 int				add_to_out(t_print *print, char c);
 int				addw_to_out(t_print *print, wint_t wc);
@@ -189,6 +199,7 @@ int				longb_cmpn(t_longb *a, t_longb *b, int n);
 
 void			fp_write_c(void **param, char *data, size_t len);
 void			s_write_c(void **param, char *data, size_t len);
+void			sn_write_c(void **param, char *data, size_t len);
 
 int				parse_colors(t_print *print, const char **format);
 #endif
