@@ -19,18 +19,27 @@ int		pf_isdigit(int c)
 	return (0);
 }
 
-void	*pf_memset(void *b, int c, size_t len)
+void	pf_bzero(void *s, size_t n)
 {
-	unsigned char	ch;
-	unsigned char	*arr;
-	size_t			count;
+    unsigned char	*sc;
 
-	count = 0;
-	ch = (unsigned char)c;
-	arr = (unsigned char *)b;
-	while (count < len)
-		arr[count++] = ch;
-	return (b);
+    sc = (unsigned char *)s;
+    while ((size_t)sc % sizeof(unsigned long) && n)
+    {
+        *sc++ = 0;
+        n--;
+    }
+    while (n >= sizeof(unsigned long))
+    {
+        *(unsigned long *)sc = 0;
+        sc += sizeof(unsigned long);
+        n -= sizeof(unsigned long);
+    }
+    while (n)
+    {
+        *sc++ = 0;
+        n--;
+    }
 }
 
 char	*pf_strchr(const char *s, int c)

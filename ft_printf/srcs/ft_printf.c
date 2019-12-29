@@ -49,7 +49,7 @@ int				ft_allprintf(const char *format, va_list *ptr,
 	int			out;
 
 	out = 0;
-	pf_memset(&print, 0, sizeof(t_print));
+	pf_bzero(&print, sizeof(t_print));
 	print.write_func = f;
 	print.write_param = param;
 	while (*format)

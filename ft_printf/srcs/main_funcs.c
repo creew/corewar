@@ -53,3 +53,14 @@ int				ft_snprintf(char *s, size_t size, const char *format, ...)
 	}
 	return (out);
 }
+
+int				ft_dprintf(int fd, const char *format, ...)
+{
+	va_list		ptr;
+	int			out;
+
+	va_start(ptr, format);
+	out = ft_allprintf(format, &ptr, fp_write_fd, &fd);
+	va_end(ptr);
+	return (out);
+}
