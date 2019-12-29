@@ -31,7 +31,7 @@ add_executable(vm
         ./visu/srcs/reload_fonts.c
         ./visu/srcs/process.c
         ./visu/srcs/draw_all.c
-        visu/srcs/draw_info.c)
+        visu/srcs/draw_info.c srcs/create_dump.c)
 
 add_dependencies(vm libft_target)
 add_dependencies(vm ft_printf_target)

@@ -76,6 +76,7 @@ typedef struct		s_color
 }					t_color;
 
 typedef struct		s_player {
+	int				player_id;
 	char			name[PROG_NAME_LENGTH + 1];
 	char			comment[COMMENT_LENGTH + 1];
 	t_uint 			prog_size;
@@ -96,6 +97,8 @@ typedef struct		s_vm {
 	t_fieldelem		field[MEM_SIZE];
 	t_vis			vis;
 	size_t		    do_steps;
+	int				do_dump;
+	int				dump_n;
 }					t_vm;
 
 typedef struct		s_runner
@@ -107,7 +110,7 @@ typedef struct		s_runner
 	int				skip;
 }					t_runner;
 
-int			read_option(int ac, char *av[]);
+t_result	read_option(t_vm *vm, int ac, char *av[]);
 t_result	read_champ(char *filename, t_player **player);
 
 void		init_vm(t_vm *vm);
@@ -154,4 +157,5 @@ void 		process_aff_run(t_vm *vm, t_process *pr, t_runner *run);
 
 void		draw_info(t_vis *vis, t_vm *vm);
 
+void		create_dump(t_vm *vm, int chars_in_line);
 #endif
