@@ -53,7 +53,8 @@ static int	calc_font(t_vis *vis)
 		print_sdl_error(TTF_GetError());
 		return (1);
 	}
-	TTF_SizeUTF8(font, "X", &vis->font100.width, &vis->font100.height);
+	TTF_SizeText(font, "X", &vis->font100.width, &vis->font100.height);
+	TTF_CloseFont(font);
 	return (0);
 }
 
