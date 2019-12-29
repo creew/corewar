@@ -12,3 +12,5 @@
 /vm/asm
 /vm/Car.s
 /vm/corewar_orig
+/ft_printf/.idea/
+/ft_printf/cmake-build-debug/

@@ -11,12 +11,23 @@
 /* ************************************************************************** */
 
 #include "vm.h"
+#include "ft_printf.h"
 
 void 	process_live_run(t_vm *vm, t_process *pr, t_runner *run)
 {
+	t_player	*pl;
+	int 		ex;
 
 	pr->cycle_live = vm->cycles;
 	vm->live++;
+	ex = ft_array_get(&vm->players, -run->args[A1] - 1, (void **)&pl);
+	if (!ex)
+	{
+		ft_printf("A process shows that player %d (%s) is alive\n",
+			-run->args[A1], pl->name);
+		pl->last_live = vm->cycles;
+		pl->live_in_session++;
+	}
 }
 
 void 	process_ld_run(t_vm *vm, t_process *pr, t_runner *run)

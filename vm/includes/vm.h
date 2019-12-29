@@ -79,6 +79,8 @@ typedef struct		s_player {
 	char			name[PROG_NAME_LENGTH + 1];
 	char			comment[COMMENT_LENGTH + 1];
 	t_uint 			prog_size;
+	size_t 			last_live;
+	size_t			live_in_session;
 	unsigned char	prog[1];
 }					t_player;
 

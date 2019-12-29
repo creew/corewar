@@ -74,6 +74,8 @@ void	process_processes(t_vm *vm)
 	t_uchar		id;
 	t_op		*op;
 	t_process	*next;
+	t_player	*pl;
+	size_t		i;
 
 	pr = vm->processes_root;
 	vm->cycles_check--;
@@ -99,7 +101,7 @@ void	process_processes(t_vm *vm)
 		}
 		pr = next;
 	}
-	if (!vm->cycles)
+	if (!vm->cycles_check)
 	{
 		if (vm->live >= NBR_LIVE)
 		{
@@ -118,5 +120,8 @@ void	process_processes(t_vm *vm)
 		}
 		vm->cycles_check = vm->cycle_to_die;
 		vm->live = 0;
+		i = -1;
+		while (ft_array_get(&vm->players, ++i, (void **)&pl) == 0)
+			pl->live_in_session = 0;
 	}
 }
