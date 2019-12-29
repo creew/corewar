@@ -57,13 +57,20 @@ int				draw_player_info(t_vis *vis, t_vm *vm)
 	t_player	*player;
 	int 		start_index;
 	char	  	buf[32];
+	SDL_Color	color;
 
+	color = get_color(255, 255, 255, 255);
 	start_index = 13;
 	i = -1;
 	while (ft_array_get(&vm->players, ++i, (void **)&player) == 0)
 	{
 		ft_snprintf(buf, sizeof(buf), "Player -%d : %s", i + 1, player->name);
 		draw_info_string(vis, buf, start_index, g_colors[i + 1]);
+		ft_snprintf(buf, sizeof(buf), "  Last live : %zu", player->last_live);
+		draw_info_string(vis, buf, ++start_index, color);
+		ft_snprintf(buf, sizeof(buf), "  Lives in current period : %zu",
+			player->live_in_session);
+		draw_info_string(vis, buf, ++start_index, color);
 		start_index += 2;
 	}
 	return (start_index);

@@ -62,3 +62,11 @@ void	sn_write_c(void **param, char *data, size_t len)
 		par->size -= len;
 	}
 }
+
+void	fp_write_fd(void **param, char *data, size_t len)
+{
+	int *fd;
+
+	fd = *param;
+	write(*fd, data, len);
+}

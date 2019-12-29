@@ -31,8 +31,8 @@ void    infinite_loop(t_vm *vm)
         {
         	if (vm->do_steps)
         		vm->do_steps--;
+			inc_counter(vm);
             process_processes(vm);
-            inc_counter(vm);
         }
     }
 }
