@@ -13,7 +13,7 @@ static int		count_words(char const *s, char c)
 		{
 			nb_words++;
 			s++;
-			while (*s != '"')
+			while (*s != '"' && *s != '\0')
 				s++;
 		}
 		if (str_test == 1 && *s == c)
@@ -33,7 +33,7 @@ static int		ft_word_length(char const *s, char c)
 	size_t		i;
 	
 	i = 0;
-	while (*s && *s != c)
+	while (*s && *s != c && *s != '\0')
 	{
 		i++;
 		s++;
@@ -51,7 +51,7 @@ char			**ft_my_strsplit(char const *s, char c)
 	if (!s)
 		return (NULL);
 	nb_words = count_words(s, c);
-	my_tab = (char **)malloc(sizeof(char *) * nb_words + 1);
+	my_tab = (char **)malloc(sizeof(char *) * (nb_words + 2));
 	if (my_tab == NULL)
 		return (NULL);
 	while (nb_words--)
@@ -66,7 +66,6 @@ char			**ft_my_strsplit(char const *s, char c)
 				s++;
 			if (*s != '\0')
 				s++;
-			nb_words--;
 			continue;
 		}
 		if ((my_tab[i++] = ft_strsub(s, 0, ft_word_length(s, c))) == NULL)
@@ -77,5 +76,33 @@ char			**ft_my_strsplit(char const *s, char c)
 		s += ft_word_length(s, c);
 	}
 	my_tab[i] = NULL;
+	my_tab[i + 1] = NULL;
 	return (my_tab);
+}
+
+int		ft_is_strstr(char *src, char *to_find)
+{
+	int i;
+	int j;
+
+	j = 0;
+	i = 0;
+	if (to_find[i] == '\0')
+		return (0);
+	while (src[i] != '\0')
+	{
+		j = 0;
+		while (src[i + j] == to_find[j])
+		{
+			if (to_find[j + 1] == '\0')
+			{
+				if (src[i + j + 1] == '\0' || src[i + j + 1] == ' ')
+					return (1);
+				return (0);
+			}
+			j++;
+		}
+		i++;
+	}
+	return (0);
 }
