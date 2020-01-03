@@ -548,9 +548,9 @@ void	add_with_n_name(t_ch *player, char *str)
 	char *s;
 
 	line = NULL;
-	if (!player->name)
-		player->name = ft_strjoin(str, "\n");
-	else
+	if (!player->name && *str != '"')
+		player->name = ft_strdup(str);
+	else if (*str != '"')
 	{
 		line = ft_strjoin(str, "\n");
 		s = ft_strdup(player->name);
@@ -636,9 +636,9 @@ void	add_with_n_comment(t_ch *player, char *str)
 	char *s;
 
 	line = NULL;
-	if (!player->comment)
-		player->comment = ft_strjoin(str, "\n");
-	else
+	if (!player->comment && *str != '"')
+		player->comment = ft_strdup(str);
+	else if (*str != '"')
 	{
 		line = ft_strjoin(str, "\n");
 		s = ft_strdup(player->comment);
@@ -685,14 +685,14 @@ void	add_comment(char *str, t_ch *player)
 	if (str[i] == '\0')
 	{
 		add_with_n_comment(player, ft_strdup(1 + str));
-		if (ft_strlen(player->comment) > COMMENT_LENGTH)
+		if (ft_strlen(player->comment) >= COMMENT_LENGTH)
 			ft_exit();
 		return;
 	}
 	if (str[i + 1] && str[i + 1] != '\0')
 		ft_exit();
 	player->comment = ft_strsub(str, 1, i - 1);
-	if (ft_strlen(player->comment) > COMMENT_LENGTH)
+	if (ft_strlen(player->comment) >= COMMENT_LENGTH)
 		ft_exit();
 }
 
@@ -739,6 +739,12 @@ void	delete_comment(char *str)
 	i = 0;
 	while (str[i] != '\0')
 	{
+		if (str[i] == '"')
+		{
+			i++;
+			while (str[i] != '"' && str[i] != '\0')
+				i++;
+		}
 		if (str[i] == COMMENT_CHAR || str[i] == ALT_COMMENT_CHAR)
 		{
 			str[i] = '\0';
@@ -908,7 +914,6 @@ int main (int main, char **argv)
 		{
 			add_command(q, commands);
 			add_args(&q, commands);
-
 			if(!valid_args(commands, validator))
 				ft_exit();
 			commands->next = lst_create_commands();
