@@ -22,6 +22,7 @@ void		init_visu(t_vm *vm)
 			ft_putendl("Error initialize sdl");
 			sdl_destroy(&vm->vis);
 			vm->visualize = 0;
+			vm->started = 1;
 		}
 	}
 }
@@ -34,6 +35,7 @@ void		init_vm(t_vm *vm)
 	t_player	*pl;
 	t_uint		start;
 
+	vm->process_max = 1;
 	i = -1;
 	size = ft_array_size(&vm->players);
 	while (ft_array_get(&vm->players, ++i, (void **)&pl) == 0)

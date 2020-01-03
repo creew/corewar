@@ -21,7 +21,7 @@ int 	is_winner_exist()
 
 void    infinite_loop(t_vm *vm)
 {
-    while (!is_winner_exist())
+    while (42)
     {
 		if (vm->do_dump && vm->dump_n == vm->cycles)
 		{
@@ -41,6 +41,8 @@ void    infinite_loop(t_vm *vm)
 			inc_counter(vm);
             process_processes(vm);
         }
+        if (vm->processes_root == NULL)
+        	vm->started = 0;
     }
 }
 

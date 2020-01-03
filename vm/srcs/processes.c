@@ -12,6 +12,8 @@
 
 #include "vm.h"
 
+#include <ft_printf.h>
+
 t_op	*get_op_by_id(int id)
 {
 	t_uint	i;
@@ -68,6 +70,17 @@ void	process_waiting(t_vm *vm, t_process *pr)
 	}
 }
 
+void	set_cycle_to_die(t_vm *vm)
+{
+	vm->cycle_to_die = vm->cycle_to_die - CYCLE_DELTA;
+	if (vm->cycle_to_die < 1)
+		vm->cycle_to_die = 1;
+	vm->checks = 0;
+	if (vm->debug_args & VERB_SHOW_CYCLES)
+		ft_printf("Cycle to die is now %zu\n", vm->cycle_to_die);
+}
+
+
 void	process_processes(t_vm *vm)
 {
 	t_process	*pr;
@@ -79,6 +92,8 @@ void	process_processes(t_vm *vm)
 
 	pr = vm->processes_root;
 	vm->cycles_check--;
+	if (vm->debug_args & VERB_SHOW_CYCLES)
+		ft_printf("It is now cycle %zu\n", vm->cycles);
 	while (pr)
 	{
 		next = pr->next;
@@ -104,19 +119,11 @@ void	process_processes(t_vm *vm)
 	if (!vm->cycles_check)
 	{
 		if (vm->live >= NBR_LIVE)
-		{
-			vm->cycle_to_die = vm->cycle_to_die - CYCLE_DELTA;
-			if (vm->cycle_to_die < 1)
-				vm->cycle_to_die = 1;
-			vm->checks = 0;
-		}
+			set_cycle_to_die(vm);
 		else
 		{
 			if (++vm->checks == MAX_CHECKS)
-			{
-				vm->cycle_to_die = vm->cycle_to_die - CYCLE_DELTA;
-				vm->checks = 0;
-			}
+				set_cycle_to_die(vm);
 		}
 		vm->cycles_check = vm->cycle_to_die;
 		vm->live = 0;

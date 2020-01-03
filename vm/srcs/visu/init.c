@@ -19,7 +19,7 @@ static int	create_renderer(t_vis *vis)
 		SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (vis->ren == NULL)
 	{
-		print_sdl_error("SDL_CreateRenderer");
+		print_sdl_error(SDL_GetError());
 		return (1);
 	}
 	SDL_SetRenderDrawColor(vis->ren, 0x00, 0xFF, 0x00, 0xFF);

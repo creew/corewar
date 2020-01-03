@@ -37,6 +37,12 @@ typedef enum {
 	INVALID = 1
 } t_valids;
 
+typedef enum {
+	PAUSED,
+	RUNNING,
+	FINISHED
+} t_gstates;
+
 #define VERB_SHOW_LIVES         (1u << 0u)
 #define VERB_SHOW_CYCLES        (1u << 1u)
 #define VERB_SHOW_OPERATIONS    (1u << 2u)
@@ -108,7 +114,7 @@ typedef struct		s_vm {
 	int				do_dump;
 	int				dump_n;
 	int				do_debug;
-	int				debug_args;
+	t_uint			debug_args;
 }					t_vm;
 
 typedef struct		s_runner
