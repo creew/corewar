@@ -12,7 +12,7 @@
 
 #include "vm.h"
 
-t_op	*get_op_by_id(t_uint id)
+t_op	*get_op_by_id(int id)
 {
 	t_uint	i;
 

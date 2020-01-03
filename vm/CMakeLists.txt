@@ -7,7 +7,6 @@ include_directories(.
         ./../common_resources
         ./../libft/includes
         ./../ft_printf/includes
-        ./visu/includes
         ./includes
         ~/.brew/include/SDL2
         /usr/include/SDL2
@@ -24,14 +23,15 @@ add_executable(vm
         ./srcs/dl_list.c
         ./srcs/processes.c
         ./srcs/check_arguments.c
-        ./srcs/run_comands.c
-        ./visu/srcs/init.c
-        ./visu/srcs/deinit.c
-        ./visu/srcs/print.c
-        ./visu/srcs/reload_fonts.c
-        ./visu/srcs/process.c
-        ./visu/srcs/draw_all.c
-        visu/srcs/draw_info.c srcs/create_dump.c)
+        srcs/run_commands.c
+        ./srcs/visu/init.c
+        ./srcs/visu/deinit.c
+        ./srcs/visu/print.c
+        ./srcs/visu/reload_fonts.c
+        ./srcs/visu/process.c
+        ./srcs/visu/draw_all.c
+        ./srcs/visu/draw_info.c
+        ./srcs/create_dump.c)
 
 add_dependencies(vm libft_target)
 add_dependencies(vm ft_printf_target)

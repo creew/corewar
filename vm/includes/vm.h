@@ -37,6 +37,12 @@ typedef enum {
 	INVALID = 1
 } t_valids;
 
+#define VERB_SHOW_LIVES         (1u << 0u)
+#define VERB_SHOW_CYCLES        (1u << 1u)
+#define VERB_SHOW_OPERATIONS    (1u << 2u)
+#define VERB_SHOW_DEATHS        (1u << 3u)
+#define VERB_SHOW_MOVES         (1u << 4u)
+
 #define SIGNED		(1)
 #define UNSIGNED	(0)
 
@@ -101,6 +107,8 @@ typedef struct		s_vm {
 	size_t		    do_steps;
 	int				do_dump;
 	int				dump_n;
+	int				do_debug;
+	int				debug_args;
 }					t_vm;
 
 typedef struct		s_runner
@@ -113,7 +121,7 @@ typedef struct		s_runner
 }					t_runner;
 
 t_result	read_option(t_vm *vm, int ac, char *av[]);
-t_result	read_champ(char *filename, t_player **player);
+t_result	read_champ(char *filename, t_player **player, int id);
 
 void		init_vm(t_vm *vm);
 
@@ -135,7 +143,7 @@ long		read_be_map(const t_fieldelem *data, long offset,
 						t_uint size, int boolean);
 void		set_field_vals(t_fieldelem *field, long pos, t_process *pr, long reg);
 
-t_op		*get_op_by_id(t_uint id);
+t_op		*get_op_by_id(int id);
 int			check_arguments(t_process *pr, t_runner *run, int index);
 void		process_processes(t_vm *vm);
 

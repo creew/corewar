@@ -16,6 +16,7 @@ void		init_visu(t_vm *vm)
 {
 	if (vm->visualize)
 	{
+		vm->started = 0;
 		if (init_sdl(&vm->vis) != 0)
 		{
 			ft_putendl("Error initialize sdl");
@@ -42,10 +43,11 @@ void		init_vm(t_vm *vm)
 		while (++j < pl->prog_size)
 		{
 			vm->field[start + j].cmd = pl->prog[j];
-			vm->field[start + j].id = i + 1;
+			vm->field[start + j].id = pl->player_id;
 		}
-		add_process(&vm->processes_root, (1 + i), start, &vm->process_max);
+		add_process(&vm->processes_root, pl->player_id, start, &vm->process_max);
 	}
+	vm->started = 1;
 	vm->cycle_to_die = CYCLE_TO_DIE;
 	vm->cycles_check = vm->cycle_to_die;
 	vm->live = 0;

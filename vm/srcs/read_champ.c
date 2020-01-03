@@ -21,7 +21,7 @@ static t_result		close_and_ret(int f, t_player **alloc, t_result err)
 	return (err);
 }
 
-static t_result		create_player(t_header *header, t_player **player)
+static t_result		create_player(t_header *header, t_player **player, int id)
 {
 	t_player *pl;
 
@@ -29,6 +29,7 @@ static t_result		create_player(t_header *header, t_player **player)
 		sizeof(char) * swap_uint_be(header->prog_size));
 	if (pl == NULL)
 		return (ERR_ENOMEM);
+	pl->player_id = id;
 	pl->prog_size = swap_uint_be(header->prog_size);
 	ft_strlcpy(pl->name, header->prog_name, sizeof(pl->name));
 	ft_strlcpy(pl->comment, header->comment, sizeof(pl->comment));
@@ -36,7 +37,7 @@ static t_result		create_player(t_header *header, t_player **player)
 	return (RET_OK);
 }
 
-t_result			read_champ(char *filename, t_player **player)
+t_result			read_champ(char *filename, t_player **player, int id)
 {
 	int			f;
 	t_header	header;
@@ -52,7 +53,7 @@ t_result			read_champ(char *filename, t_player **player)
 	player_size = swap_uint_be(header.prog_size);
 	if (player_size > CHAMP_MAX_SIZE)
 		return (close_and_ret(f, NULL, ERR_CHAMP_TO_BIG));
-	if (create_player(&header, player) != RET_OK)
+	if (create_player(&header, player, id) != RET_OK)
 		return (close_and_ret(f, NULL, ERR_ENOMEM));
 	if (read(f, (*player)->prog, player_size) != player_size)
 		return (close_and_ret(f, player, ERR_READ_BODY_CHAMP));

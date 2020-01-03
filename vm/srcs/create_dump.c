@@ -13,6 +13,7 @@ static void		print_one_line(t_fieldelem *elem, int size, int pos)
 	i = -1;
 	while (++i < size)
 		ft_printf(" %02X", elem[i].cmd);
+	ft_printf("\n");
 }
 
 void			create_dump(t_vm *vm, int chars_in_line)
@@ -27,7 +28,7 @@ void			create_dump(t_vm *vm, int chars_in_line)
 	elems = vm->field;
 	while (pos < memsize)
 	{
-		size = ft_min(memsize - chars_in_line, chars_in_line);
+		size = ft_min(memsize - pos, chars_in_line);
 		print_one_line(elems, size, pos);
 		elems += size;
 		pos += size;
