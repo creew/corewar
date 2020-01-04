@@ -14,7 +14,10 @@
 
 void		start_pause(t_vm *vm)
 {
-	vm->started = !vm->started;
+	if (vm->state == PAUSED)
+		vm->state = RUNNING;
+	else if (vm->state == RUNNING)
+		vm->state = PAUSED;
 }
 
 void		dec_values(t_vm *vm)

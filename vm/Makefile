@@ -75,7 +75,7 @@ COMP_LIBFT = make -C $(LIBFT_DIR)
 
 COMP_LIBFTPRINTF = make -C $(LIBFTPRINTF_DIR)
 
-FLAGS = -Wall -Wextra
+FLAGS = -Wall -Wextra -O3
 
 all: $(NAME)
 

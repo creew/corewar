@@ -16,14 +16,14 @@ void		init_visu(t_vm *vm)
 {
 	if (vm->visualize)
 	{
-		vm->started = 0;
 		if (init_sdl(&vm->vis) != 0)
 		{
 			ft_putendl("Error initialize sdl");
 			sdl_destroy(&vm->vis);
 			vm->visualize = 0;
-			vm->started = 1;
 		}
+		else
+			vm->state = PAUSED;
 	}
 }
 
@@ -49,7 +49,7 @@ void		init_vm(t_vm *vm)
 		}
 		add_process(&vm->processes_root, pl->player_id, start, &vm->process_max);
 	}
-	vm->started = 1;
+	vm->state = RUNNING;
 	vm->cycle_to_die = CYCLE_TO_DIE;
 	vm->cycles_check = vm->cycle_to_die;
 	vm->live = 0;

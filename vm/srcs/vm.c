@@ -14,12 +14,7 @@
 
 #include <ft_printf.h>
 
-int 	is_winner_exist()
-{
-	return (0);
-}
-
-void    infinite_loop(t_vm *vm)
+static void		infinite_loop(t_vm *vm)
 {
     while (42)
     {
@@ -28,21 +23,28 @@ void    infinite_loop(t_vm *vm)
 			create_dump(vm, 32);
 			break ;
 		}
-        if (vm->visualize)
-        {
-            if (process_event(&vm->vis, vm) == 0)
-                break ;
-            draw_all(&vm->vis, vm);
-        }
-        if (vm->started || vm->do_steps)
-        {
-        	if (vm->do_steps)
-        		vm->do_steps--;
+		if (vm->visualize)
+		{
+			if (process_event(&vm->vis, vm) == 0)
+				break ;
+			draw_all(&vm->vis, vm);
+		}
+		if (vm->state == RUNNING || (vm->state == PAUSED && vm->do_steps))
+		{
+			if (vm->do_steps)
+				vm->do_steps--;
 			inc_counter(vm);
-            process_processes(vm);
-        }
-        if (vm->processes_root == NULL)
-        	vm->started = 0;
+			process_processes(vm);
+		}
+		if (vm->processes_root == NULL)
+		{
+			vm->state = FINISHED;
+			if (vm->last_player)
+				ft_printf("Contestant %d, \"%s\", has won !\n",
+					vm->last_player->player_id, vm->last_player->name);
+			if (!vm->visualize)
+				break ;
+		}
     }
 }
 
@@ -57,7 +59,7 @@ static void		print_players(t_arrplayers *players)
 			pl->player_id, pl->prog_size, pl->name, pl->comment);
 }
 
-int main(int ac, char *av[])
+int				main(int ac, char *av[])
 {
 	t_vm		vm;
 	t_result	res;

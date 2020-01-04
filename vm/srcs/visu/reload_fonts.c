@@ -41,8 +41,8 @@ static int	get_pt_size(t_vis *vis)
 
 void		init_glyphs(t_vis *vis)
 {
-	int				i;
-	int				j;
+	size_t			i;
+	size_t			j;
 	SDL_Surface		*surface;
 
 	destroy_glyph_textures(vis);

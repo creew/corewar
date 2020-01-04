@@ -27,7 +27,7 @@ void				draw_cycles(t_vis *vis, t_vm *vm)
 	char 		buf[64];
 	SDL_Color	color;
 
-	ft_sprintf(buf, "Cycles: %zu", vm->cycles);
+	ft_sprintf(buf, "Cycles: %d", vm->cycles);
 	color = get_color(68, 113, 82, 255);
 	draw_info_string(vis, buf, 9, color);
 }
@@ -44,11 +44,17 @@ void				draw_max_processes(t_vis *vis, t_vm *vm)
 
 void				draw_state(t_vis *vis, t_vm *vm)
 {
-	SDL_Color color;
+	SDL_Color	color;
+	char		*s;
 
+	if (vm->state == RUNNING)
+		s = "** RUNNING **";
+	else if (vm->state == PAUSED)
+		s = "** PAUSED **";
+	else
+		s = "** FINISHED **";
 	color = get_color(68, 113, 82, 255);
-	draw_info_string(vis, vm->started ? "** RUNNING **" : "** PAUSED **", 0,
-		color);
+	draw_info_string(vis, s, 0, color);
 }
 
 int				draw_player_info(t_vis *vis, t_vm *vm)
@@ -64,8 +70,9 @@ int				draw_player_info(t_vis *vis, t_vm *vm)
 	i = -1;
 	while (ft_array_get(&vm->players, ++i, (void **)&player) == 0)
 	{
-		ft_snprintf(buf, sizeof(buf), "Player -%d : %s", i + 1, player->name);
-		draw_info_string(vis, buf, start_index, g_colors[i + 1]);
+		ft_snprintf(buf, sizeof(buf), "Player -%d : %s", player->player_id,
+			player->name);
+		draw_info_string(vis, buf, start_index, g_colors[player->player_id]);
 		ft_snprintf(buf, sizeof(buf), "  Last live : %zu", player->last_live);
 		draw_info_string(vis, buf, ++start_index, color);
 		ft_snprintf(buf, sizeof(buf), "  Lives in current period : %zu",

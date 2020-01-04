@@ -14,7 +14,7 @@
 
 void		destroy_carriages_textures(t_vis *vis)
 {
-	int i;
+	size_t i;
 
 	i = -1;
 	while (++i < (sizeof(vis->carriages) / sizeof(vis->carriages[0])))
@@ -26,8 +26,8 @@ void		destroy_carriages_textures(t_vis *vis)
 
 void		destroy_glyph_textures(t_vis *vis)
 {
-	int i;
-	int j;
+	size_t		i;
+	size_t 		j;
 
 	i = -1;
 	while (++i < (sizeof(vis->glyph_textures) / sizeof(vis->glyph_textures[0])))

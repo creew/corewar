@@ -86,7 +86,7 @@ t_uint				calc_argtype(t_op *op)
 
 	arg_type = 0;
 	i = -1;
-	while (++i < op->args_count)
+	while (++i < (t_uint)op->args_count)
 	{
 		if (op->args[i] & T_REG)
 			arg_type |= REG_CODE << ((3u - i) << 1u);

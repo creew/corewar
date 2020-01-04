@@ -23,6 +23,7 @@ void		recalc_room_size(t_vis *vis, t_vm *vm, int w, int h)
 
 void		process_keyboard(SDL_KeyboardEvent *e, t_vis *vis, t_vm *vm)
 {
+	(void)vis;
 	if (e->keysym.sym == ' ')
 		start_pause(vm);
 	if (e->keysym.sym == 'a')

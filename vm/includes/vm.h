@@ -41,7 +41,7 @@ typedef enum {
 	PAUSED,
 	RUNNING,
 	FINISHED
-} t_gstates;
+} t_gstate;
 
 #define VERB_SHOW_LIVES         (1u << 0u)
 #define VERB_SHOW_CYCLES        (1u << 1u)
@@ -76,7 +76,7 @@ typedef struct		s_process
 	int					pc;
 	t_uchar				regs[REG_NUMBER][REG_SIZE];
 	t_uint				wait;
-	size_t 				cycle_live;
+	int 				cycle_live;
 }					t_process;
 
 typedef struct		s_color
@@ -99,18 +99,20 @@ typedef struct		s_player {
 
 typedef struct		s_vm {
 	t_arrplayers	players;
+	t_player        *last_player;
 	t_process		*processes_root;
 	size_t			process_max;
-	size_t			cycles;
+	size_t			process_count;
+	int				cycles;
 	int				cycle_to_die;
 	size_t			cycles_check;
 	size_t 			live;
 	size_t 			checks;
 	int				visualize;
-	int				started;
+	t_gstate		state;
 	t_fieldelem		field[MEM_SIZE];
 	t_vis			vis;
-	size_t		    do_steps;
+	size_t			do_steps;
 	int				do_dump;
 	int				dump_n;
 	int				do_debug;
