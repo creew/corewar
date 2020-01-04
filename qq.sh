@@ -1,1 +1,1 @@
-for file in ./*.s; do printf "%s" "$file"; stat -c %s $file; done
+for file in ./*.s; do ../../../../a.out "$file"; printf "\n%s" "$file"; stat -c %s $file; done
