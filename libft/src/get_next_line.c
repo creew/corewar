@@ -1,4 +1,6 @@
+//<editor-fold desc="Description">
 #include "get_next_line.h"
+//</editor-fold>
 
 int				ft_where_n(char *s)
 {

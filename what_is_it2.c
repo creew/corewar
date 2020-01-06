@@ -1,13 +1,13 @@
 #include "awm.h"
 
-int		command_is_valid(char *command)
+int		command_is_valid(char *command, t_valid validator)
 {
     int i;
 
     i = 0;
     while (i < 16 && command)
     {
-        if (ft_strcmp(command, can_use_command[i]) == 0)
+        if (ft_strcmp(command, validator.can_use_command[i]) == 0)
             return (1);
         i++;
     }

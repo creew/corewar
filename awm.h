@@ -6,9 +6,6 @@
 #include "op.h"
 #include "libft/incl/printf.h"
 
-char	can_use_command[16][8];
-char can_use_args[3][5];
-
 typedef struct s_commands
 {
 	char	*name;
@@ -31,6 +28,7 @@ typedef	struct	s_valid
 {
 	int		(*valid_com[16])(t_com *commands);
 	int		(*valid_args[3])(t_com *commands);
+	char	can_use_command[16][8];
 }				t_valid;
 
 char			**ft_my_strsplit(char const *s, char c);
@@ -66,11 +64,11 @@ int     		valid_sub(t_com *commands);
 int     		valid_and(t_com *commands);
 int     		valid_live(t_com *commands);
 int		        valid_arg_int(char *str);
-int     		is_command(char *line);
+int     		is_command(char *line, t_valid validator);
 int     		it_s_label(char *line);
-int     		command_is_valid(char *command);
+int     		command_is_valid(char *command, t_valid validator);
 int     		label_is(char *str, t_com *commands);
-int              it_s_comment(char *line);
+int             it_s_comment(char *line);
 void        	add_comment(char *str, t_ch *player);
 void	        ft_exit(void);
 void        	add_with_n_comment(t_ch *player, char *str);
@@ -82,7 +80,7 @@ void	        add_command_with_label(char **line, t_com *command);
 void        	add_command(char *line, t_com *command);
 void        	add_label(char *line, t_com *commands);
 void        	init_args(void);
-void	        init_command(void);
+void	        init_command(t_valid *validator);
 void        	init_validator(t_valid *validator);
 t_com       	*lst_create_commands(void);
 int     		valid_label(char *label);
@@ -95,4 +93,11 @@ void	        clear_player(t_ch *player);
 int     		valid_labeles(t_com *head);
 int     		l_and_c_one_rows(char *line);
 void        	delete_comment(char *str);
+void			set_player(t_ch *player, char *str);
+void			set_commands(t_ch player, t_com *commands);
+void			work_with_command(char *q, t_com **commands, t_valid validator);
+void			wokr_with_label(char *q, t_com **commands, t_valid validator);
+void			set_player(t_ch *player, char *str);
+void			init_line(char **line, char **q);
+int				ft_strsubpos(char *str, char c);
 #endif //COREWAR_AWM_H

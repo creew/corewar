@@ -35,10 +35,22 @@ void	add_with_n_comment(t_ch *player, char *str)
 
     line = NULL;
     if (!player->comment && *str != '"')
-        player->comment = ft_strdup(str);
+	{
+		player->comment = ft_strdup(str);
+		s = ft_strdup(player->comment);
+		free(player->comment);
+		player->comment = ft_strjoin(s, "\n");
+		free(s);
+	}
     else if (*str != '"')
     {
-        line = ft_strjoin(str, "\n");
+		i = 0;
+		while (str[i] != '\0' && str[i] != '"')
+			i++;
+		if (str[i] == '\0')
+			line = ft_strjoin(ft_strsub(str, 0, ft_strsubpos(str, '"')), "\n");
+		else
+			line = ft_strdup(ft_strsub(str, 0, i));
         s = ft_strdup(player->comment);
         free(player->comment);
         player->comment = ft_strjoin(s, line);
@@ -104,10 +116,22 @@ void	add_with_n_name(t_ch *player, char *str)
 
     line = NULL;
     if (!player->name && *str != '"')
-        player->name = ft_strdup(str);
+	{
+		player->name = ft_strdup(str);
+		s = ft_strdup(player->name);
+		free(player->name);
+		player->name = ft_strjoin(s, "\n");
+		free(s);
+	}
     else if (*str != '"')
     {
-        line = ft_strjoin(str, "\n");
+		i = 0;
+		while (str[i] != '\0' && str[i] != '"')
+			i++;
+		if (str[i] == '\0')
+        	line = ft_strjoin(ft_strsub(str, 0, ft_strsubpos(str, '"')), "\n");
+		else
+			line = ft_strdup(ft_strsub(str, 0, i));
         s = ft_strdup(player->name);
         free(player->name);
         player->name = ft_strjoin(s, line);

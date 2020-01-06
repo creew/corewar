@@ -18,33 +18,27 @@ void	init_validator(t_valid *validator)
     validator->valid_com[13] = &valid_lldi;
     validator->valid_com[14] = &valid_lfork;
     validator->valid_com[15] = &valid_aff;
+	init_command(validator);
 }
 
-void	init_command(void)
+void	init_command(t_valid *validator)
 {
-    ft_strcpy(can_use_command[0],"live");
-    ft_strcpy(can_use_command[1], "ld");
-    ft_strcpy(can_use_command[2], "st");
-    ft_strcpy(can_use_command[3], "add");
-    ft_strcpy(can_use_command[4], "sub");
-    ft_strcpy(can_use_command[5], "and");
-    ft_strcpy(can_use_command[6], "or");
-    ft_strcpy(can_use_command[7], "xor");
-    ft_strcpy(can_use_command[8], "zjmp");
-    ft_strcpy(can_use_command[9], "ldi");
-    ft_strcpy(can_use_command[10], "sti");
-    ft_strcpy(can_use_command[11], "fork");
-    ft_strcpy(can_use_command[12], "lld");
-    ft_strcpy(can_use_command[13], "lldi");
-    ft_strcpy(can_use_command[14], "lfork");
-    ft_strcpy(can_use_command[15], "aff");
-}
-
-void	init_args(void)
-{
-    ft_strcpy(can_use_args[0],"T_REG");
-    ft_strcpy(can_use_args[1],"T_DIR");
-    ft_strcpy(can_use_args[2],"T_INT");
+    ft_strcpy(validator->can_use_command[0],"live");
+    ft_strcpy(validator->can_use_command[1], "ld");
+    ft_strcpy(validator->can_use_command[2], "st");
+    ft_strcpy(validator->can_use_command[3], "add");
+    ft_strcpy(validator->can_use_command[4], "sub");
+    ft_strcpy(validator->can_use_command[5], "and");
+    ft_strcpy(validator->can_use_command[6], "or");
+    ft_strcpy(validator->can_use_command[7], "xor");
+    ft_strcpy(validator->can_use_command[8], "zjmp");
+    ft_strcpy(validator->can_use_command[9], "ldi");
+    ft_strcpy(validator->can_use_command[10], "sti");
+    ft_strcpy(validator->can_use_command[11], "fork");
+    ft_strcpy(validator->can_use_command[12], "lld");
+    ft_strcpy(validator->can_use_command[13], "lldi");
+    ft_strcpy(validator->can_use_command[14], "lfork");
+    ft_strcpy(validator->can_use_command[15], "aff");
 }
 
 t_com	*lst_create_commands(void)
@@ -60,4 +54,13 @@ t_com	*lst_create_commands(void)
     commands->next = NULL;
     commands->count_args = 0;
     return (commands);
+}
+
+void	init_line(char **line, char **q)
+{
+	delete_comment(*line);
+	ft_delete_tabs(*line);
+	*q = ft_strtrim(*line);
+	clear_line(line);
+	*line = *q;
 }

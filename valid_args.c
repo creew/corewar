@@ -61,7 +61,7 @@ int		valid_args(t_com *commands, t_valid validator)
     int	i;
 
     i = 0;
-    while (i < 15 && ft_strcmp(can_use_command[i], commands->name) != 0)
+    while (i < 15 && ft_strcmp(validator.can_use_command[i], commands->name) != 0)
         i++;
     if (validator.valid_com[i](commands))
         return (1);
