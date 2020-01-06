@@ -53,7 +53,7 @@ static int	check_ind(t_op *op, t_uint id, t_process *pr, t_runner *runner)
 	int		valid;
 
 	valid = INVALID;
-	if (op->args[id] & IND_CODE)
+	if (op->args[id] & T_IND)
 	{
 		runner->args[id] = read_be_map(runner->field, pr->pc + runner->skip
 			, IND_SIZE, 1);
@@ -115,7 +115,7 @@ int			check_arguments(t_process *pr, t_runner *run, int index)
 	i = -1;
 	while (++i < op->args_count)
 	{
-		if (check_one_type(op, i, pr, run) != 0)
+		if (check_one_type(op, i, pr, run) != VALID)
 			valid = INVALID;
 	}
 	return (valid);

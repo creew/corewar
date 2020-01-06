@@ -151,7 +151,6 @@ long		read_be_map(const t_fieldelem *data, long offset,
 						t_uint size, int boolean);
 void		set_field_vals(t_fieldelem *field, long pos, t_process *pr, long reg);
 
-t_op		*get_op_by_id(int id);
 int			check_arguments(t_process *pr, t_runner *run, int index);
 void		process_processes(t_vm *vm);
 

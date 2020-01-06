@@ -11,21 +11,7 @@
 /* ************************************************************************** */
 
 #include "vm.h"
-
 #include <ft_printf.h>
-
-t_op	*get_op_by_id(int id)
-{
-	t_uint	i;
-
-	i = -1;
-	while (op_tab[++i].name)
-	{
-		if (op_tab[i].opcode == id)
-			return (op_tab + i);
-	}
-	return (NULL);
-}
 
 void (*g_asm_funcs[])(t_vm *, t_process *pr, t_runner *run) = {
 	process_live_run,

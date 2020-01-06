@@ -90,3 +90,5 @@ typedef struct		s_op
 	int 			is_tdir_2bytes;
 }					t_op;
 #endif
+
+t_op	*get_op_by_id(int id);

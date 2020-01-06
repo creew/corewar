@@ -38,3 +38,16 @@ t_op    op_tab[17] =
 	{"aff", 1, {T_REG}, 16, 2, "aff", 1, 0},
 	{0, 0, {0}, 0, 0, 0, 0, 0}
 };
+
+t_op	*get_op_by_id(int id)
+{
+	int		i;
+
+	i = -1;
+	while (op_tab[++i].name)
+	{
+		if (op_tab[i].opcode == id)
+			return (op_tab + i);
+	}
+	return (0);
+}

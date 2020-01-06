@@ -21,6 +21,8 @@ void 	process_live_run(t_vm *vm, t_process *pr, t_runner *run)
 	pr->cycle_live = vm->cycles;
 	vm->live++;
 	ex = ft_array_get(&vm->players, -run->args[A1] - 1, (void **)&pl);
+	if (vm->debug_args & VERB_SHOW_OPERATIONS)
+		ft_printf("P% 5d | live %d\n", pr->id, run->args[A1]);
 	if (!ex)
 	{
 		if (!vm->do_debug)
@@ -33,8 +35,6 @@ void 	process_live_run(t_vm *vm, t_process *pr, t_runner *run)
 			ft_printf("Player %d (%s) is said to be alive\n",
 				pl->player_id, pl->name);
 	}
-	if (vm->debug_args & VERB_SHOW_OPERATIONS)
-		ft_printf("P% 5d | live %d\n", pr->id, run->args[A1]);
 }
 
 void 	process_ld_run(t_vm *vm, t_process *pr, t_runner *run)
@@ -70,7 +70,6 @@ void 	process_st_run(t_vm *vm, t_process *pr, t_runner *run)
 			ft_printf("P% 5d | st r%ld %ld\n", pr->id,
 				run->args[A1] + 1, run->args[A2]);
 	}
-
 }
 
 void 	process_add_run(t_vm *vm, t_process *pr, t_runner *run)

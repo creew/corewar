@@ -36,7 +36,7 @@ static int	create_window(t_vis *vis)
 		SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 	if (vis->window == NULL)
 	{
-		print_sdl_error("SDL_CreateWindow");
+		print_sdl_error(SDL_GetError());
 		return (1);
 	}
 	SDL_SetWindowMinimumSize(vis->window, 1000, 600);
@@ -65,7 +65,7 @@ int			init_sdl(t_vis *vis)
 	vis->wheight = 600;
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_EVENTS) != 0)
 	{
-		print_sdl_error("Init");
+		print_sdl_error(SDL_GetError());
 		return (1);
 	}
 	if (create_window(vis) != 0)

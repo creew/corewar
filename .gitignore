@@ -3,6 +3,7 @@
 /libft/libft.a
 *.cor
 *.s
+*.o
 /libft/objs
 /vm/cmake-build-debug
 /vm/corewar
