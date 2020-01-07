@@ -16,15 +16,16 @@
 void 	process_live_run(t_vm *vm, t_process *pr, t_runner *run)
 {
 	t_player	*pl;
-	int 		ex;
+	long 		index;
 
 	pr->cycle_live = vm->cycles;
 	vm->live++;
-	ex = ft_array_get(&vm->players, -run->args[A1] - 1, (void **)&pl);
 	if (vm->debug_args & VERB_SHOW_OPERATIONS)
-		ft_printf("P% 5d | live %d\n", pr->id, run->args[A1]);
-	if (!ex)
+		ft_printf("P% 5d | live %ld\n", pr->id, run->args[A1]);
+	index = -run->args[A1];
+	if (index >= 1 && index <= (int)vm->count_players)
 	{
+		pl = vm->players[index - 1];
 		if (!vm->do_debug)
 			ft_printf("A process shows that player %d (%s) is alive\n",
 				-run->args[A1], pl->name);

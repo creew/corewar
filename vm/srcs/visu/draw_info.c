@@ -13,7 +13,8 @@
 #include "vm.h"
 #include "ft_printf.h"
 
-void				draw_info_string(t_vis *vis, const char *str, int index, SDL_Color color)
+void				draw_info_string(t_vis *vis, const char *str, int index,
+	SDL_Color color)
 {
 	SDL_Point	xy;
 
@@ -59,7 +60,7 @@ void				draw_state(t_vis *vis, t_vm *vm)
 
 int				draw_player_info(t_vis *vis, t_vm *vm)
 {
-	int			i;
+	size_t		i;
 	t_player	*player;
 	int 		start_index;
 	char	  	buf[32];
@@ -68,8 +69,9 @@ int				draw_player_info(t_vis *vis, t_vm *vm)
 	color = get_color(255, 255, 255, 255);
 	start_index = 13;
 	i = -1;
-	while (ft_array_get(&vm->players, ++i, (void **)&player) == 0)
+	while (++i < vm->count_players)
 	{
+		player = vm->players[i];
 		ft_snprintf(buf, sizeof(buf), "Player -%d : %s", player->player_id,
 			player->name);
 		draw_info_string(vis, buf, start_index, g_colors[player->player_id]);

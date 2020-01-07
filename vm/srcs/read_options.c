@@ -12,28 +12,24 @@
 
 #include "vm.h"
 
-static int			is_player_index_free(t_arrplayers *arr, int player_id)
+int				is_player_index_free(t_player **arr, int player_id, size_t size)
 {
-	size_t		index;
-	t_player	*pl;
-
-	index = -1;
-	while (ft_array_get(arr, ++index, (void **)&pl) == 0)
+	if (player_id <= (int)(size / sizeof(arr[0])) && player_id >= 1)
 	{
-		if (pl->player_id == player_id)
-			return (0);
+		if (arr[player_id - 1] == NULL)
+			return (1);
 	}
-	return (1);
+	return (0);
 }
 
-static t_result		get_next_free_index(t_arrplayers *arr, int *player_id)
+t_result		get_next_free_index(t_player **arr, int *player_id, size_t size)
 {
-	int			i;
+	size_t		i;
 
 	i = 0;
-	while (++i <= MAX_PLAYERS)
+	while (++i <= size / sizeof(arr[0]))
 	{
-		if (is_player_index_free(arr, i))
+		if (is_player_index_free(arr, i, size))
 		{
 			*player_id = i;
 			return (RET_OK);
@@ -42,78 +38,20 @@ static t_result		get_next_free_index(t_arrplayers *arr, int *player_id)
 	return (ERR_CANT_ASSIGN_INDEX);
 }
 
-static t_result		parse_arg(t_vm *vm, int *index, int ac, char *av[])
+static t_result	check_order(t_player **arr, size_t count)
 {
-	int			res;
-	t_player	*player;
-	t_result	err;
+	size_t		i;
 
-	err = RET_OK;
-	if (!ft_strcmp(av[*index], "-dump"))
+	i = -1;
+	while (++i < count)
 	{
-		if (*index + 1 < ac && ft_safe_atoi(av[*index + 1], &vm->dump_n) ==
-			FT_ATOI_OK && vm->dump_n >= 0)
-		{
-			vm->do_dump = 1;
-			(*index)++;
-		}
-		else
-		{
-			return (ERR_INCORRECT_DUMPARG);
-		}
-	}
-	else if (!ft_strcmp(av[*index], "-n"))
-	{
-		if (*index + 2 < ac && ft_safe_atoi(av[*index + 1], &res) ==
-			FT_ATOI_OK && res >= 1 && res <= MAX_PLAYERS &&
-			is_player_index_free(&vm->players, res))
-		{
-			if ((err = read_champ(av[*index + 2], &player, res)) == RET_OK)
-			{
-				ft_array_add(&vm->players, player);
-				(*index)++;
-			}
-			else
-			{
-				return (err);
-			}
-		}
-		else
-		{
-			return (ERR_INCORRECT_NARG);
-		}
-	}
-    else if (!ft_strcmp(av[*index], "-v"))
-    {
-        vm->visualize = 1;
-    }
-    else if (!ft_strcmp(av[*index], "-d"))
-	{
-    	vm->do_debug = 1;
-    	if (*index + 1 < ac &&ft_safe_atoi(av[*index + 1], &res) ==
-    		FT_ATOI_OK && res >= 0 && res <= FT_INTMAX)
-		{
-    		vm->debug_args = res;
-			(*index)++;
-		}
-		else
-		{
-			return (ERR_INCORRECT_DARG);
-		}
-	}
-	else
-	{
-		if ((err = get_next_free_index(&vm->players, &res)) != RET_OK)
-			return (err);
-		if ((err = read_champ(av[*index], &player, res)) == RET_OK)
-			ft_array_add(&vm->players, player);
-		else
-			return (err);
+		if (arr[i] == NULL)
+			return (ERR_INCORRECT_ORDER_PLAYERS);
 	}
 	return (RET_OK);
 }
 
-t_result			read_option(t_vm *vm, int ac, char *av[])
+t_result		read_option(t_vm *vm, int ac, char *av[])
 {
 	int			count;
 	t_result	res;
@@ -127,7 +65,11 @@ t_result			read_option(t_vm *vm, int ac, char *av[])
 			return (res);
 		count++;
 	}
-	if (ft_array_size(&vm->players) < 2)
+	if (vm->count_players < 2)
 		return (ERR_TO_LITTLE_PLAYERS);
+	if (vm->count_players > MAX_PLAYERS)
+		return (ERR_TO_MUCH_PLAYERS);
+	if ((res = check_order(vm->players, vm->count_players)) != RET_OK)
+		return (res);
 	return (RET_OK);
 }

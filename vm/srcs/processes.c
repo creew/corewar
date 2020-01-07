@@ -13,7 +13,7 @@
 #include "vm.h"
 #include <ft_printf.h>
 
-void (*g_asm_funcs[])(t_vm *, t_process *pr, t_runner *run) = {
+static void (*g_asm_funcs[])(t_vm *, t_process *pr, t_runner *run) = {
 	process_live_run,
 	process_ld_run,
 	process_st_run,
@@ -32,7 +32,7 @@ void (*g_asm_funcs[])(t_vm *, t_process *pr, t_runner *run) = {
 	process_aff_run
 };
 
-void	process_waiting(t_vm *vm, t_process *pr)
+static void		process_waiting(t_vm *vm, t_process *pr)
 {
 	t_runner	run;
 
@@ -56,70 +56,77 @@ void	process_waiting(t_vm *vm, t_process *pr)
 	}
 }
 
-void	set_cycle_to_die(t_vm *vm)
+static void		remove_unlive(t_vm *vm)
 {
-	vm->cycle_to_die = vm->cycle_to_die - CYCLE_DELTA;
-	if (vm->cycle_to_die < 1)
-		vm->cycle_to_die = 1;
-	vm->checks = 0;
-	if (vm->debug_args & VERB_SHOW_CYCLES)
-		ft_printf("Cycle to die is now %zu\n", vm->cycle_to_die);
+	t_process	*pr;
+	t_process	*next;
+
+	pr = vm->processes_root;
+	while (pr)
+	{
+		next = pr->next;
+		if (vm->cycles - pr->cycle_live >= (vm->cycle_to_die >= 0 ? vm->cycle_to_die : 0))
+		{
+			if (vm->debug_args & VERB_SHOW_DEATHS)
+				ft_printf("Process %zu hasn't lived for %d cycles (CTD %d)\n",
+						  pr->id, vm->cycles - pr->cycle_live, vm->cycle_to_die);
+			remove_process(&vm->processes_root, pr);
+		}
+		pr = next;
+	}
 }
 
+static void		check_ctd(t_vm *vm)
+{
+	size_t		i;
+
+	remove_unlive(vm);
+	if (vm->live >= NBR_LIVE || ++vm->checks == MAX_CHECKS)
+	{
+		vm->cycle_to_die = vm->cycle_to_die - CYCLE_DELTA;
+		vm->checks = 0;
+		if (vm->debug_args & VERB_SHOW_CYCLES)
+			ft_printf("Cycle to die is now %d\n", vm->cycle_to_die);
+	}
+	vm->cycles_check = vm->cycle_to_die > 1 ? vm->cycle_to_die : 1;
+	vm->live = 0;
+	i = -1;
+	while (++i < vm->count_players)
+		vm->players[i]->live_in_session = 0;
+}
+
+static void		do_process(t_vm *vm, t_process *pr)
+{
+	t_uchar		id;
+	t_op		*op;
+
+	if (pr->state == NOT_INITED)
+	{
+		id = read_be_map(vm->field, pr->pc, 1, 0);
+		if ((op = get_op_by_id(id)) != NULL)
+			pr->wait = op->wait;
+		else
+			pr->wait = 0;
+		pr->state = WAITING;
+		pr->opcode = id;
+	}
+	if (pr->state == WAITING)
+		process_waiting(vm, pr);
+}
 
 void	process_processes(t_vm *vm)
 {
 	t_process	*pr;
-	t_uchar		id;
-	t_op		*op;
-	t_process	*next;
-	t_player	*pl;
-	size_t		i;
 
-	pr = vm->processes_root;
 	vm->cycles_check--;
 	if (vm->debug_args & VERB_SHOW_CYCLES)
 		ft_printf("It is now cycle %zu\n", vm->cycles);
+	pr = vm->processes_root;
 	while (pr)
 	{
-		next = pr->next;
-		if (pr->state == NOT_INITED)
-		{
-			id = read_be_map(vm->field, pr->pc, 1, 0);
-			if ((op = get_op_by_id(id)) != NULL)
-				pr->wait = op->wait;
-			else
-				pr->wait = 0;
-			pr->state = WAITING;
-			pr->opcode = id;
-		}
-		if (pr->state == WAITING)
-			process_waiting(vm, pr);
-		if (!vm->cycles_check)
-		{
-			if (vm->cycles - pr->cycle_live >= vm->cycle_to_die)
-			{
-				if (vm->debug_args & VERB_SHOW_DEATHS)
-					ft_printf("Process %zu hasn't lived for %d cycles (CTD %d)\n",
-							  pr->id, vm->cycles - pr->cycle_live, vm->cycle_to_die);
-				remove_process(&vm->processes_root, pr);
-			}
-		}
-		pr = next;
+		do_process(vm, pr);
+		pr = pr->next;
 	}
 	if (!vm->cycles_check)
-	{
-		if (vm->live >= NBR_LIVE)
-			set_cycle_to_die(vm);
-		else
-		{
-			if (++vm->checks == MAX_CHECKS)
-				set_cycle_to_die(vm);
-		}
-		vm->cycles_check = vm->cycle_to_die;
-		vm->live = 0;
-		i = -1;
-		while (ft_array_get(&vm->players, ++i, (void **)&pl) == 0)
-			pl->live_in_session = 0;
-	}
+		check_ctd(vm);
 }

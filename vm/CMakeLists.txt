@@ -31,20 +31,19 @@ add_executable(vm
         ./srcs/visu/process.c
         ./srcs/visu/draw_all.c
         ./srcs/visu/draw_info.c
-        ./srcs/create_dump.c)
+        ./srcs/create_dump.c srcs/parse_arg.c srcs/errors.c)
 
 add_dependencies(vm libft_target)
 add_dependencies(vm ft_printf_target)
 
 find_library(SDL2s SDL2 ~/.brew/lib)
-find_library(SDL2i SDL2_image ~/.brew/lib)
 find_library(SDL2t SDL2_ttf ~/.brew/lib)
 find_library(SDL2g SDL2_gfx ~/.brew/lib)
 
 find_library(FT ft ${PROJECT_SOURCE_DIR}/../libft)
 find_library(FT_PRINTF ftprintf ${PROJECT_SOURCE_DIR}/../ft_printf)
 
-target_link_libraries(vm PUBLIC ${SDL2s} ${SDL2i} ${SDL2t} ${SDL2g})
+target_link_libraries(vm PUBLIC ${SDL2s} ${SDL2t} ${SDL2g})
 target_link_libraries(vm PUBLIC ${FT})
 target_link_libraries(vm PUBLIC ${FT_PRINTF})
 

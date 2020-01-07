@@ -14,7 +14,9 @@ ALL_C =	check_arguments.c \
 		control.c \
 		create_dump.c \
 		dl_list.c \
+		errors.c \
 		game_field.c \
+		parse_arg.c \
 		processes.c \
 		read_be.c \
 		read_champ.c \
@@ -64,7 +66,6 @@ LIB_DIR_FLAG = $(addprefix -L,$(LIB_DIR))
 LIBS = 		ft \
 			ftprintf \
 			SDL2 \
-			SDL2_image \
 			SDL2_ttf \
 			SDL2_gfx \
 			m

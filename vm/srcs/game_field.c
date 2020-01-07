@@ -31,16 +31,16 @@ void		init_vm(t_vm *vm)
 {
 	t_uint 		i;
 	t_uint		j;
-	size_t		size;
 	t_player	*pl;
 	t_uint		start;
 
 	vm->process_max = 1;
 	i = -1;
-	size = ft_array_size(&vm->players);
-	while (ft_array_get(&vm->players, ++i, (void **)&pl) == 0)
+	while (++i < vm->count_players)
 	{
-		start = ((sizeof(vm->field) / sizeof (*vm->field)) / size) * i;
+		pl = vm->players[i];
+		start = ((sizeof(vm->field) / sizeof (*vm->field)) / vm->count_players)
+			* i;
 		j = -1;
 		while (++j < pl->prog_size)
 		{
@@ -52,6 +52,5 @@ void		init_vm(t_vm *vm)
 	vm->state = RUNNING;
 	vm->cycle_to_die = CYCLE_TO_DIE;
 	vm->cycles_check = vm->cycle_to_die;
-	vm->live = 0;
 	init_visu(vm);
 }

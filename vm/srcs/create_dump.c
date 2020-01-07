@@ -9,10 +9,10 @@ static void		print_one_line(t_fieldelem *elem, int size, int pos)
 {
 	int		i;
 
-	ft_printf("0x%04X:", pos);
+	ft_printf("0x%04x :", pos);
 	i = -1;
 	while (++i < size)
-		ft_printf(" %02X", elem[i].cmd);
+		ft_printf(" %02x", elem[i].cmd);
 	ft_printf("\n");
 }
 

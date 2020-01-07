@@ -23,9 +23,10 @@ typedef enum
 	ERR_CHAMP_TO_BIG,
 	ERR_ENOMEM,
 	ERR_READ_BODY_CHAMP,
-	ERR_TO_MUCH_PLAYERS,
 	ERR_NO_ARGUMENTS,
 	ERR_TO_LITTLE_PLAYERS,
+    ERR_TO_MUCH_PLAYERS,
+    ERR_INCORRECT_ORDER_PLAYERS,
 	ERR_INCORRECT_DUMPARG,
 	ERR_INCORRECT_NARG,
 	ERR_INCORRECT_DARG,
@@ -33,4 +34,12 @@ typedef enum
 	RET_OK = 0,
 }	t_result;
 
+typedef struct		s_errdesc
+{
+	t_result	res;
+	char		*name;
+}					t_errdesc;
+
+char	*get_error(t_result err);
+void	print_error(t_result res);
 #endif

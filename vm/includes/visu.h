@@ -15,7 +15,6 @@
 
 # include <SDL.h>
 # include <SDL_ttf.h>
-# include <SDL_image.h>
 # include "op.h"
 
 # define FIELD_FONT		"monaco.ttf"

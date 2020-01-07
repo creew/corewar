@@ -23,8 +23,6 @@ typedef unsigned long	t_ulong;
 typedef unsigned short	t_ushort;
 typedef unsigned char	t_uchar;
 
-typedef	t_ftarray		t_arrplayers;
-
 extern t_op    op_tab[17];
 
 typedef enum {
@@ -79,14 +77,6 @@ typedef struct		s_process
 	int 				cycle_live;
 }					t_process;
 
-typedef struct		s_color
-{
-	t_uchar			r;
-	t_uchar			g;
-	t_uchar			b;
-	t_uchar			a;
-}					t_color;
-
 typedef struct		s_player {
 	int				player_id;
 	char			name[PROG_NAME_LENGTH + 1];
@@ -98,7 +88,8 @@ typedef struct		s_player {
 }					t_player;
 
 typedef struct		s_vm {
-	t_arrplayers	players;
+	t_player		*players[MAX_PLAYERS];
+	size_t 			count_players;
 	t_player        *last_player;
 	t_process		*processes_root;
 	size_t			process_max;
@@ -171,8 +162,12 @@ void 		process_lldi_run(t_vm *vm, t_process *pr, t_runner *run);
 void 		process_lfork_run(t_vm *vm, t_process *pr, t_runner *run);
 void 		process_aff_run(t_vm *vm, t_process *pr, t_runner *run);
 
-
 void		draw_info(t_vis *vis, t_vm *vm);
 
 void		create_dump(t_vm *vm, int chars_in_line);
+
+t_result	get_next_free_index(t_player **arr, int *player_id, size_t size);
+int			is_player_index_free(t_player **arr, int player_id, size_t size);
+
+t_result	parse_arg(t_vm *vm, int *index, int ac, char *av[]);
 #endif

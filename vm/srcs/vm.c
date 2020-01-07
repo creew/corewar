@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "vm.h"
-
 #include <ft_printf.h>
 
 static void		infinite_loop(t_vm *vm)
@@ -20,7 +19,7 @@ static void		infinite_loop(t_vm *vm)
     {
 		if (vm->do_dump && vm->dump_n == vm->cycles)
 		{
-			create_dump(vm, 32);
+			create_dump(vm, 64);
 			break ;
 		}
 		if (vm->visualize)
@@ -48,25 +47,27 @@ static void		infinite_loop(t_vm *vm)
     }
 }
 
-static void		print_players(t_arrplayers *players)
+static void		print_players(t_player **players, size_t count)
 {
 	size_t		index;
 	t_player	*pl;
 
 	index = -1;
-	while ((ft_array_get(players, ++index, (void **)&pl)) == 0)
+	while (++index < count)
+	{
+		pl = players[index];
 		ft_printf("* Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n",
 			pl->player_id, pl->prog_size, pl->name, pl->comment);
+	}
 }
 
 void			destroy_all(t_vm *vm)
 {
-	t_arrplayers	*players;
 	t_process		*pr;
 	t_process		*prnext;
 
-	players = &vm->players;
-	ft_array_delete_all(&players, free);
+	while (vm->count_players--)
+		ft_memdel((void **)&vm->players[vm->count_players]);
 	pr = vm->processes_root;
 	vm->processes_root = NULL;
 	while (pr)
@@ -84,14 +85,15 @@ int				main(int ac, char *av[])
 	t_result	res;
 
 	ft_bzero(&vm, sizeof(vm));
-	ft_array_init(&vm.players, 0);
 	if ((res = read_option(&vm, ac, av)) == RET_OK)
 	{
 		init_vm(&vm);
 		ft_printf("Introducing contestants...\n");
-		print_players(&vm.players);
+		print_players(vm.players, vm.count_players);
 		infinite_loop(&vm);
 	}
+	else
+		print_error(res);
 	destroy_all(&vm);
 	return (0);
 }
