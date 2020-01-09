@@ -13,7 +13,7 @@ static void		print_one_line(t_fieldelem *elem, int size, int pos)
 	i = -1;
 	while (++i < size)
 		ft_printf(" %02x", elem[i].cmd);
-	ft_printf("\n");
+	ft_printf(" \n");
 }
 
 void			create_dump(t_vm *vm, int chars_in_line)

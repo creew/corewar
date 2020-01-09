@@ -35,6 +35,7 @@ static void (*g_asm_funcs[])(t_vm *, t_process *pr, t_runner *run) = {
 static void		process_waiting(t_vm *vm, t_process *pr)
 {
 	t_runner	run;
+	int         i;
 
 	if (pr->wait > 0)
 		pr->wait--;
@@ -45,7 +46,17 @@ static void		process_waiting(t_vm *vm, t_process *pr)
 		{
 			run.field = vm->field;
 			if (check_arguments(pr, &run, pr->opcode) == 0)
-				g_asm_funcs[pr->opcode - 1](vm, pr, &run);
+            {
+			    g_asm_funcs[pr->opcode - 1](vm, pr, &run);
+			    if (vm->debug_args & VERB_SHOW_MOVES && run.skip)
+                {
+			        ft_printf("ADV %d (0x%04x -> 0x%04x) ", run.skip, pr->pc, pr->pc + run.skip);
+			        i = -1;
+			        while (++i < run.skip)
+			            ft_printf("%02x ", run.field[(pr->pc + i) % MEM_SIZE].cmd);
+			        ft_printf("\n");
+                }
+            }
 		}
 		pr->pc += run.skip;
 		if (pr->pc < 0)
