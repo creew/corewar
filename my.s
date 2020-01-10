@@ -1,20 +1,8 @@
-.name "zork
-f
-f
-asd
-"
-.comment "I'M ALIII
-IVEas
-"
 
-#r_asm accept name & comment that contain \n in between the string, it will be treated as a whitespace.
-#our_asm didn't accept it
+.name "123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.12345678"
+.comment "just a basic living prog"
 
-
-lele:
-
-lex:
-
-live	%1
-
-
+l2:		sti r1,%:live,%1
+		and r1,%0,r1
+live:   live %1
+		zjmp %:live

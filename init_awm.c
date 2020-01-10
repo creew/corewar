@@ -52,6 +52,7 @@ t_com	*lst_create_commands(void)
     commands->label = NULL;
     commands->name = NULL;
     commands->next = NULL;
+    commands->row = 0;
     commands->count_args = 0;
     return (commands);
 }

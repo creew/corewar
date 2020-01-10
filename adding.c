@@ -6,25 +6,25 @@ void	add_comment(char *str, t_ch *player)
 
     i = 1;
     if (player->comment != NULL)
-        ft_exit();
+        ft_exit2("коммент уже существует", player->row);
     while (*str != '"' && *str != '\0')
         str++;
     if (*str == '\0')
-        ft_exit();
+		ft_exit2("ожидалось имя чемпиона в символах \" \"",  player->row);
     while (str[i] != '"' && str[i] != '\0')
         i++;
     if (str[i] == '\0')
     {
         add_with_n_comment(player, ft_strdup(1 + str));
-        if (ft_strlen(player->comment) >= COMMENT_LENGTH)
-            ft_exit();
+        if (ft_strlen(player->comment) > COMMENT_LENGTH)
+            ft_exit2("длина комментария слишком большая", player->row);
         return;
     }
     if (str[i + 1] && str[i + 1] != '\0')
-        ft_exit();
+        ft_exit2("ожидлася конец строки после комментария", player->row);
     player->comment = ft_strsub(str, 1, i - 1);
-    if (ft_strlen(player->comment) >= COMMENT_LENGTH)
-        ft_exit();
+    if (ft_strlen(player->comment) > COMMENT_LENGTH)
+		ft_exit2("длина комментария слишком большая", player->row);
 }
 
 void	add_with_n_comment(t_ch *player, char *str)
@@ -34,48 +34,21 @@ void	add_with_n_comment(t_ch *player, char *str)
     char *s;
 
     line = NULL;
-    if (!player->comment && *str != '"')
-	{
-		player->comment = ft_strdup(str);
-		s = ft_strdup(player->comment);
-		free(player->comment);
-		player->comment = ft_strjoin(s, "\n");
-		free(s);
-	}
-    else if (*str != '"')
+    if (*str != '"')
     {
 		i = 0;
 		while (str[i] != '\0' && str[i] != '"')
 			i++;
-		if (str[i] == '\0')
-			line = ft_strjoin(ft_strsub(str, 0, ft_strsubpos(str, '"')), "\n");
-		else
-			line = ft_strdup(ft_strsub(str, 0, i));
+		line = (str[i] == '\0') ?
+			ft_strjoin(str, "\n") :
+				ft_strsub(str, 0, i);
         s = ft_strdup(player->comment);
         free(player->comment);
-        player->comment = ft_strjoin(s, line);
+        player->comment = s ? ft_strjoin(s, line) : ft_strdup(line);
         free(s);
         free(line);
     }
-    i = 0;
-    while (str[i] != '\0' && str[i] != '"')
-        i++;
-    free(str);
-    if (str[i] == '\0')
-    {
-        get_next_line(player->fd, &line);
-        add_with_n_comment(player, line);
-    }
-    if (str[i] == '"')
-    {
-        i++;
-        while (str[i] != '\0')
-        {
-            if (str[i] != ' ' && str[i] != '\t')
-                ft_exit();
-            i++;
-        }
-    }
+	end_name_or_comment(&str, i, &line, player);
 }
 
 void	add_name(char *str, t_ch *player)
@@ -84,29 +57,25 @@ void	add_name(char *str, t_ch *player)
 
     i = 1;
     if (player->name != NULL)
-        ft_exit();
+        ft_exit2("имя уже существует", player->row);
     while (*str != '"' && *str != '\0')
         str++;
     if (*str == '\0')
-        ft_exit();
+        ft_exit2("ожидалось имя чемпиона в символах \" \"",  player->row);
     while (str[i] != '"' && str[i] != '\0')
         i++;
     if (str[i] == '\0')
     {
         add_with_n_name(player, ft_strdup(1 + str));
-        if (ft_strlen(player->name) > PROG_NAME_LENGTH)
-            ft_exit();
+		if (ft_strlen(player->name) > PROG_NAME_LENGTH)
+			ft_exit2("длина имени слишком большая", player->row);
         return;
     }
-    if (str[i] == '\0')
-        ft_exit();
-    if (str[i + 1] && str[i + 1] != '\0')
-        ft_exit();
+    (str[i + 1] && str[i + 1] != '\0') ? ft_exit2("ожидался конец строки после имени", player->row) : 0;
     player->name = ft_strsub(str, 1, i - 1);
-    if (ft_strlen(player->name) > PROG_NAME_LENGTH)
-        ft_exit();
+	if (ft_strlen(player->name) > PROG_NAME_LENGTH)
+		ft_exit2("длина имени слишком большая", player->row);
 }
-
 
 void	add_with_n_name(t_ch *player, char *str)
 {
@@ -115,51 +84,24 @@ void	add_with_n_name(t_ch *player, char *str)
     char *s;
 
     line = NULL;
-    if (!player->name && *str != '"')
-	{
-		player->name = ft_strdup(str);
-		s = ft_strdup(player->name);
-		free(player->name);
-		player->name = ft_strjoin(s, "\n");
-		free(s);
-	}
-    else if (*str != '"')
+    if (*str != '"')
     {
 		i = 0;
 		while (str[i] != '\0' && str[i] != '"')
 			i++;
-		if (str[i] == '\0')
-        	line = ft_strjoin(ft_strsub(str, 0, ft_strsubpos(str, '"')), "\n");
-		else
-			line = ft_strdup(ft_strsub(str, 0, i));
+		line = (str[i] == '\0') ?
+				ft_strjoin(str, "\n") :
+					ft_strsub(str, 0, i);
         s = ft_strdup(player->name);
         free(player->name);
-        player->name = ft_strjoin(s, line);
+        player->name = s ? ft_strjoin(s, line) : ft_strdup(line);
         free(s);
         free(line);
     }
-    i = 0;
-    while (str[i] != '\0' && str[i] != '"')
-        i++;
-    free(str);
-    if (str[i] == '\0')
-    {
-        get_next_line(player->fd, &line);
-        add_with_n_name(player, line);
-    }
-    if (str[i] == '"')
-    {
-        i++;
-        while (str[i] != '\0')
-        {
-            if (str[i] != ' ' && str[i] != '\t')
-                ft_exit();
-            i++;
-        }
-    }
+    end_name_or_comment(&str, i, &line, player);
 }
 
-void		add_args(char **line, t_com *commands)
+void		add_args(char **line, t_com *commands, t_ch player)
 {
     char **args;
     int		i;
@@ -174,26 +116,8 @@ void		add_args(char **line, t_com *commands)
     while (s[i] != '\0')
         i++;
     if (s[i - 1] == SEPARATOR_CHAR)
-        ft_exit();
+        ft_exit2("ожидался перенос строки", player.row);
     args = ft_my_strsplit(s, SEPARATOR_CHAR);
-    if (args[0])
-    {
-        commands->arg1 = ft_strtrim(args[0]);
-        commands->count_args++;
-        free(args[0]);
-    }
-    if (args[1])
-    {
-        commands->arg2 = ft_strtrim(args[1]);
-        commands->count_args++;
-        free(args[1]);
-    }
-    if (args[2])
-    {
-        commands->arg3 = ft_strtrim(args[2]);
-        commands->count_args++;
-        free(args[2]);
-    }
-    free(args);
+    adding_args(args, commands);
     free(q);
 }

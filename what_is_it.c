@@ -1,6 +1,6 @@
 #include "awm.h"
 
-int		is_command(char *line, t_valid validator)
+int		is_command(char *line, t_valid validator, int row)
 {
     char *str;
     int i;
@@ -9,7 +9,7 @@ int		is_command(char *line, t_valid validator)
     while (line[i] != ' ' && line[i] != '\0' && line[i] != DIRECT_CHAR && line[i] != '-')
         i++;
     str = ft_strsub(line, 0, i);
-    if (str && command_is_valid(str, validator))
+    if (str && command_is_valid(str, validator, row))
     {
         free(str);
         return (1);

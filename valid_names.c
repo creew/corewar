@@ -4,66 +4,68 @@ int		valid_labeles(t_com *head)
 {
     t_com *q;
     t_com *com;
-    int flag1;
-    int flag2;
-    int flag3;
+    int flag[3];
+	int row;
 
+	row = 0;
     com = head;
     while (com)
     {
-        flag1 = 0;
-        flag2 = 0;
-        flag3 = 0;
+    	row++;
+        flag[0] = 0;
+        flag[1] = 0;
+        flag[2] = 0;
         q = head;
+
         while (q)
         {
             if (com->arg1 && com->arg1[0] == '%' && com->arg1[1] == ':')
             {
-                flag1 == 0 ? flag1 = 1 : 0;
-                if (flag1 == 1 && label_is(com->arg1 + 2, q))
-                    flag1 = 2;
+                flag[0] == 0 ? flag[0] = 1 : 0;
+                if (flag[0] == 1 && label_is(com->arg1 + 2, q))
+                    flag[0] = 2;
             }
             if (com->arg1 && com->arg1[0] == ':')
             {
-                flag1 == 0 ? flag1 = 1 : 0;
-                if (flag1 == 1 && label_is(com->arg1 + 1, q))
-                    flag1 = 2;
+                flag[0] == 0 ? flag[0] = 1 : 0;
+                if (flag[0] == 1 && label_is(com->arg1 + 1, q))
+                    flag[0] = 2;
             }
             if (com->arg2 && com->arg2[0] == '%' && com->arg2[1] == ':')
             {
-                flag2 == 0 ? flag2 = 1 : 0;
-                if (flag2 == 1 && label_is(com->arg2 + 2, q))
-                    flag2 = 2;
+                flag[1] == 0 ? flag[1] = 1 : 0;
+                if (flag[1] == 1 && label_is(com->arg2 + 2, q))
+                    flag[1] = 2;
             }
             if (com->arg2 && com->arg2[0] == ':')
             {
-                flag2 == 0 ? flag2 = 1 : 0;
-                if (flag2 == 1 && label_is(com->arg2 + 1, q))
-                    flag2 = 2;
+                flag[1] == 0 ? flag[1] = 1 : 0;
+                if (flag[1] == 1 && label_is(com->arg2 + 1, q))
+                    flag[1] = 2;
             }
             if (com->arg3 && com->arg3[0] == '%' && com->arg3[1] == ':')
             {
-                flag3 == 0 ? flag3 = 1 : 0;
-                if (flag3 == 1 && label_is(com->arg3 + 2, q))
-                    flag3 =2;
+                flag[2] == 0 ? flag[2] = 1 : 0;
+                if (flag[2] == 1 && label_is(com->arg3 + 2, q))
+                    flag[2] = 2;
             }
             if (com->arg3 && com->arg3[0] == ':')
             {
-                flag3 == 0 ? flag3 = 1 : 0;
-                if (flag3 == 1 && label_is(com->arg3 + 1, q))
-                    flag3 = 2;
+                flag[2] == 0 ? flag[2] = 1 : 0;
+                if (flag[2] == 1 && label_is(com->arg3 + 1, q))
+                    flag[2] = 2;
             }
             if (!q->next)
                 break;
             q = q->next;
         }
-        if (flag1 == 1 || flag2 == 1 || flag3 == 1)
-            return (0);
+        if (flag[0] == 1 || flag[1] == 1 || flag[2] == 1)
+            return (com->row);
         if (!com->next)
             break;
         com = com->next;
     }
-    return (1);
+    return (-1);
 }
 
 int		valid_label(char *label)

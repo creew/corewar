@@ -43,3 +43,12 @@ void	ft_exit(void)
     ft_printf(RED("Error\n"));
     exit(0);
 }
+
+void	ft_exit2(char *str, int row)
+{
+	ft_printf(RED("ERROR"));
+	ft_printf(": %s\n ", str);
+	if (row > 0)
+		ft_printf("СТРОКА %d\n", row);
+	exit(0);
+}

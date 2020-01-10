@@ -14,6 +14,7 @@ typedef struct s_commands
 	char	*arg3;
 	char	*label;
 	int		count_args;
+	int		row;
 	struct s_commands *next;
 }			t_com;
 
@@ -22,6 +23,7 @@ typedef struct s_champ
 	char	*name;
 	char	*comment;
 	int		fd;
+	int		row;
 }				t_ch;
 
 typedef	struct	s_valid
@@ -64,18 +66,19 @@ int     		valid_sub(t_com *commands);
 int     		valid_and(t_com *commands);
 int     		valid_live(t_com *commands);
 int		        valid_arg_int(char *str);
-int     		is_command(char *line, t_valid validator);
+int     		is_command(char *line, t_valid validator, int row);
 int     		it_s_label(char *line);
-int     		command_is_valid(char *command, t_valid validator);
+int     		command_is_valid(char *command, t_valid validator, int row);
 int     		label_is(char *str, t_com *commands);
 int             it_s_comment(char *line);
 void        	add_comment(char *str, t_ch *player);
+void	        ft_exit2(char *str, int row);
 void	        ft_exit(void);
 void        	add_with_n_comment(t_ch *player, char *str);
 int             it_s_name(char *line);
 void        	add_name(char *str, t_ch *player);
 void        	add_with_n_name(t_ch *player, char *str);
-void    		add_args(char **line, t_com *commands);
+void    		add_args(char **line, t_com *commands, t_ch player);
 void	        add_command_with_label(char **line, t_com *command);
 void        	add_command(char *line, t_com *command);
 void        	add_label(char *line, t_com *commands);
@@ -94,10 +97,16 @@ int     		valid_labeles(t_com *head);
 int     		l_and_c_one_rows(char *line);
 void        	delete_comment(char *str);
 void			set_player(t_ch *player, char *str);
-void			set_commands(t_ch player, t_com *commands);
-void			work_with_command(char *q, t_com **commands, t_valid validator);
-void			wokr_with_label(char *q, t_com **commands, t_valid validator);
+void			set_commands(t_ch *player, t_com *commands);
+void			work_with_command(char *q, t_com **commands, t_valid validator, t_ch player);
+void			wokr_with_label(char *q, t_com **commands, t_valid validator, t_ch player);
 void			set_player(t_ch *player, char *str);
 void			init_line(char **line, char **q);
 int				ft_strsubpos(char *str, char c);
+void			adding_args(char **args, t_com *commands);
+void			end_name_or_comment(char **str, int i, char **line, t_ch *player);
+int				ft_where_is_n(char *s);
+int				ft_give_row(char **str, char **line, int fd);
+int				get_row(const int fd, char **line);
+int				if_the_end_file_with_out_n(char *line);
 #endif //COREWAR_AWM_H
