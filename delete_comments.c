@@ -5,6 +5,8 @@ void	delete_comment(char *str)
     int i;
 
     i = 0;
+    if (!str)
+		return;
     while (str[i] != '\0')
     {
         if (str[i] == '"')

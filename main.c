@@ -5,16 +5,15 @@ void		set_player(t_ch *player, char *str)
 	char *line;
 	char *q;
 
-	player->name = NULL;
-	player->comment = NULL;
-	player->fd = open(str, O_RDONLY);
+	lst_create_player(str, player);
 	while (get_row(player->fd, &line) > 0)
 	{
+		player->row++;
+		delete_comment(line);
+		ft_delete_tabs(line);
 		q = ft_strtrim(line);
 		clear_line(&line);
 		line = q;
-		delete_comment(q);
-		ft_delete_tabs(q);
 		if (it_s_name(q))
 			add_name(q, player);
 		else if (it_s_comment(q))
@@ -81,8 +80,12 @@ void	set_commands(t_ch *player, t_com *commands)
 			ft_exit2("не верный синтаксис", player->row);
 		clear_line(&line);
 	}
-	if (if_the_end_file_with_out_n(line))
+	delete_comment(line);
+	if (if_the_end_file_with_out_n(ft_strtrim(line)))
+	{
+		player->row++;
 		ft_exit2("ожидался перенос строки", player->row);
+	}
 }
 
 int main (int main, char **argv)
@@ -104,14 +107,14 @@ int main (int main, char **argv)
 		ft_exit2("не сущесвует такой метки, которая в аргументе", row);
 	clear_line(&line);
 //	printf("name ----        %s\ncomment  ------     %s\n", player.name, player.comment);
-	commands = commands_head;
+//	commands = commands_head;
 //	while (commands_head->next)
 //	{
-//		printf("%s\n", commands_head->label);
-//		printf("%s\n", commands_head->name);
-//		printf("%s\n", commands_head->arg1);
-//		printf("%s\n", commands_head->arg2);
-//		printf("%s\n", commands_head->arg3);
+//		printf("label - %s\n", commands_head->label);
+//		printf("name - %s\n", commands_head->name);
+//		printf("arg1 - %s\n", commands_head->arg1);
+//		printf("arg2 - %s\n", commands_head->arg2);
+//		printf("arg3 - %s\n", commands_head->arg3);
 //		printf("--------------------------\n");
 //		commands_head = commands_head->next;
 //	}

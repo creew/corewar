@@ -24,6 +24,8 @@ int		it_s_label(char *line)
     int i;
 
     i = 0;
+    if (!line)
+		return (0);
     while (line[i] != ' ' && line[i] != '\t' && line[i] != '\n' && line[i] != '\0' && line[i] != DIRECT_CHAR)
     {
         if (line[i] == LABEL_CHAR)

@@ -1,8 +1,12 @@
-.comment    "This
+.name "";laptev
+;;
+#sere
+.comment ""#gleb ;;
 
-city needs me"
 
 
+#lapewww
 live:
-        live %0               # <-- На эту операцию указывает метка live
-        ld %0, r2             # <-- А на эту операцию никакая метка не указывает
+loop:sti r00, %:live, %1
+#lap
+#r_asm accepts empty string of name and comment

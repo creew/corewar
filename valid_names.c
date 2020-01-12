@@ -1,5 +1,31 @@
 #include "awm.h"
 
+void		exist_label(char *str, int flag[3], t_com *q, int i)
+{
+	if (str && str[0] == '%' && str[1] == ':')
+	{
+		flag[i] == 0 ? flag[i] = 1 : 0;
+		if (flag[i] == 1 && label_is(str + 2, q))
+			flag[i] = 2;
+	}
+	if (str && str[0] == ':')
+	{
+		flag[i] == 0 ? flag[i] = 1 : 0;
+		if (flag[i] == 1 && label_is(str + 1, q))
+			flag[i] = 2;
+	}
+}
+
+static	void	init_variables(int *row, int flag[3], t_com **q, t_com *head)
+{
+	(*row)++;
+
+	flag[0] = 0;
+	flag[1] = 0;
+	flag[2] = 0;
+	*q = head;
+}
+
 int		valid_labeles(t_com *head)
 {
     t_com *q;
@@ -11,50 +37,12 @@ int		valid_labeles(t_com *head)
     com = head;
     while (com)
     {
-    	row++;
-        flag[0] = 0;
-        flag[1] = 0;
-        flag[2] = 0;
-        q = head;
-
+    	init_variables(&row, flag, &q, head);
         while (q)
         {
-            if (com->arg1 && com->arg1[0] == '%' && com->arg1[1] == ':')
-            {
-                flag[0] == 0 ? flag[0] = 1 : 0;
-                if (flag[0] == 1 && label_is(com->arg1 + 2, q))
-                    flag[0] = 2;
-            }
-            if (com->arg1 && com->arg1[0] == ':')
-            {
-                flag[0] == 0 ? flag[0] = 1 : 0;
-                if (flag[0] == 1 && label_is(com->arg1 + 1, q))
-                    flag[0] = 2;
-            }
-            if (com->arg2 && com->arg2[0] == '%' && com->arg2[1] == ':')
-            {
-                flag[1] == 0 ? flag[1] = 1 : 0;
-                if (flag[1] == 1 && label_is(com->arg2 + 2, q))
-                    flag[1] = 2;
-            }
-            if (com->arg2 && com->arg2[0] == ':')
-            {
-                flag[1] == 0 ? flag[1] = 1 : 0;
-                if (flag[1] == 1 && label_is(com->arg2 + 1, q))
-                    flag[1] = 2;
-            }
-            if (com->arg3 && com->arg3[0] == '%' && com->arg3[1] == ':')
-            {
-                flag[2] == 0 ? flag[2] = 1 : 0;
-                if (flag[2] == 1 && label_is(com->arg3 + 2, q))
-                    flag[2] = 2;
-            }
-            if (com->arg3 && com->arg3[0] == ':')
-            {
-                flag[2] == 0 ? flag[2] = 1 : 0;
-                if (flag[2] == 1 && label_is(com->arg3 + 1, q))
-                    flag[2] = 2;
-            }
+        	exist_label(com->arg1, flag, q, 0);
+        	exist_label(com->arg1, flag, q, 1);
+        	exist_label(com->arg1, flag, q, 2);
             if (!q->next)
                 break;
             q = q->next;

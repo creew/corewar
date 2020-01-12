@@ -77,17 +77,27 @@ void	adding_args(char **args, t_com *commands)
 
 void	end_name_or_comment(char **str, int i, char **line, t_ch *player)
 {
+	char *q;
+
 	if ((*str)[i] == '\0')
 	{
 		free(*str);
 		player->row++;
 		if (get_row(player->fd, line) > 0)
+		{
+			player->row++;
 			player->comment ? add_with_n_comment(player, *line) :
-				add_with_n_name(player, *line);
+			add_with_n_name(player, *line);
+		}
 	}
 	else if ((*str)[i] == '"')
 	{
-		while ((*str)[++i] != '\0')
+		q = ft_strtrim(ft_strjoin("\"", *str));
+		clear_line(str);
+		delete_comment(q);
+		ft_delete_tabs(q);
+		*str = q;
+		while ((*str)[++i + 1] != '\0')
 			(*str)[i] != ' ' ? ft_exit2("ожидался конец строки после \"", player->row) : 0;
 		free(*str);
 	}

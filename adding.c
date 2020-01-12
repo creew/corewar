@@ -9,7 +9,7 @@ void	add_comment(char *str, t_ch *player)
         ft_exit2("коммент уже существует", player->row);
     while (*str != '"' && *str != '\0')
         str++;
-    if (*str == '\0')
+	if (*str == '\0')
 		ft_exit2("ожидалось имя чемпиона в символах \" \"",  player->row);
     while (str[i] != '"' && str[i] != '\0')
         i++;
@@ -116,7 +116,7 @@ void		add_args(char **line, t_com *commands, t_ch player)
     while (s[i] != '\0')
         i++;
     if (s[i - 1] == SEPARATOR_CHAR)
-        ft_exit2("ожидался перенос строки", player.row);
+        ft_exit2("не валидное окончание строки", player.row);
     args = ft_my_strsplit(s, SEPARATOR_CHAR);
     adding_args(args, commands);
     free(q);
