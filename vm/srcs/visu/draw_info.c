@@ -61,7 +61,7 @@ static int		draw_player_info(t_vis *vis, t_vm *vm)
 		player = vm->players[i];
 		ft_snprintf(buf, sizeof(buf), "Player -%d : %s", player->player_id,
 			player->name);
-		draw_info_string(vis, buf, start_index, get_process_color(player->player_id - 1, USUAL));
+		draw_info_string(vis, buf, start_index, get_process_color(player->player_id, USUAL));
 		ft_snprintf(buf, sizeof(buf), "  Last live : %zu", player->last_live);
 		draw_info_string(vis, buf, ++start_index, color);
 		ft_snprintf(buf, sizeof(buf), "  Lives in current period : %zu",

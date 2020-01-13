@@ -14,13 +14,17 @@ static const SDL_Color g_colors[] = {
 	{85, 85, 255, 255},
 	{0, 0, 255, 255},
 	{255, 255, 0, 255},
+    {85, 255, 85, 255},
+    {85, 85, 255, 255},
+    {0, 0, 255, 255},
+    {255, 255, 0, 255},
 };
 
 SDL_Color		get_process_color(int id, t_process_highlight prh)
 {
 	if (prh == ALL)
 	{
-		if (id < sizeof(g_colors) / sizeof(g_colors[0]))
+		if (id < (int)(sizeof(g_colors) / sizeof(g_colors[0])))
 			return (g_colors[id]);
 	}
 	else if (id >= 1 && id <= MAX_PLAYERS)
