@@ -29,9 +29,15 @@ int		l_and_c_one_rows(char *line)
 
 int	if_the_end_file_with_out_n(char *line)
 {
-	if (line && ft_strcmp(ft_strtrim(line), "\0") == 0)
-		return (0);
-	else
-		return (1);
+	char *q;
 
+	q = ft_strtrim(line);
+	clear_line(&line);
+	if (line && ft_strcmp(q, "\0") == 0)
+	{
+		clear_line(&q);
+		return (0);
+	}
+	clear_line(&q);
+	return (1);
 }

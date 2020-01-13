@@ -101,4 +101,5 @@ void	end_name_or_comment(char **str, int i, char **line, t_ch *player)
 			(*str)[i] != ' ' ? ft_exit2("ожидался конец строки после \"", player->row) : 0;
 		free(*str);
 	}
+	clear_line(line);
 }

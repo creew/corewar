@@ -86,6 +86,7 @@ void	set_commands(t_ch *player, t_com *commands)
 		player->row++;
 		ft_exit2("ожидался перенос строки", player->row);
 	}
+	clear_line(&line);
 }
 
 int main (int main, char **argv)
