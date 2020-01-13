@@ -31,7 +31,7 @@ add_executable(vm
         ./srcs/visu/process.c
         ./srcs/visu/draw_all.c
         ./srcs/visu/draw_info.c
-        ./srcs/create_dump.c srcs/parse_arg.c srcs/errors.c)
+        ./srcs/create_dump.c srcs/parse_arg.c srcs/errors.c srcs/visu/get_color.c)
 
 add_dependencies(vm libft_target)
 add_dependencies(vm ft_printf_target)

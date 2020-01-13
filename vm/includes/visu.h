@@ -22,7 +22,12 @@
 # define START_FIELD_X	(10)
 # define START_FIELD_Y	(10)
 
-extern const SDL_Color g_colors[];
+typedef enum {
+	ALL,
+	USUAL,
+	FRESH,
+	LIVE
+}				t_process_highlight;
 
 typedef struct	s_wh
 {
@@ -54,6 +59,6 @@ SDL_Color	get_color(int r, int g, int b, int a);
 Uint32		get_uint32_color(int r, int g, int b, int a);
 int			reload_font(t_vis *vis);
 void		text_out(t_vis *vis, SDL_Point *xy, const char *txt, SDL_Color color);
-
-
+SDL_Color	get_process_color(int id, t_process_highlight prh);
+Uint32		get_uint32_process_color(int id, t_process_highlight prh);
 #endif

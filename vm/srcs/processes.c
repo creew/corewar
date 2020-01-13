@@ -32,10 +32,29 @@ static void (*g_asm_funcs[])(t_vm *, t_process *pr, t_runner *run) = {
 	process_aff_run
 };
 
+static void		process_action(t_vm * vm, t_process *pr, t_runner *run)
+{
+	int		i;
+
+	run->field = vm->field;
+	if (check_arguments(pr, run, pr->opcode) == 0)
+	{
+		g_asm_funcs[pr->opcode - 1](vm, pr, run);
+		if (vm->debug_args & VERB_SHOW_MOVES && run->skip)
+		{
+			ft_printf("ADV %d (0x%04x -> 0x%04x) ", run->skip, pr->pc,
+				pr->pc + run->skip);
+			i = -1;
+			while (++i < run->skip)
+				ft_printf("%02x ", run->field[(pr->pc + i) % MEM_SIZE].cmd);
+			ft_printf("\n");
+		}
+	}
+}
+
 static void		process_waiting(t_vm *vm, t_process *pr)
 {
 	t_runner	run;
-	int         i;
 
 	if (pr->wait > 0)
 		pr->wait--;
@@ -43,21 +62,7 @@ static void		process_waiting(t_vm *vm, t_process *pr)
 	{
 		run.skip = 1;
 		if (pr->opcode >= 1 && pr->opcode <= 16)
-		{
-			run.field = vm->field;
-			if (check_arguments(pr, &run, pr->opcode) == 0)
-            {
-			    g_asm_funcs[pr->opcode - 1](vm, pr, &run);
-			    if (vm->debug_args & VERB_SHOW_MOVES && run.skip)
-                {
-			        ft_printf("ADV %d (0x%04x -> 0x%04x) ", run.skip, pr->pc, pr->pc + run.skip);
-			        i = -1;
-			        while (++i < run.skip)
-			            ft_printf("%02x ", run.field[(pr->pc + i) % MEM_SIZE].cmd);
-			        ft_printf("\n");
-                }
-            }
-		}
+			process_action(vm, pr, &run);
 		pr->pc += run.skip;
 		if (pr->pc < 0)
 			ft_putendl("Errr");

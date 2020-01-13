@@ -13,7 +13,7 @@
 #include "vm.h"
 #include "ft_printf.h"
 
-void				draw_info_string(t_vis *vis, const char *str, int index,
+static void		draw_info_string(t_vis *vis, const char *str, int index,
 	SDL_Color color)
 {
 	SDL_Point	xy;
@@ -23,30 +23,11 @@ void				draw_info_string(t_vis *vis, const char *str, int index,
 	text_out(vis, &xy, str, color);
 }
 
-void				draw_cycles(t_vis *vis, t_vm *vm)
-{
-	char 		buf[64];
-	SDL_Color	color;
-
-	ft_sprintf(buf, "Cycles: %d", vm->cycles);
-	color = get_color(68, 113, 82, 255);
-	draw_info_string(vis, buf, 9, color);
-}
-
-void				draw_max_processes(t_vis *vis, t_vm *vm)
-{
-	char	  buf[64];
-	SDL_Color color;
-
-	ft_sprintf(buf, "Processes: %zu", vm->process_max);
-	color = get_color(68, 113, 82, 255);
-	draw_info_string(vis, buf, 11, color);
-}
-
-void				draw_state(t_vis *vis, t_vm *vm)
+static void		draw_state(t_vis *vis, t_vm *vm)
 {
 	SDL_Color	color;
 	char		*s;
+	char		buf[64];
 
 	if (vm->state == RUNNING)
 		s = "** RUNNING **";
@@ -56,9 +37,15 @@ void				draw_state(t_vis *vis, t_vm *vm)
 		s = "** FINISHED **";
 	color = get_color(68, 113, 82, 255);
 	draw_info_string(vis, s, 0, color);
+	ft_sprintf(buf, "Processes: %zu", vm->process_max);
+	color = get_color(68, 113, 82, 255);
+	draw_info_string(vis, buf, 11, color);
+	ft_sprintf(buf, "Cycles: %d", vm->cycles);
+	color = get_color(68, 113, 82, 255);
+	draw_info_string(vis, buf, 9, color);
 }
 
-int				draw_player_info(t_vis *vis, t_vm *vm)
+static int		draw_player_info(t_vis *vis, t_vm *vm)
 {
 	size_t		i;
 	t_player	*player;
@@ -74,7 +61,7 @@ int				draw_player_info(t_vis *vis, t_vm *vm)
 		player = vm->players[i];
 		ft_snprintf(buf, sizeof(buf), "Player -%d : %s", player->player_id,
 			player->name);
-		draw_info_string(vis, buf, start_index, g_colors[player->player_id]);
+		draw_info_string(vis, buf, start_index, get_process_color(player->player_id - 1, USUAL));
 		ft_snprintf(buf, sizeof(buf), "  Last live : %zu", player->last_live);
 		draw_info_string(vis, buf, ++start_index, color);
 		ft_snprintf(buf, sizeof(buf), "  Lives in current period : %zu",
@@ -85,7 +72,7 @@ int				draw_player_info(t_vis *vis, t_vm *vm)
 	return (start_index);
 }
 
-int				draw_cycle_info(t_vis *vis, t_vm *vm, int start_index)
+static int		draw_cycle_info(t_vis *vis, t_vm *vm, int start_index)
 {
 	char	  	buf[64];
 	SDL_Color	color;
@@ -106,13 +93,11 @@ int				draw_cycle_info(t_vis *vis, t_vm *vm, int start_index)
 	return (start_index);
 }
 
-void				draw_info(t_vis *vis, t_vm *vm)
+void			draw_info(t_vis *vis, t_vm *vm)
 {
 	int		last_index;
 
 	draw_state(vis, vm);
-	draw_max_processes(vis, vm);
-	draw_cycles(vis, vm);
 	last_index = draw_player_info(vis, vm);
 	draw_cycle_info(vis, vm, last_index);
 }

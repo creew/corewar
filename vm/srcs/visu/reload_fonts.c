@@ -15,18 +15,6 @@
 
 #include <SDL2_gfxPrimitives.h>
 
-const SDL_Color g_colors[] = {
-	{85, 85, 85, 255},
-	{0, 185, 0, 255},
-	{0, 0, 185, 255},
-	{0, 0, 255, 255},
-	{255, 255, 0, 255},
-	{85, 255, 85, 255},
-	{85, 85, 255, 255},
-	{0, 0, 255, 255},
-	{255, 255, 0, 255},
-};
-
 static int	get_pt_size(t_vis *vis)
 {
 	int ptw;
@@ -54,7 +42,7 @@ void		init_glyphs(t_vis *vis)
 			sizeof(vis->glyph_textures[0][0])))
 		{
 			surface = TTF_RenderGlyph_Blended(vis->field_font,
-				(j > 9 ? (j - 10 + 'a') : (j + '0')), g_colors[i]);
+				(j > 9 ? (j - 10 + 'a') : (j + '0')), get_process_color(i, ALL));
 			vis->glyph_textures[i][j] =
 				SDL_CreateTextureFromSurface(vis->ren, surface);
 			SDL_FreeSurface(surface);
@@ -80,10 +68,7 @@ void 		init_carriages(t_vis *vis)
 		roundedBoxColor(vis->ren, 0,	0,	vis->cur_font.width * 2, vis->cur_font.height,
 						3, get_uint32_color(255,255,255,180));
 		roundedRectangleColor(vis->ren, 0, 0, vis->cur_font.width * 2,
-							  vis->cur_font.height, 3, get_uint32_color(g_colors[i + 1].r,
-																		g_colors[i + 1].g,
-																		g_colors[i + 1].b,
-																		g_colors[i + 1].a));
+							  vis->cur_font.height, 3, get_uint32_process_color(i + 1, USUAL));
 		SDL_SetRenderTarget(vis->ren, NULL);
 	}
 }

@@ -55,7 +55,6 @@ static void			draw_field(t_vis *vis, t_vm *vm)
 	}
 }
 
-
 SDL_Color	get_color(int r, int g, int b, int a)
 {
 	SDL_Color	color;
@@ -64,17 +63,6 @@ SDL_Color	get_color(int r, int g, int b, int a)
 	color.r = r;
 	color.g = g;
 	color.b = b;
-	return (color);
-}
-
-Uint32				get_uint32_color(int r, int g, int b, int a)
-{
-	Uint32	color;
-
-	color = ((Uint32)a & 0xFFu) << 24u;
-	color |= ((Uint32)b & 0xFFu) << 16u;
-	color |= ((Uint32)g & 0xFFu) << 8u;
-	color |= ((Uint32)r & 0xFFu);
 	return (color);
 }
 
