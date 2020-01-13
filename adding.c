@@ -15,7 +15,7 @@ void	add_comment(char *str, t_ch *player)
         i++;
     if (str[i] == '\0')
     {
-        add_with_n_comment(player, ft_strdup(1 + str));
+        add_with_n_comment(player, ft_strdup(1 + str), 2);
         if (ft_strlen(player->comment) > COMMENT_LENGTH)
             ft_exit2("длина комментария слишком большая", player->row);
         return;
@@ -27,28 +27,32 @@ void	add_comment(char *str, t_ch *player)
 		ft_exit2("длина комментария слишком большая", player->row);
 }
 
-void	add_with_n_comment(t_ch *player, char *str)
+void	add_with_n_comment(t_ch *player, char *str, int z)
 {
     int i;
     char *line;
     char *s;
 
     line = NULL;
+    s = NULL;
+    i = 0;
     if (*str != '"')
     {
-		i = 0;
 		while (str[i] != '\0' && str[i] != '"')
 			i++;
 		line = (str[i] == '\0') ?
 			ft_strjoin(str, "\n") :
 				ft_strsub(str, 0, i);
-        s = ft_strdup(player->comment);
-        free(player->comment);
+		if (player->comment)
+		{
+			s = ft_strdup(player->comment);
+			free(player->comment);
+		}
         player->comment = s ? ft_strjoin(s, line) : ft_strdup(line);
-        free(s);
+        s ? free(s) : 0;
         free(line);
     }
-	end_name_or_comment(&str, i, &line, player);
+	end_name_or_comment(&str, i, &line, player, z);
 }
 
 void	add_name(char *str, t_ch *player)
@@ -66,7 +70,7 @@ void	add_name(char *str, t_ch *player)
         i++;
     if (str[i] == '\0')
     {
-        add_with_n_name(player, ft_strdup(1 + str));
+        add_with_n_name(player, ft_strdup(1 + str), 1);
 		if (ft_strlen(player->name) > PROG_NAME_LENGTH)
 			ft_exit2("длина имени слишком большая", player->row);
         return;
@@ -77,28 +81,32 @@ void	add_name(char *str, t_ch *player)
 		ft_exit2("длина имени слишком большая", player->row);
 }
 
-void	add_with_n_name(t_ch *player, char *str)
+void	add_with_n_name(t_ch *player, char *str, int z)
 {
     int i;
     char *line;
     char *s;
 
     line = NULL;
-    if (*str != '"')
+    s = NULL;
+	i = 0;
+	if (*str != '"')
     {
-		i = 0;
 		while (str[i] != '\0' && str[i] != '"')
 			i++;
 		line = (str[i] == '\0') ?
 				ft_strjoin(str, "\n") :
 					ft_strsub(str, 0, i);
-        s = ft_strdup(player->name);
-        free(player->name);
-        player->name = s ? ft_strjoin(s, line) : ft_strdup(line);
-        free(s);
-        free(line);
+		if (player->name)
+		{
+			s = ft_strdup(player->name);
+			free(player->name);
+		}
+		player->name = s ? ft_strjoin(s, line) : ft_strdup(line);
+		s ? free(s) : 0;
+		free(line);
     }
-    end_name_or_comment(&str, i, &line, player);
+	end_name_or_comment(&str, i, &line, player, z);
 }
 
 void		add_args(char **line, t_com *commands, t_ch player)

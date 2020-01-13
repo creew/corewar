@@ -6,19 +6,17 @@ void		set_player(t_ch *player, char *str)
 	char *q;
 
 	lst_create_player(str, player);
+	q = NULL;
+	line = NULL;
 	while (get_row(player->fd, &line) > 0)
 	{
 		player->row++;
-		delete_comment(line);
-		ft_delete_tabs(line);
-		q = ft_strtrim(line);
-		clear_line(&line);
-		line = q;
+		init_line(&line, &q);
 		if (it_s_name(q))
 			add_name(q, player);
 		else if (it_s_comment(q))
 			add_comment(q, player);
-		else if (*q != '\0' && *q != '\n')
+		else if (q && *q && *q != '\0' && *q != '\n')
 			ft_exit2("недопустимые символы, должно быть имя или коммент чемпиона", player->row);
 		if (player->name != NULL && player->comment != NULL)
 			break;

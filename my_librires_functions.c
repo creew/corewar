@@ -119,7 +119,7 @@ int				ft_give_row(char **str, char **line, int fd)
 		return (0);
 	}
 	*line = ft_strsub(str[fd], 0, num_n);
-	tmp = ft_strdup(str[fd] + (num_n + 1));
+	tmp = ft_strdup(str[fd] + num_n + 1);
 	ft_strdel(&str[fd]);
 	str[fd] = tmp;
 	return (1);

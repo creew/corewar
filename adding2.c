@@ -54,52 +54,51 @@ void	add_label(char *line, t_com *commands)
 
 void	adding_args(char **args, t_com *commands)
 {
+	int i;
+
+	i = -1;
 	if (args[0])
 	{
 		commands->arg1 = ft_strtrim(args[0]);
 		commands->count_args++;
-		free(args[0]);
 	}
 	if (args[1])
 	{
 		commands->arg2 = ft_strtrim(args[1]);
 		commands->count_args++;
-		free(args[1]);
 	}
 	if (args[2] && args[1])
 	{
 		commands->arg3 = ft_strtrim(args[2]);
 		commands->count_args++;
-		free(args[2]);
 	}
+	while (args[++i])
+		free(args[i]);
 	free(args);
 }
 
-void	end_name_or_comment(char **str, int i, char **line, t_ch *player)
+void end_name_or_comment(char **str, int i, char **line, t_ch *player, int z)
 {
 	char *q;
 
 	if ((*str)[i] == '\0')
 	{
-		free(*str);
 		player->row++;
+		free(*str);
 		if (get_row(player->fd, line) > 0)
 		{
 			player->row++;
-			player->comment ? add_with_n_comment(player, *line) :
-			add_with_n_name(player, *line);
+			z == 2 ? add_with_n_comment(player, *line, 2) :
+			add_with_n_name(player, *line, 1);
 		}
 	}
 	else if ((*str)[i] == '"')
 	{
-		q = ft_strtrim(ft_strjoin("\"", *str));
+		q = ft_strjoin("\"", *str);
 		clear_line(str);
-		delete_comment(q);
-		ft_delete_tabs(q);
-		*str = q;
+		init_line(&q, str);
 		while ((*str)[++i + 1] != '\0')
 			(*str)[i] != ' ' ? ft_exit2("ожидался конец строки после \"", player->row) : 0;
 		free(*str);
 	}
-	clear_line(line);
 }

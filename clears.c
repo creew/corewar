@@ -25,7 +25,7 @@ void	clear_commands(t_com **coms)
 
 void	clear_line(char **str)
 {
-    if (*str != NULL)
+    if (str && *str != NULL)
     {
         free(*str);
         *str = NULL;

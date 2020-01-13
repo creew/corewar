@@ -33,7 +33,7 @@ int	if_the_end_file_with_out_n(char *line)
 
 	q = ft_strtrim(line);
 	clear_line(&line);
-	if (line && ft_strcmp(q, "\0") == 0)
+	if (q && ft_strcmp(q, "\0") == 0)
 	{
 		clear_line(&q);
 		return (0);
