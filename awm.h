@@ -105,4 +105,5 @@ int				get_row(const int fd, char **line);
 int				if_the_end_file_with_out_n(char *line);
 void			lst_create_player(char *str, t_ch *player);
 void			init(char *argv, t_com **commands, t_ch *player);
+void        	delete_comment_and_tabs(char *str);
 #endif //COREWAR_AWM_H
