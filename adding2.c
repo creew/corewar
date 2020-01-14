@@ -42,9 +42,11 @@ void	add_command_with_label(char **line, t_com *command)
 
 void	add_label(char *line, t_com *commands)
 {
-	char **str;
-	char *q;
+	char	**str;
+	char	*q;
+	int		i;
 
+	i = -1;
 	str = ft_strsplit(line, LABEL_CHAR);
 	if (commands->label)
 	{
@@ -59,9 +61,8 @@ void	add_label(char *line, t_com *commands)
 	}
 	else
 		commands->label = ft_strdup(str[0]);
-	str[0] ? free(str[0]) : 0;
-	str[1] ? free(str[1]) : 0;
-	(str[2] && str[1]) ? free(str[2]) : 0;
+	while (str[++i])
+		free(str[i]);
 	free(str);
 }
 

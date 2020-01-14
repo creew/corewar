@@ -15,6 +15,9 @@ typedef struct s_commands
 	char	*label;
 	int		count_args;
 	int		row;
+	int 	num_byte;				//q byte;
+	int 	num_byte_from_start;
+	unsigned char 	kod_arg;		//коды элементов в байте;
 	struct s_commands *next;
 }			t_com;
 
@@ -71,7 +74,6 @@ int     		label_is(char *str, t_com *commands);
 int             it_s_comment(char *line);
 void        	add_comment(char *str, t_ch *player);
 void	        ft_exit2(char *str, int row);
-void	        ft_exit(void);
 void        	add_with_n_comment(t_ch *player, char *str, int z);
 int             it_s_name(char *line);
 void        	add_name(char *str, t_ch *player);
@@ -106,4 +108,6 @@ int				if_the_end_file_with_out_n(char *line);
 void			lst_create_player(char *str, t_ch *player);
 void			init(char *argv, t_com **commands, t_ch *player);
 void        	delete_comment_and_tabs(char *str);
+void			assembler(t_com *commands, t_ch player, char *av);
+void			ft_exit3(int error_num);
 #endif //COREWAR_AWM_H

@@ -68,7 +68,7 @@ void	work_with_command(char *q, t_com **commands,
 	add_args(&q, *commands, player);
 	(*commands)->row = player.row;
 	if (!valid_args(*commands, validator))
-		ft_exit2("не валидный аргумент", player.row);
+		ft_exit3(1);//ft_exit2("не валидный аргумент", player.row);
 	(*commands)->next = lst_create_commands();
 	*commands = (*commands)->next;
 }

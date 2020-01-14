@@ -1,5 +1,6 @@
 //<editor-fold desc="Description">
 #include "get_next_line.h"
+#include <stdio.h>
 //</editor-fold>
 
 int				ft_where_n(char *s)
@@ -20,12 +21,12 @@ int				ft_give_line(char **str, char **line, int fd)
 	int			num_n;
 
 	num_n = ft_where_n(str[fd]);
-	if (str[fd][num_n] == '\0' || str[fd][num_n + 1] == '\0')
+	if (str[fd][num_n] == '\0')
 	{
 		*line = ft_strsub(str[fd], 0, num_n);
 		free(str[fd]);
 		str[fd] = NULL;
-		return (1);
+		return (0);
 	}
 	*line = ft_strsub(str[fd], 0, num_n);
 	tmp = ft_strdup(str[fd] + (num_n + 1));
