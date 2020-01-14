@@ -15,7 +15,6 @@
 
 void		process_aff_run(t_vm *vm, t_process *pr, t_runner *run)
 {
-	(void)vm;
-	(void)pr;
-	(void)run;
+	if (vm->print_aff)
+		ft_printf("Aff: %c\n", pr->regs[run->args[A1]][REG_SIZE - 1]);
 }

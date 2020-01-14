@@ -103,7 +103,12 @@ int				main(int ac, char *av[])
 		infinite_loop(&vm);
 	}
 	else
-		print_error(res);
+	{
+		if (res == ERR_NO_ARGUMENTS)
+			print_usage();
+		else
+			print_error(res);
+	}
 	destroy_all(&vm);
 	return (0);
 }

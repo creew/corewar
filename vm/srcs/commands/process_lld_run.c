@@ -27,5 +27,5 @@ void		process_lld_run(t_vm *vm, t_process *pr, t_runner *run)
 	pr->carry = a1 == 0;
 	if (vm->debug_args & VERB_SHOW_OPERATIONS)
 		ft_printf("P% 5d | lld %ld r%ld\n", pr->id,
-				  a1, run->args[A2] + 1);
+			a1, run->args[A2] + 1);
 }

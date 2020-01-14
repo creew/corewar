@@ -34,7 +34,6 @@ void		init_vm(t_vm *vm)
 	t_player	*pl;
 	t_uint		start;
 
-	vm->process_max = 1;
 	i = -1;
 	while (++i < vm->count_players)
 	{
@@ -48,7 +47,7 @@ void		init_vm(t_vm *vm)
 			vm->field[start + j].id = pl->player_id;
 		}
 		add_process(&vm->processes_root, pl->player_id, start,
-			&vm->process_max);
+			&vm->process_count);
 	}
 	vm->state = RUNNING;
 	vm->cycle_to_die = CYCLE_TO_DIE;

@@ -65,10 +65,24 @@ static t_result		check_debug(t_vm *vm, int *index, int ac, char *av[])
 	return (RET_OK);
 }
 
-t_result			parse_arg(t_vm *vm, int *index, int ac, char *av[])
+static t_result		read_arg_champ(t_vm *vm, const int *index, char *av[])
 {
 	int			res;
 	t_player	*player;
+	t_result	err;
+
+	err = get_next_free_index(vm->players, &res, sizeof(vm->players));
+	if (err != RET_OK)
+		return (err);
+	if ((err = read_champ(av[*index], &player, res)) != RET_OK)
+		return (err);
+	vm->players[res - 1] = player;
+	vm->count_players++;
+	return (RET_OK);
+}
+
+t_result			parse_arg(t_vm *vm, int *index, int ac, char *av[])
+{
 	t_result	err;
 
 	err = RET_OK;
@@ -80,15 +94,9 @@ t_result			parse_arg(t_vm *vm, int *index, int ac, char *av[])
 		vm->visualize = 1;
 	else if (!ft_strcmp(av[*index], "-d"))
 		err = check_debug(vm, index, ac, av);
+	else if (!ft_strcmp(av[*index], "-a"))
+		vm->print_aff = 1;
 	else
-	{
-		if ((err = get_next_free_index(vm->players, &res,
-			sizeof(vm->players))) != RET_OK)
-			return (err);
-		if ((err = read_champ(av[*index], &player, res)) != RET_OK)
-			return (err);
-		vm->players[res - 1] = player;
-		vm->count_players++;
-	}
+		err = read_arg_champ(vm, index, av);
 	return (err);
 }

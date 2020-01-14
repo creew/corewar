@@ -28,7 +28,7 @@ static void		remove_unlive(t_vm *vm)
 			if (vm->debug_args & VERB_SHOW_DEATHS)
 				ft_printf("Process %zu hasn't lived for %d cycles (CTD %d)\n",
 					pr->id, vm->cycles - pr->cycle_live, vm->cycle_to_die);
-			remove_process(&vm->processes_root, pr);
+			remove_process(&vm->processes_root, pr, &vm->process_count);
 		}
 		pr = next;
 	}

@@ -92,7 +92,6 @@ typedef struct	s_vm {
 	size_t				count_players;
 	t_player			*last_player;
 	t_process			*processes_root;
-	size_t				process_max;
 	size_t				process_count;
 	int					cycles;
 	int					cycle_to_die;
@@ -100,6 +99,7 @@ typedef struct	s_vm {
 	size_t				live;
 	size_t				checks;
 	int					visualize;
+	int					print_aff;
 	t_gstate			state;
 	t_fieldelem			field[MEM_SIZE];
 	t_vis				vis;
@@ -131,10 +131,10 @@ void			draw_all(t_vis *vis, t_vm *vm);
 int				process_event(t_vis *vis, t_vm *vm);
 
 t_process		*add_process(t_process **root, t_uint id, long pc,
-					size_t *pr_max);
-void			remove_process(t_process **root, t_process *pr);
-t_process		*copy_process(t_process **root, t_process *copy,
-					size_t *pr_max, long pc);
+					size_t *count);
+void			remove_process(t_process **root, t_process *pr, size_t *count);
+t_process		*copy_process(t_process **root, t_process *copy, long pc,
+					size_t *count);
 
 t_uint			swap_uint_be(t_uint a);
 void			write_varlen_be(t_uchar *data, t_ulong val, t_uint size);
@@ -185,4 +185,5 @@ void			exec_process(t_vm *vm, t_process *pr);
 int				check_reg(t_op *op, t_uint id, t_process *pr, t_runner *runner);
 int				check_dir(t_op *op, t_uint id, t_process *pr, t_runner *runner);
 int				check_ind(t_op *op, t_uint id, t_process *pr, t_runner *runner);
+void			print_usage();
 #endif

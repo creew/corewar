@@ -37,7 +37,7 @@ static void		draw_state(t_vis *vis, t_vm *vm)
 		s = "** FINISHED **";
 	color = get_color(68, 113, 82, 255);
 	draw_info_string(vis, s, 0, color);
-	ft_sprintf(buf, "Processes: %zu", vm->process_max);
+	ft_sprintf(buf, "Processes: %zu", vm->process_count);
 	color = get_color(68, 113, 82, 255);
 	draw_info_string(vis, buf, 11, color);
 	ft_sprintf(buf, "Cycles: %d", vm->cycles);

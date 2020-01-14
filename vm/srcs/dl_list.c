@@ -13,16 +13,17 @@
 #include "vm.h"
 
 t_process		*add_process(t_process **root, t_uint id, long pc,
-	size_t *pr_max)
+	size_t *count)
 {
-	t_process *process;
+	static size_t	max_index;
+	t_process		*process;
 
 	process = ft_memalloc(sizeof(*process));
 	if (process)
 	{
 		while (pc < 0)
 			pc += MEM_SIZE;
-		process->id = (*pr_max)++;
+		process->id = ++max_index;
 		process->next = *root;
 		process->prev = NULL;
 		process->player_id = id;
@@ -31,11 +32,12 @@ t_process		*add_process(t_process **root, t_uint id, long pc,
 		if (*root)
 			(*root)->prev = process;
 		*root = process;
+		(*count)++;
 	}
 	return (process);
 }
 
-void			remove_process(t_process **root, t_process *pr)
+void			remove_process(t_process **root, t_process *pr, size_t *count)
 {
 	if (pr->prev)
 		pr->prev->next = pr->next;
@@ -44,14 +46,15 @@ void			remove_process(t_process **root, t_process *pr)
 	if (pr == *root)
 		*root = pr->next;
 	ft_memdel((void **)&pr);
+	(*count)--;
 }
 
-t_process		*copy_process(t_process **root, t_process *copy,
-	size_t *pr_max, long pc)
+t_process		*copy_process(t_process **root, t_process *copy, long pc,
+	size_t *count)
 {
 	t_process *process;
 
-	process = add_process(root, copy->player_id, pc, pr_max);
+	process = add_process(root, copy->player_id, pc, count);
 	if (process)
 	{
 		ft_memcpy(process->regs, copy->regs, sizeof(copy->regs));

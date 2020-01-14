@@ -15,8 +15,8 @@
 
 void		process_lfork_run(t_vm *vm, t_process *pr, t_runner *run)
 {
-	copy_process(&vm->processes_root, pr, &vm->process_max,
-		pr->pc + run->args[A1]);
+	copy_process(&vm->processes_root, pr, pr->pc + run->args[A1],
+		&vm->process_count);
 	if (vm->debug_args & VERB_SHOW_OPERATIONS)
 		ft_printf("P% 5d | lfork %ld (%ld)\n", pr->id,
 			run->args[A1], pr->pc + run->args[A1]);

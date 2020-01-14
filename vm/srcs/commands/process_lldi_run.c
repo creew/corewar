@@ -27,8 +27,8 @@ void		process_lldi_run(t_vm *vm, t_process *pr, t_runner *run)
 	if (vm->debug_args & VERB_SHOW_OPERATIONS)
 	{
 		ft_printf("P% 5d | lldi %ld %ld r%ld\n", pr->id,
-				  val1, val2, run->args[A3] + 1);
-		ft_printf("       | -> load from %ld + %ld = %ld (with pc)\n",
+			val1, val2, run->args[A3] + 1);
+		ft_printf("       | -> load from %ld + %ld = %ld (with pc %ld)\n",
 			val1, val2, val1 + val2, pr->pc + (val1 + val2));
 	}
 }
