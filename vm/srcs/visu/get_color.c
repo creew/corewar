@@ -14,12 +14,9 @@
 
 static const SDL_Color g_colors[] = {
 	{85, 85, 85, 255},
+	{255, 255, 255, 255},
 	{0, 185, 0, 255},
 	{0, 0, 185, 255},
-	{0, 0, 255, 255},
-	{255, 255, 0, 255},
-	{85, 255, 85, 255},
-	{85, 85, 255, 255},
 	{0, 0, 255, 255},
 	{255, 255, 0, 255},
 	{85, 255, 85, 255},
@@ -38,11 +35,9 @@ SDL_Color		get_process_color(int id, t_process_highlight prh)
 	else if (id >= 1 && id <= MAX_PLAYERS)
 	{
 		if (prh == USUAL)
-			return (g_colors[id]);
+			return (g_colors[id + 1]);
 		if (prh == FRESH)
-			return (g_colors[id + MAX_PLAYERS]);
-		else if (prh == LIVE)
-			return (g_colors[id + MAX_PLAYERS * 2]);
+			return (g_colors[id + MAX_PLAYERS + 1]);
 	}
 	return (g_colors[0]);
 }

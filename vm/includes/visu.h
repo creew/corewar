@@ -25,8 +25,7 @@
 typedef enum {
 	ALL,
 	USUAL,
-	FRESH,
-	LIVE
+	FRESH
 }	t_process_highlight;
 
 typedef struct		s_wh
@@ -45,7 +44,7 @@ typedef struct		s_vis
 	t_wh			font100;
 	t_wh			cur_font;
 	SDL_Texture		*glyph_textures[MAX_PLAYERS * 2 + 1][16];
-	SDL_Texture		*carriages[MAX_PLAYERS];
+	SDL_Texture		*carriages[MAX_PLAYERS * 2];
 	SDL_Rect		info_box;
 }					t_vis;
 

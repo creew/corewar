@@ -20,9 +20,16 @@ static void		draw_text(t_vis *vis, int x, int y, t_fieldelem *val)
 	SDL_Rect		rect;
 	t_uint			player;
 
-	player = val->id < 5 ? val->id : 0;
-	if (player != 0 && val->fresh)
-		player += 4;
+	player = val->id <= MAX_PLAYERS ? val->id : 0;
+	if (player != 0)
+	{
+		if (val->live)
+			player = 1;
+		else if (val->fresh)
+			player += 5;
+		else
+			player += 1;
+	}
 	rect.x = x;
 	rect.y = y;
 	rect.w = vis->cur_font.width;
@@ -40,6 +47,7 @@ static void		draw_field(t_vis *vis, t_vm *vm)
 	int			y;
 	int			px;
 	int			py;
+	t_fieldelem	*val;
 
 	y = -1;
 	while (++y < 64)
@@ -47,10 +55,13 @@ static void		draw_field(t_vis *vis, t_vm *vm)
 		x = -1;
 		while (++x < 64)
 		{
+			val = &vm->field[y * 64 + x];
+			if (val->live && val->id > 0 && val->id <= vm->count_players)
+				draw_carriage(vis, x, y, val->id + MAX_PLAYERS);
 			px = START_FIELD_X + x * vis->cur_font.width * 2 +
 				x * vis->cur_font.width / 2;
 			py = START_FIELD_Y + y * vis->cur_font.height;
-			draw_text(vis, px, py, &vm->field[y * 64 + x]);
+			draw_text(vis, px, py, val);
 		}
 	}
 }
@@ -83,7 +94,7 @@ void			draw_all(t_vis *vis, t_vm *vm)
 	SDL_SetRenderDrawColor(vis->ren, 0, 0, 0, 0xFF);
 	SDL_RenderClear(vis->ren);
 	draw_borders(vis);
-	draw_processes(vis, vm);
+	draw_carriages(vis, vm);
 	draw_field(vis, vm);
 	draw_info(vis, vm);
 	SDL_RenderPresent(vis->ren);

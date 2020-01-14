@@ -165,7 +165,8 @@ void			process_lfork_run(t_vm *vm, t_process *pr, t_runner *run);
 void			process_aff_run(t_vm *vm, t_process *pr, t_runner *run);
 
 void			draw_info(t_vis *vis, t_vm *vm);
-void			draw_processes(t_vis *vis, t_vm *vm);
+void			draw_carriages(t_vis *vis, t_vm *vm);
+void			draw_carriage(t_vis *vis, int col, int row, int pid);
 
 void			create_dump(t_vm *vm, int chars_in_line);
 

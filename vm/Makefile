@@ -43,8 +43,8 @@ ALL_C =	check_arguments.c \
         commands/process_zjmp_run.c \
 		visu/deinit.c \
 		visu/draw_all.c \
+		visu/draw_carriages.c \
 		visu/draw_info.c \
-		visu/draw_processes.c \
 		visu/get_color.c \
 		visu/init.c \
 		visu/print.c \

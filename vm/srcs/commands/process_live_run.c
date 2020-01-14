@@ -20,6 +20,8 @@ void		process_live_run(t_vm *vm, t_process *pr, t_runner *run)
 
 	pr->cycle_live = vm->cycles;
 	vm->live++;
+	if (vm->visualize)
+		vm->field[pr->pc % MEM_SIZE].live = 50;
 	if (vm->debug_args & VERB_SHOW_OPERATIONS)
 		ft_printf("P% 5d | live %ld\n", pr->id, run->args[A1]);
 	index = -run->args[A1];
