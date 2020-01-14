@@ -12,7 +12,7 @@
 
 #include "awm.h"
 
-int		ft_is_strstr(char *src, char *to_find)
+int						ft_is_strstr(char *src, char *to_find)
 {
 	int i;
 	int j;
@@ -38,7 +38,7 @@ int		ft_is_strstr(char *src, char *to_find)
 	return (0);
 }
 
-void	ft_delete_tabs(char *str)
+void					ft_delete_tabs(char *str)
 {
 	int i;
 
@@ -53,49 +53,60 @@ void	ft_delete_tabs(char *str)
 	}
 }
 
-static int		new_str(char **str, int fd, char **line)
+static int				ft_where_n(char *s)
 {
-	size_t		len;
-	char		*tmp;
-	int			flag;
+	int			i;
 
-	len = 0;
-	while (str[fd][len] != '\0' && str[fd][len] != '\n')
-		len++;
-	flag = str[fd][len] == '\n' ? 1 : 0;
-	*line = ft_strsub(str[fd], 0, len);
-	tmp = ft_strdup(str[fd] + len + (str[fd][len] == '\n' ? 1 : 0));
-	free(str[fd]);
-	if (tmp != '\0')
-		str[fd] = tmp;
-	return (flag);
+	i = 0;
+	if (s[0] == '\n')
+		return (0);
+	while (s[i] != '\n' && s[i] != '\0')
+		i++;
+	return (i);
 }
 
-int				get_row(const int fd, char **line)
+int						ft_give_row(char **str, char **line, int fd)
 {
-	static char	*str[1000];
 	char		*tmp;
-	int			ret;
-	char		buf[BUFF_SIZE + 1];
+	int			num_n;
 
-	if (fd < 0 || !line)
-		return (-1);
-	while ((ret = read(fd, buf, BUFF_SIZE)) > 0)
+	num_n = ft_where_n(str[fd]);
+	if (str[fd][num_n] == '\0')
 	{
-		buf[ret] = '\0';
-		(str[fd] == NULL) ? str[fd] = ft_strnew(1) : 0;
-		tmp = ft_strjoin(str[fd], buf);
+		*line = ft_strsub(str[fd], 0, num_n);
 		free(str[fd]);
-		str[fd] = tmp;
-		if (ft_strchr(buf, '\n'))
-			break ;
-	}
-	if (ret < 0)
-		return (-1);
-	if (ret == 0 && (!str[fd] || (str[fd] && str[fd][0] == '\0')))
-	{
-		free(str[fd]);
+		str[fd] = NULL;
 		return (0);
 	}
-	return (new_str(str, fd, line));
+	*line = ft_strsub(str[fd], 0, num_n);
+	tmp = ft_strdup(str[fd] + (num_n + 1));
+	ft_strdel(&str[fd]);
+	str[fd] = tmp;
+	return (1);
+}
+
+int						get_row(const int fd, char **line)
+{
+	size_t		ret;
+	static char	*s[4864];
+	char		buf[BUFF_SIZE + 1];
+	char		*tmp;
+
+	if (fd < 0 || BUFF_SIZE < 1 || line == NULL || read(fd, NULL, 0) < 0)
+		return (-1);
+	ft_bzero(buf, BUFF_SIZE + 1);
+	while ((ret = read(fd, buf, BUFF_SIZE) > 0))
+	{
+		if (s[fd] == NULL)
+			s[fd] = ft_strnew(1);
+		tmp = ft_strjoin(s[fd], buf);
+		free(s[fd]);
+		s[fd] = tmp;
+		if (ft_strchr(buf, '\n'))
+			break ;
+		ft_bzero(buf, BUFF_SIZE + 1);
+	}
+	if (ret == 0 && s[fd] == NULL)
+		return (0);
+	return (ft_give_row(s, line, fd));
 }

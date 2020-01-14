@@ -132,11 +132,11 @@ void	add_args(char **line, t_com *commands, t_ch player)
 	s = ft_strtrim(*line);
 	q = s;
 	i = 0;
-	while (*s != ' ' && *s != DIRECT_CHAR && *s != '-')
+	while (*s && *s != ' ' && *s != DIRECT_CHAR && *s != '-')
 		s++;
-	while (s[i] != '\0')
+	while (s[i] && s[i] != '\0')
 		i++;
-	if (s[i - 1] == SEPARATOR_CHAR)
+	if (s[i - 1] && s[i - 1] == SEPARATOR_CHAR)
 		ft_exit2("не валидное окончание строки", player.row);
 	args = ft_strsplit(s, SEPARATOR_CHAR);
 	adding_args(args, commands);
