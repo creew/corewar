@@ -49,8 +49,8 @@ static int		draw_player_info(t_vis *vis, t_vm *vm)
 {
 	size_t		i;
 	t_player	*player;
-	int 		start_index;
-	char	  	buf[32];
+	int			start_index;
+	char		buf[32];
 	SDL_Color	color;
 
 	color = get_color(255, 255, 255, 255);
@@ -61,7 +61,8 @@ static int		draw_player_info(t_vis *vis, t_vm *vm)
 		player = vm->players[i];
 		ft_snprintf(buf, sizeof(buf), "Player -%d : %s", player->player_id,
 			player->name);
-		draw_info_string(vis, buf, start_index, get_process_color(player->player_id, USUAL));
+		draw_info_string(vis, buf, start_index,
+			get_process_color(player->player_id, USUAL));
 		ft_snprintf(buf, sizeof(buf), "  Last live : %zu", player->last_live);
 		draw_info_string(vis, buf, ++start_index, color);
 		ft_snprintf(buf, sizeof(buf), "  Lives in current period : %zu",
@@ -74,7 +75,7 @@ static int		draw_player_info(t_vis *vis, t_vm *vm)
 
 static int		draw_cycle_info(t_vis *vis, t_vm *vm, int start_index)
 {
-	char	  	buf[64];
+	char		buf[64];
 	SDL_Color	color;
 
 	color = get_color(68, 113, 82, 255);

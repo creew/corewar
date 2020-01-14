@@ -12,9 +12,12 @@
 
 #include "vm.h"
 
-t_process		*add_process(t_process **root, t_uint id, long pc, size_t *pr_max)
+t_process		*add_process(t_process **root, t_uint id, long pc,
+	size_t *pr_max)
 {
-	t_process *process = ft_memalloc(sizeof(*process));
+	t_process *process;
+
+	process = ft_memalloc(sizeof(*process));
 	if (process)
 	{
 		while (pc < 0)
@@ -32,7 +35,7 @@ t_process		*add_process(t_process **root, t_uint id, long pc, size_t *pr_max)
 	return (process);
 }
 
-void 			remove_process(t_process **root, t_process *pr)
+void			remove_process(t_process **root, t_process *pr)
 {
 	if (pr->prev)
 		pr->prev->next = pr->next;

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   game_field.c                                       :+:      :+:    :+:   */
+/*   init_vm.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eklompus <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -29,7 +29,7 @@ void		init_visu(t_vm *vm)
 
 void		init_vm(t_vm *vm)
 {
-	t_uint 		i;
+	t_uint		i;
 	t_uint		j;
 	t_player	*pl;
 	t_uint		start;
@@ -39,7 +39,7 @@ void		init_vm(t_vm *vm)
 	while (++i < vm->count_players)
 	{
 		pl = vm->players[i];
-		start = ((sizeof(vm->field) / sizeof (*vm->field)) / vm->count_players)
+		start = ((sizeof(vm->field) / sizeof(*vm->field)) / vm->count_players)
 			* i;
 		j = -1;
 		while (++j < pl->prog_size)
@@ -47,7 +47,8 @@ void		init_vm(t_vm *vm)
 			vm->field[start + j].cmd = pl->prog[j];
 			vm->field[start + j].id = pl->player_id;
 		}
-		add_process(&vm->processes_root, pl->player_id, start, &vm->process_max);
+		add_process(&vm->processes_root, pl->player_id, start,
+			&vm->process_max);
 	}
 	vm->state = RUNNING;
 	vm->cycle_to_die = CYCLE_TO_DIE;

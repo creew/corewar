@@ -170,4 +170,8 @@ t_result	get_next_free_index(t_player **arr, int *player_id, size_t size);
 int			is_player_index_free(t_player **arr, int player_id, size_t size);
 
 t_result	parse_arg(t_vm *vm, int *index, int ac, char *av[]);
+
+t_ulong		get_reg_dir_ind_arg(t_process *pr, t_runner *run, t_uint arg);
+t_ulong		get_reg_dir_arg(t_process *pr, t_runner *run, t_uint arg);
+t_ulong		get_dir_ind_arg(t_process *pr, t_runner *run, t_uint arg);
 #endif

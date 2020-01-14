@@ -15,7 +15,7 @@
 static t_result		check_dump(t_vm *vm, int *index, int ac, char *av[])
 {
 	if (*index + 1 < ac && ft_safe_atoi(av[*index + 1], &vm->dump_n) ==
-						   FT_ATOI_OK && vm->dump_n >= 0)
+		FT_ATOI_OK && vm->dump_n >= 0)
 	{
 		vm->do_dump = 1;
 		(*index)++;
@@ -32,7 +32,7 @@ static t_result		check_order_flag(t_vm *vm, int *index, int ac, char *av[])
 	t_result	err;
 
 	if (*index + 2 < ac && ft_safe_atoi(av[*index + 1], &res) ==
-						   FT_ATOI_OK && res >= 1 && res <= MAX_PLAYERS &&
+		FT_ATOI_OK && res >= 1 && res <= MAX_PLAYERS &&
 		is_player_index_free(vm->players, res, sizeof(vm->players)))
 	{
 		if ((err = read_champ(av[*index + 2], &player, res)) == RET_OK)
@@ -54,7 +54,7 @@ static t_result		check_debug(t_vm *vm, int *index, int ac, char *av[])
 	int		res;
 
 	vm->do_debug = 1;
-	if (*index + 1 < ac &&ft_safe_atoi(av[*index + 1], &res) ==
+	if (*index + 1 < ac && ft_safe_atoi(av[*index + 1], &res) ==
 		FT_ATOI_OK && res >= 0 && res <= FT_INTMAX)
 	{
 		vm->debug_args = res;
@@ -78,7 +78,7 @@ t_result			parse_arg(t_vm *vm, int *index, int ac, char *av[])
 		err = check_order_flag(vm, index, ac, av);
 	else if (!ft_strcmp(av[*index], "-v"))
 		vm->visualize = 1;
-	else if (!ft_strcmp(av[*index], "-d") )
+	else if (!ft_strcmp(av[*index], "-d"))
 		err = check_debug(vm, index, ac, av);
 	else
 	{

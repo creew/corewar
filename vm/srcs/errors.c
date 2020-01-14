@@ -1,6 +1,14 @@
-//
-// Created by eklompus on 07.01.2020.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   errors.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: eklompus <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/01/14 09:08:43 by eklompus          #+#    #+#             */
+/*   Updated: 2020/01/14 09:08:46 by eklompus         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "errors.h"
 #include "libft.h"
@@ -24,7 +32,7 @@ static t_errdesc g_errs[] = {
 
 char	*get_error(t_result err)
 {
-	size_t 	index;
+	size_t	index;
 
 	index = -1;
 	while (++index < sizeof(g_errs) / sizeof(g_errs[0]))

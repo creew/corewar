@@ -1,20 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print.c                                            :+:      :+:    :+:   */
+/*   process_lfork_run.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eklompus <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/25 09:28:53 by eklompus          #+#    #+#             */
-/*   Updated: 2019/12/25 09:28:53 by eklompus         ###   ########.fr       */
+/*   Created: 2020/01/14 09:32:26 by eklompus          #+#    #+#             */
+/*   Updated: 2020/01/14 09:32:26 by eklompus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "visu.h"
-#include "libft.h"
+#include "vm.h"
+#include "ft_printf.h"
 
-void	print_sdl_error(const char *err)
+void		process_lfork_run(t_vm *vm, t_process *pr, t_runner *run)
 {
-	ft_putstr("SDL Error: ");
-	ft_putendl(err);
+	copy_process(&vm->processes_root, pr, &vm->process_max,
+		pr->pc + run->args[A1]);
+	if (vm->debug_args & VERB_SHOW_OPERATIONS)
+		ft_printf("P% 5d | lfork %ld (%ld)\n", pr->id,
+			run->args[A1], pr->pc + run->args[A1]);
 }

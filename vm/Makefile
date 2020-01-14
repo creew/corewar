@@ -15,14 +15,30 @@ ALL_C =	check_arguments.c \
 		create_dump.c \
 		dl_list.c \
 		errors.c \
-		game_field.c \
+		init_vm.c \
 		parse_arg.c \
 		processes.c \
 		read_be.c \
 		read_champ.c \
 		read_options.c \
-		run_commands.c \
 		vm.c \
+		commands/get_command_arg.c \
+		commands/process_add_run.c \
+		commands/process_aff_run.c \
+		commands/process_and_run.c \
+		commands/process_fork_run.c\
+		commands/process_ld_run.c \
+		commands/process_ldi_run.c \
+		commands/process_lfork_run.c \
+		commands/process_live_run.c \
+		commands/process_lld_run.c \
+		commands/process_lldi_run.c \
+		commands/process_or_run.c \
+		commands/process_st_run.c \
+		commands/process_sti_run.c \
+        commands/process_sub_run.c \
+        commands/process_xor_run.c \
+        commands/process_zjmp_run.c \
 		visu/deinit.c \
 		visu/draw_all.c \
 		visu/draw_info.c \
@@ -87,6 +103,7 @@ $(NAME): $(LIBFT_DIR)/libft.a $(LIBFTPRINTF_DIR)/libftprintf.a $(OBJS) $(COMMON_
 $(OBJDIR):
 	mkdir -p $(OBJDIR)
 	mkdir -p $(OBJDIR)/visu
+	mkdir -p $(OBJDIR)/commands
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c $(HEADER_FILES) | $(OBJDIR)
 	gcc $(FLAGS) $(INCS) -c $< -o $@

@@ -79,7 +79,8 @@ long		read_be_map(const t_fieldelem *data, long offset,
 	return (val);
 }
 
-void		set_field_vals(t_fieldelem *field, long pos, t_process *pr, long reg)
+void		set_field_vals(t_fieldelem *field, long pos, t_process *pr,
+	long reg)
 {
 	t_uint	count;
 	long	index;

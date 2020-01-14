@@ -1,46 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   control.c                                          :+:      :+:    :+:   */
+/*   process_zjmp_run.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eklompus <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/24 16:42:22 by eklompus          #+#    #+#             */
-/*   Updated: 2019/12/24 16:42:22 by eklompus         ###   ########.fr       */
+/*   Created: 2020/01/14 09:33:33 by eklompus          #+#    #+#             */
+/*   Updated: 2020/01/14 09:33:34 by eklompus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm.h"
+#include "ft_printf.h"
 
-void		start_pause(t_vm *vm)
+void		process_zjmp_run(t_vm *vm, t_process *pr, t_runner *run)
 {
-	if (vm->state == PAUSED)
-		vm->state = RUNNING;
-	else if (vm->state == RUNNING)
-		vm->state = PAUSED;
-}
+	int		diff;
 
-void		dec_values(t_vm *vm)
-{
-	int				i;
-	t_fieldelem		*elems;
-
-	elems = vm->field;
-	i = -1;
-	while (++i < MEM_SIZE)
+	diff = (int)(run->args[A1] % IDX_MOD);
+	if (pr->carry)
 	{
-		if (elems[i].fresh)
-			elems[i].fresh--;
-		if (elems[i].live)
-			elems[i].live--;
+		pr->pc += diff;
+		while (pr->pc < 0)
+			pr->pc += MEM_SIZE;
+		run->skip = 0;
 	}
-}
-
-void		inc_counter(t_vm *vm)
-{
-	vm->cycles++;
-	if (vm->visualize)
-	{
-		dec_values(vm);
-	}
+	if (vm->debug_args & VERB_SHOW_OPERATIONS)
+		ft_printf("P% 5d | zjmp %d %s\n",
+			pr->id, diff, pr->carry ? "OK" : "FAILED");
 }

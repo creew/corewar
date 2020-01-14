@@ -32,23 +32,23 @@ static void (*g_asm_funcs[])(t_vm *, t_process *pr, t_runner *run) = {
 	process_aff_run
 };
 
-static void		process_action(t_vm * vm, t_process *pr, t_runner *run)
+static void		process_action(t_vm *vm, t_process *pr, t_runner *run)
 {
 	int		i;
 
 	run->field = vm->field;
-	if (check_arguments(pr, run, pr->opcode) == 0)
+	if (check_arguments(pr, run, pr->opcode) == VALID)
 	{
 		g_asm_funcs[pr->opcode - 1](vm, pr, run);
-		if (vm->debug_args & VERB_SHOW_MOVES && run->skip)
-		{
-			ft_printf("ADV %d (0x%04x -> 0x%04x) ", run->skip, pr->pc,
-				pr->pc + run->skip);
-			i = -1;
-			while (++i < run->skip)
-				ft_printf("%02x ", run->field[(pr->pc + i) % MEM_SIZE].cmd);
-			ft_printf("\n");
-		}
+	}
+	if (vm->debug_args & VERB_SHOW_MOVES && run->skip)
+	{
+		ft_printf("ADV %d (0x%04x -> 0x%04x) ", run->skip, pr->pc,
+				  pr->pc + run->skip);
+		i = -1;
+		while (++i < run->skip)
+			ft_printf("%02x ", run->field[(pr->pc + i) % MEM_SIZE].cmd);
+		ft_printf("\n");
 	}
 }
 
@@ -81,11 +81,12 @@ static void		remove_unlive(t_vm *vm)
 	while (pr)
 	{
 		next = pr->next;
-		if (vm->cycles - pr->cycle_live >= (vm->cycle_to_die >= 0 ? vm->cycle_to_die : 0))
+		if (vm->cycles - pr->cycle_live >=
+			(vm->cycle_to_die >= 0 ? vm->cycle_to_die : 0))
 		{
 			if (vm->debug_args & VERB_SHOW_DEATHS)
 				ft_printf("Process %zu hasn't lived for %d cycles (CTD %d)\n",
-						  pr->id, vm->cycles - pr->cycle_live, vm->cycle_to_die);
+					pr->id, vm->cycles - pr->cycle_live, vm->cycle_to_die);
 			remove_process(&vm->processes_root, pr);
 		}
 		pr = next;

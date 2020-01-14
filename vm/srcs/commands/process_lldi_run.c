@@ -1,20 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print.c                                            :+:      :+:    :+:   */
+/*   process_lldi_run.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eklompus <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/25 09:28:53 by eklompus          #+#    #+#             */
-/*   Updated: 2019/12/25 09:28:53 by eklompus         ###   ########.fr       */
+/*   Created: 2020/01/14 09:32:50 by eklompus          #+#    #+#             */
+/*   Updated: 2020/01/14 09:32:50 by eklompus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "visu.h"
-#include "libft.h"
+#include "vm.h"
+#include "ft_printf.h"
 
-void	print_sdl_error(const char *err)
+void		process_lldi_run(t_vm *vm, t_process *pr, t_runner *run)
 {
-	ft_putstr("SDL Error: ");
-	ft_putendl(err);
+	long	val1;
+	long	val2;
+	t_ulong	val;
+
+	val1 = get_reg_dir_ind_arg(pr, run, A1);
+	val2 = get_reg_dir_arg(pr, run, A2);
+	val = read_be_map(vm->field, pr->pc + (val1 + val2), DIR_SIZE, SIGNED);
+	write_varlen_be(pr->regs[run->args[A3]], val, DIR_SIZE);
+	pr->carry = val == 0;
 }

@@ -1,6 +1,14 @@
-//
-// Created by eklompus on 29.12.2019.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   create_dump.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: eklompus <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/01/14 09:06:49 by eklompus          #+#    #+#             */
+/*   Updated: 2020/01/14 09:06:54 by eklompus         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "vm.h"
 #include <ft_printf.h>
@@ -20,7 +28,7 @@ void			create_dump(t_vm *vm, int chars_in_line)
 {
 	int				memsize;
 	t_fieldelem		*elems;
-	int 			pos;
+	int				pos;
 	int				size;
 
 	pos = 0;

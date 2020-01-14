@@ -63,7 +63,6 @@ static int	check_ind(t_op *op, t_uint id, t_process *pr, t_runner *runner)
 	return (valid);
 }
 
-
 static int	check_one_type(t_op *op, t_uint id, t_process *pr, t_runner *runner)
 {
 	t_uint	arg_val;
