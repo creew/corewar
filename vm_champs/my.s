@@ -1,12 +1,8 @@
-.name "";laptev
-;;
-#sere
-.comment ""#gleb ;;
+.name "zork"
+.comment "just a basic living prog"
 
-
-
-#lapewww
-live:
-loop:sti r00, %:live, %1
-#lap
-#r_asm accepts empty string of name and comment
+l2:
+		sti r99,%:live,%1
+		and r101,%0,r100
+live:   live %1
+		zjmp %:live

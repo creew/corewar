@@ -29,11 +29,9 @@ typedef struct s_champ
 typedef	struct	s_valid
 {
 	int		(*valid_com[16])(t_com *commands);
-	int		(*valid_args[3])(t_com *commands);
 	char	can_use_command[16][8];
 }				t_valid;
 
-char			**ft_my_strsplit(char const *s, char c);
 int				ft_is_strstr(char *src, char *to_find);
 int     		valid_fork(t_com *commands);
 int     		valid_lfork(t_com *commands);
@@ -82,13 +80,10 @@ void    		add_args(char **line, t_com *commands, t_ch player);
 void	        add_command_with_label(char **line, t_com *command);
 void        	add_command(char *line, t_com *command);
 void        	add_label(char *line, t_com *commands);
-void        	init_args(void);
 void	        init_command(t_valid *validator);
 void        	init_validator(t_valid *validator);
 t_com       	*lst_create_commands(void);
 int     		valid_label(char *label);
-int     		ft_word_length(char const *s, char c);
-int	        	count_words(char const *s, char c);
 void        	ft_delete_tabs(char *str);
 void        	clear_commands(t_com **coms);
 void        	clear_line(char **str);
@@ -102,7 +97,6 @@ void			work_with_command(char *q, t_com **commands, t_valid validator, t_ch play
 void			wokr_with_label(char *q, t_com **commands, t_valid validator, t_ch player);
 void			set_player(t_ch *player, char *str);
 void			init_line(char **line, char **q);
-int				ft_strsubpos(char *str, char c);
 void			adding_args(char **args, t_com *commands);
 void			end_name_or_comment(char **str, int i, char **line, t_ch *player, int z);
 int				ft_where_is_n(char *s);
@@ -110,4 +104,5 @@ int				ft_give_row(char **str, char **line, int fd);
 int				get_row(const int fd, char **line);
 int				if_the_end_file_with_out_n(char *line);
 void			lst_create_player(char *str, t_ch *player);
+void			init(char *argv, t_com **commands, t_ch *player);
 #endif //COREWAR_AWM_H
