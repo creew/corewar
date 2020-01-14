@@ -27,15 +27,15 @@ typedef enum {
 	USUAL,
 	FRESH,
 	LIVE
-}				t_process_highlight;
+}	t_process_highlight;
 
-typedef struct	s_wh
+typedef struct		s_wh
 {
 	int				width;
 	int				height;
-}				t_wh;
+}					t_wh;
 
-typedef struct	s_vis
+typedef struct		s_vis
 {
 	SDL_Window		*window;
 	SDL_Renderer	*ren;
@@ -43,22 +43,24 @@ typedef struct	s_vis
 	int				wwidth;
 	int				wheight;
 	t_wh			font100;
-	t_wh 			cur_font;
+	t_wh			cur_font;
 	SDL_Texture		*glyph_textures[MAX_PLAYERS * 2 + 1][16];
-	SDL_Texture     *carriages[MAX_PLAYERS];
-	SDL_Rect        info_box;
-}				t_vis;
+	SDL_Texture		*carriages[MAX_PLAYERS];
+	SDL_Rect		info_box;
+}					t_vis;
 
-void		print_sdl_error(const char *err);
-int			init_sdl(t_vis *vis);
-void 		sdl_destroy(t_vis *vis);
-void		destroy_glyph_textures(t_vis *vis);
-void		destroy_carriages_textures(t_vis *vis);
+void				print_sdl_error(const char *err);
+int					init_sdl(t_vis *vis);
+void				sdl_destroy(t_vis *vis);
+void				destroy_glyph_textures(t_vis *vis);
+void				destroy_carriages_textures(t_vis *vis);
 
-SDL_Color	get_color(int r, int g, int b, int a);
-Uint32		get_uint32_color(int r, int g, int b, int a);
-int			reload_font(t_vis *vis);
-void		text_out(t_vis *vis, SDL_Point *xy, const char *txt, SDL_Color color);
-SDL_Color	get_process_color(int id, t_process_highlight prh);
-Uint32		get_uint32_process_color(int id, t_process_highlight prh);
+SDL_Color			get_color(int r, int g, int b, int a);
+Uint32				get_uint32_color(int r, int g, int b, int a);
+int					reload_font(t_vis *vis);
+void				text_out(t_vis *vis, SDL_Point *xy, const char *txt,
+						SDL_Color color);
+SDL_Color			get_process_color(int id, t_process_highlight prh);
+Uint32				get_uint32_process_color(int id, t_process_highlight prh);
+void				init_carriages(t_vis *vis);
 #endif

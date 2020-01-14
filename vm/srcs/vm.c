@@ -13,10 +13,34 @@
 #include "vm.h"
 #include <ft_printf.h>
 
+static int		check_cycle(t_vm *vm)
+{
+	int		ret;
+
+	ret = 0;
+	if (vm->state == RUNNING || (vm->state == PAUSED && vm->do_steps))
+	{
+		if (vm->do_steps)
+			vm->do_steps--;
+		inc_counter(vm);
+		process_cycle(vm);
+	}
+	if (vm->processes_root == NULL)
+	{
+		vm->state = FINISHED;
+		if (vm->last_player)
+			ft_printf("Contestant %d, \"%s\", has won !\n",
+				vm->last_player->player_id, vm->last_player->name);
+		if (!vm->visualize)
+			ret = 1;
+	}
+	return (ret);
+}
+
 static void		infinite_loop(t_vm *vm)
 {
-    while (42)
-    {
+	while (42)
+	{
 		if (vm->do_dump && vm->dump_n == vm->cycles)
 		{
 			create_dump(vm, 64);
@@ -28,23 +52,9 @@ static void		infinite_loop(t_vm *vm)
 				break ;
 			draw_all(&vm->vis, vm);
 		}
-		if (vm->state == RUNNING || (vm->state == PAUSED && vm->do_steps))
-		{
-			if (vm->do_steps)
-				vm->do_steps--;
-			inc_counter(vm);
-			process_processes(vm);
-		}
-		if (vm->processes_root == NULL)
-		{
-			vm->state = FINISHED;
-			if (vm->last_player)
-				ft_printf("Contestant %d, \"%s\", has won !\n",
-					vm->last_player->player_id, vm->last_player->name);
-			if (!vm->visualize)
-				break ;
-		}
-    }
+		if (check_cycle(vm))
+			break ;
+	}
 }
 
 static void		print_players(t_player **players, size_t count)

@@ -22,12 +22,12 @@ void		start_pause(t_vm *vm)
 
 void		dec_values(t_vm *vm)
 {
-	int				i;
+	size_t			i;
 	t_fieldelem		*elems;
 
 	elems = vm->field;
 	i = -1;
-	while (++i < MEM_SIZE)
+	while (++i < sizeof(vm->field) / sizeof(vm->field[0]))
 	{
 		if (elems[i].fresh)
 			elems[i].fresh--;
@@ -40,7 +40,5 @@ void		inc_counter(t_vm *vm)
 {
 	vm->cycles++;
 	if (vm->visualize)
-	{
 		dec_values(vm);
-	}
 }

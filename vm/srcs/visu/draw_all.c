@@ -15,7 +15,7 @@
 #include "ft_printf.h"
 #include <SDL2_gfxPrimitives.h>
 
-static void			draw_text(t_vis *vis, int x, int y, t_fieldelem *val)
+static void		draw_text(t_vis *vis, int x, int y, t_fieldelem *val)
 {
 	SDL_Rect		rect;
 	t_uint			player;
@@ -34,12 +34,12 @@ static void			draw_text(t_vis *vis, int x, int y, t_fieldelem *val)
 		vis->glyph_textures[player][val->cmd & 0xFu], NULL, &rect);
 }
 
-static void			draw_field(t_vis *vis, t_vm *vm)
+static void		draw_field(t_vis *vis, t_vm *vm)
 {
 	int			x;
 	int			y;
 	int			px;
-	int 		py;
+	int			py;
 
 	y = -1;
 	while (++y < 64)
@@ -55,7 +55,7 @@ static void			draw_field(t_vis *vis, t_vm *vm)
 	}
 }
 
-SDL_Color	get_color(int r, int g, int b, int a)
+SDL_Color		get_color(int r, int g, int b, int a)
 {
 	SDL_Color	color;
 
@@ -66,51 +66,19 @@ SDL_Color	get_color(int r, int g, int b, int a)
 	return (color);
 }
 
-void				draw_borders(t_vis *vis)
+void			draw_borders(t_vis *vis)
 {
 	roundedRectangleColor(vis->ren,
 		1,
 		1,
 		START_FIELD_X + 64 * vis->cur_font.width * 2
 		+ 64 * vis->cur_font.width / 2 + 1,
-		START_FIELD_Y + 64 * vis->cur_font.height +1 ,
+		START_FIELD_Y + 64 * vis->cur_font.height + 1,
 		10,
 		get_uint32_color(49, 51, 53, 255));
 }
 
-void 				draw_processes(t_vis *vis, t_vm *vm)
-{
-	t_process	*pr;
-	SDL_Rect	rect;
-	t_ulong		map[MEM_SIZE / (sizeof(t_ulong) * 8)];
-	t_uint 		elem;
-	t_uint 		bit;
-
-	ft_bzero(map, sizeof(map));
-	pr = vm->processes_root;
-	while (pr)
-	{
-		if (pr->pc >=0 && pr->pc < MEM_SIZE)
-		{
-			elem = pr->pc / (sizeof(t_ulong) * 8);
-			bit = pr->pc % (sizeof(t_ulong) * 8);
-			if (!(map[elem] & (1u << bit)))
-			{
-				rect.x = START_FIELD_X + (pr->pc % 64) * vis->cur_font.width * 2 +
-						 (pr->pc % 64) * vis->cur_font.width / 2;
-				rect.y = START_FIELD_Y + (pr->pc / 64) * vis->cur_font.height;
-				rect.w = vis->cur_font.width * 2;
-				rect.h = vis->cur_font.height;
-				SDL_RenderCopy(vis->ren,
-							   vis->carriages[pr->player_id - 1], NULL, &rect);
-				map[elem] |= (1u << bit);
-			}
-		}
-		pr = pr->next;
-	}
-}
-
-void				draw_all(t_vis *vis, t_vm *vm)
+void			draw_all(t_vis *vis, t_vm *vm)
 {
 	SDL_SetRenderDrawColor(vis->ren, 0, 0, 0, 0xFF);
 	SDL_RenderClear(vis->ren);

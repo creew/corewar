@@ -12,7 +12,7 @@
 
 #include "op.h"
 
-t_op    op_tab[17] =
+t_op	g_op_tab[17] =
 {
 	{"live", 1, {T_DIR}, 1, 10, "alive", 0, 0},
 	{"ld", 2, {T_DIR | T_IND, T_REG}, 2, 5, "load", 1, 0},
@@ -44,10 +44,10 @@ t_op	*get_op_by_id(int id)
 	int		i;
 
 	i = -1;
-	while (op_tab[++i].name)
+	while (g_op_tab[++i].name)
 	{
-		if (op_tab[i].opcode == id)
-			return (op_tab + i);
+		if (g_op_tab[i].opcode == id)
+			return (g_op_tab + i);
 	}
 	return (0);
 }

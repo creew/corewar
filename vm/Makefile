@@ -11,13 +11,15 @@
 #******************************************************************************#
 
 ALL_C =	check_arguments.c \
+		check_op_types.c \
 		control.c \
 		create_dump.c \
 		dl_list.c \
 		errors.c \
+		exec_process.c \
 		init_vm.c \
 		parse_arg.c \
-		processes.c \
+		process_cycle.c \
 		read_be.c \
 		read_champ.c \
 		read_options.c \
@@ -42,10 +44,12 @@ ALL_C =	check_arguments.c \
 		visu/deinit.c \
 		visu/draw_all.c \
 		visu/draw_info.c \
+		visu/draw_processes.c \
 		visu/get_color.c \
 		visu/init.c \
 		visu/print.c \
 		visu/process.c \
+		visu/reload_carriages.c \
 		visu/reload_fonts.c \
 
 SRCDIR = ./srcs

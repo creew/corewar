@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #ifndef OP_H
 # define OP_H
+
 /*
 ** Toutes les tailles sont en octets.
 ** On part du principe qu'un int fait 32 bits. Est-ce vrai chez vous ?
@@ -22,11 +22,9 @@
 # define REG_SIZE				4u
 # define DIR_SIZE				REG_SIZE
 
-
 # define REG_CODE				1u
 # define DIR_CODE				2u
 # define IND_CODE				3u
-
 
 # define MAX_ARGS_NUMBER		4
 # define MAX_PLAYERS			4
@@ -52,7 +50,7 @@
 # define MAX_CHECKS				10
 
 /*
-**
+** Description args
 */
 
 typedef char	t_arg_type;
@@ -63,32 +61,32 @@ typedef char	t_arg_type;
 # define T_LAB					8u
 
 /*
-**
+** Header data length
 */
 
 # define PROG_NAME_LENGTH		(128)
 # define COMMENT_LENGTH			(2048)
 # define COREWAR_EXEC_MAGIC		0xea83f3
 
-typedef struct		s_header
+typedef struct	s_header
 {
-  unsigned int		magic;
-  char				prog_name[PROG_NAME_LENGTH + 1];
-  unsigned int		prog_size;
-  char				comment[COMMENT_LENGTH + 1];
-}					t_header;
+	unsigned int		magic;
+	char				prog_name[PROG_NAME_LENGTH + 1];
+	unsigned int		prog_size;
+	char				comment[COMMENT_LENGTH + 1];
+}				t_header;
 
-typedef struct		s_op
+typedef struct	s_op
 {
-	char 			*name;
-	int 			args_count;
-	unsigned int 	args[3];
-	int 			opcode;
+	char			*name;
+	int				args_count;
+	unsigned int	args[3];
+	int				opcode;
 	int				wait;
 	char			*desc;
-	int 			is_argtype;
-	int 			is_tdir_2bytes;
-}					t_op;
-#endif
+	int				is_argtype;
+	int				is_tdir_2bytes;
+}				t_op;
 
-t_op	*get_op_by_id(int id);
+t_op			*get_op_by_id(int id);
+#endif

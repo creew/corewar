@@ -12,58 +12,8 @@
 
 #include "vm.h"
 
-static int	check_reg(t_op *op, t_uint id, t_process *pr, t_runner *runner)
-{
-	int		valid;
-	long	r;
-
-	valid = INVALID;
-	if (op->args[id] & T_REG)
-	{
-		r = read_be_map(runner->field, pr->pc + runner->skip, 1, 1);
-		if (r >= 1 && r <= REG_NUMBER)
-		{
-			runner->args[id] = r - 1;
-			valid = VALID;
-		}
-	}
-	runner->skip++;
-	return (valid);
-}
-
-static int	check_dir(t_op *op, t_uint id, t_process *pr, t_runner *runner)
-{
-	int		valid;
-	t_uint	size;
-
-	valid = INVALID;
-	size = op->is_tdir_2bytes ? DIR_SIZE / 2 : DIR_SIZE;
-	if (op->args[id] & T_DIR)
-	{
-		runner->args[id] = read_be_map(runner->field, pr->pc + runner->skip,
-			size, 1);
-		valid = VALID;
-	}
-	runner->skip += size;
-	return (valid);
-}
-
-static int	check_ind(t_op *op, t_uint id, t_process *pr, t_runner *runner)
-{
-	int		valid;
-
-	valid = INVALID;
-	if (op->args[id] & T_IND)
-	{
-		runner->args[id] = read_be_map(runner->field, pr->pc + runner->skip
-			, IND_SIZE, 1);
-		valid = VALID;
-	}
-	runner->skip += IND_SIZE;
-	return (valid);
-}
-
-static int	check_one_type(t_op *op, t_uint id, t_process *pr, t_runner *runner)
+static int		check_one_type(t_op *op, t_uint id, t_process *pr,
+	t_runner *runner)
 {
 	t_uint	arg_val;
 
@@ -78,7 +28,7 @@ static int	check_one_type(t_op *op, t_uint id, t_process *pr, t_runner *runner)
 	return (INVALID);
 }
 
-t_uint				calc_argtype(t_op *op)
+static t_uint	calc_argtype(t_op *op)
 {
 	t_uint		arg_type;
 	t_uint		i;
@@ -97,7 +47,7 @@ t_uint				calc_argtype(t_op *op)
 	return (arg_type);
 }
 
-int			check_arguments(t_process *pr, t_runner *run, int index)
+int				check_arguments(t_process *pr, t_runner *run, int index)
 {
 	t_op		*op;
 	int			i;
@@ -108,9 +58,9 @@ int			check_arguments(t_process *pr, t_runner *run, int index)
 		return (INVALID);
 	if (op->is_argtype)
 		run->arg = (t_uint)read_be_map(run->field, pr->pc + run->skip++,
-			1, UNSIGNED);
+			1, SIGNED);
 	else
-		run->arg = calc_argtype(op_tab);
+		run->arg = calc_argtype(g_op_tab);
 	i = -1;
 	while (++i < op->args_count)
 	{
