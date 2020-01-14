@@ -61,8 +61,8 @@ static int	calc_font(t_vis *vis)
 int			init_sdl(t_vis *vis)
 {
 	ft_bzero(vis, sizeof(*vis));
-	vis->wwidth = 1000;
-	vis->wheight = 600;
+	vis->wwidth = 1700;
+	vis->wheight = 1100;
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_EVENTS) != 0)
 	{
 		print_sdl_error(SDL_GetError());

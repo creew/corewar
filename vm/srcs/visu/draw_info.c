@@ -91,6 +91,14 @@ static int		draw_cycle_info(t_vis *vis, t_vm *vm, int start_index)
 	ft_snprintf(buf, sizeof(buf), "MAX_CHECKS: %d", MAX_CHECKS);
 	draw_info_string(vis, buf, start_index, color);
 	start_index += 2;
+	if (vm->state == FINISHED)
+	{
+		ft_snprintf(buf, sizeof(buf), "Player %d, %s won",
+			vm->last_player->player_id, vm->last_player->name);
+		draw_info_string(vis, buf, start_index,
+			get_process_color(vm->last_player->player_id, USUAL));
+		start_index += 1;
+	}
 	return (start_index);
 }
 

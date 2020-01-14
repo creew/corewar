@@ -41,7 +41,7 @@ static const char	g_usage[] =
 "                - 0 : Show only essentials\n"
 "                - 1 : Show lives\n"
 "                - 2 : Show cycles\n"
-"                - 4 : Show operations (Params are NOT litteral ...)\n"
+"                - 4 : Show operations (Params are NOT literal ...)\n"
 "                - 8 : Show deaths\n"
 "                - 16 : Show PC movements (Except for jumps)\n"
 "#### SDL2 OUTPUT MODE ###################"

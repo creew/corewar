@@ -43,7 +43,7 @@ static void		infinite_loop(t_vm *vm)
 	{
 		if (vm->do_dump && vm->dump_n == vm->cycles)
 		{
-			create_dump(vm, 64);
+			create_dump(vm, 32);
 			break ;
 		}
 		if (vm->visualize)

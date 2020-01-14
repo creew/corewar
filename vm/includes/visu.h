@@ -30,8 +30,8 @@ typedef enum {
 
 typedef struct		s_wh
 {
-	int				width;
-	int				height;
+	int		width;
+	int		height;
 }					t_wh;
 
 typedef struct		s_vis
@@ -43,7 +43,7 @@ typedef struct		s_vis
 	int				wheight;
 	t_wh			font100;
 	t_wh			cur_font;
-	SDL_Texture		*glyph_textures[MAX_PLAYERS * 2 + 1][16];
+	SDL_Texture		*glyph_textures[MAX_PLAYERS * 2 + 2][16];
 	SDL_Texture		*carriages[MAX_PLAYERS * 2];
 	SDL_Rect		info_box;
 }					t_vis;

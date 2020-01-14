@@ -16,14 +16,14 @@
 
 static int		get_pt_size(t_vis *vis)
 {
-	int ptw;
-	int	pth;
+	double	ptw;
+	double	pth;
 
-	ptw = (vis->wwidth - 40) / (64 * 2 + 64 / 2 + 32);
-	pth = (vis->wheight - 20) / (64);
+	ptw = (vis->wwidth - 40.0) / (64 * 2 + 64 / 2.0 + 32);
+	pth = (vis->wheight - 20.0) / (64);
 	ptw = ptw * 100 / vis->font100.width;
 	pth = pth * 100 / vis->font100.height;
-	return (ft_min(pth, ptw));
+	return (ft_min((int)pth, (int)ptw));
 }
 
 static void		init_glyphs(t_vis *vis)

@@ -30,7 +30,32 @@ add_executable(vm
         ./srcs/visu/process.c
         ./srcs/visu/draw_all.c
         ./srcs/visu/draw_info.c
-        ./srcs/create_dump.c srcs/parse_arg.c srcs/errors.c srcs/visu/get_color.c srcs/commands/process_live_run.c srcs/commands/process_ld_run.c srcs/commands/process_st_run.c srcs/commands/process_add_run.c srcs/commands/process_sub_run.c srcs/commands/process_and_run.c srcs/commands/process_or_run.c srcs/commands/process_xor_run.c srcs/commands/process_zjmp_run.c srcs/commands/process_ldi_run.c srcs/commands/process_sti_run.c srcs/commands/process_fork_run.c srcs/commands/process_lld_run.c srcs/commands/process_lldi_run.c srcs/commands/process_lfork_run.c srcs/commands/process_aff_run.c srcs/commands/get_command_arg.c srcs/visu/draw_carriages.c srcs/visu/reload_carriages.c srcs/exec_process.c srcs/check_op_types.c)
+        ./srcs/create_dump.c
+        srcs/parse_arg.c
+        srcs/errors.c
+        srcs/visu/get_color.c
+        srcs/commands/process_live_run.c
+        srcs/commands/process_ld_run.c
+        srcs/commands/process_st_run.c
+        srcs/commands/process_add_run.c
+        srcs/commands/process_sub_run.c
+        srcs/commands/process_and_run.c
+        srcs/commands/process_or_run.c
+        srcs/commands/process_xor_run.c
+        srcs/commands/process_zjmp_run.c
+        srcs/commands/process_ldi_run.c
+        srcs/commands/process_sti_run.c
+        srcs/commands/process_fork_run.c
+        srcs/commands/process_lld_run.c
+        srcs/commands/process_lldi_run.c
+        srcs/commands/process_lfork_run.c
+        srcs/commands/process_aff_run.c
+        srcs/commands/get_command_arg.c
+        srcs/visu/draw_carriages.c
+        srcs/visu/reload_carriages.c
+        srcs/exec_process.c
+        srcs/check_op_types.c
+        )
 
 add_dependencies(vm libft_target)
 add_dependencies(vm ft_printf_target)

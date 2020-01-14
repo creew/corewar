@@ -63,7 +63,7 @@ ALL_OBJ = $(ALL_C:%.c=%.o)
 
 OBJS = $(addprefix $(OBJDIR)/, $(ALL_OBJ))
 
-COMMON_OBJS = ./../common_resources/op.o
+COMMON_OBJS = $(addprefix $(OBJDIR)/, common/op.o)
 
 NAME = corewar
 
@@ -108,6 +108,7 @@ $(OBJDIR):
 	mkdir -p $(OBJDIR)
 	mkdir -p $(OBJDIR)/visu
 	mkdir -p $(OBJDIR)/commands
+	mkdir -p $(OBJDIR)/common
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c $(HEADER_FILES) | $(OBJDIR)
 	gcc $(FLAGS) $(INCS) -c $< -o $@
@@ -123,7 +124,6 @@ $(LIBFTPRINTF_DIR)/libftprintf.a:
 
 clean:
 	rm -rf $(OBJDIR)
-	rm -rf ./../common_resources/op.o
 	$(COMP_LIBFT) clean
 	$(COMP_LIBFTPRINTF) clean
 
