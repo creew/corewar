@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "awm.h"
+#include "assembler.h"
 
 void	set_player(t_ch *player, char *str)
 {
@@ -29,14 +30,13 @@ void	set_player(t_ch *player, char *str)
 		else if (it_s_comment(q))
 			add_comment(q, player);
 		else if (q && *q && *q != '\0' && *q != '\n')
-			ft_exit2("недопустимые символы,"
-			"должно быть имя или коммент чемпиона", player->row);
+			ft_exit2(13, player->row);
 		if (player->name != NULL && player->comment != NULL)
 			break ;
 		clear_line(&line);
 	}
 	if (!player->name || !player->comment)
-		ft_exit2("не существует имени или коммента чимпиона", 0);
+		ft_exit(14);
 	clear_line(&line);
 }
 
@@ -45,7 +45,7 @@ void	wokr_with_label(char *q, t_com **commands,
 {
 	add_label(q, *commands);
 	if (!valid_label((*commands)->label))
-		ft_exit2("не валидная метка", player.row);
+		ft_exit2(15, player.row);
 	if (l_and_c_one_rows(q))
 	{
 		add_command_with_label(&q, *commands);
@@ -53,7 +53,7 @@ void	wokr_with_label(char *q, t_com **commands,
 		{
 			add_args(&q, *commands, player);
 			if (!valid_args(*commands, validator))
-				ft_exit2("не валидный аргумент", player.row);
+				ft_exit2(18, player.row);
 		}
 		(*commands)->row = player.row;
 		(*commands)->next = lst_create_commands();
@@ -68,7 +68,7 @@ void	work_with_command(char *q, t_com **commands,
 	add_args(&q, *commands, player);
 	(*commands)->row = player.row;
 	if (!valid_args(*commands, validator))
-		ft_exit3(1);//ft_exit2("не валидный аргумент", player.row);
+		ft_exit2(18, player.row);
 	(*commands)->next = lst_create_commands();
 	*commands = (*commands)->next;
 }
@@ -89,14 +89,14 @@ void	set_commands(t_ch *player, t_com *commands)
 		else if (*q != '\0' && is_command(q, validator, player->row))
 			work_with_command(q, &commands, validator, *player);
 		else if (*q != '\0')
-			ft_exit2("не верный синтаксис", player->row);
+			ft_exit2(19, player->row);
 		clear_line(&line);
 	}
 	delete_comment(line);
 	if (if_the_end_file_with_out_n(ft_strtrim(line)))
 	{
 		player->row++;
-		ft_exit2("ожидался перенос строки", player->row);
+		ft_exit2(20, player->row);
 	}
 	clear_line(&line);
 }
@@ -113,10 +113,9 @@ void	init(char *argv, t_com **commands, t_ch *player)
 	set_player(player, argv);
 	set_commands(player, *commands);
 	if (!(*commands)->label && !(*commands)->name)
-		ft_exit2("нет команд", 0);
+		ft_exit2(21, 0);
 	if ((row = valid_labeles(commands_head)) != -1)
-		ft_exit2("не сущесвует такой метки, которая в аргументе", row);
+		ft_exit2(22, row);
 	clear_line(&line);
-	printf(GREEN("ok"));
 	*commands = commands_head;
 }

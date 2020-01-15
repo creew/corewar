@@ -14,7 +14,7 @@
 
 int		valid_arg_dir(char *str, t_com *commands)
 {
-	if (str[0] == DIRECT_CHAR)
+	if (str && str[0] == DIRECT_CHAR)
 	{
 		str++;
 		if (*str == '-')
@@ -34,11 +34,11 @@ int		valid_arg_dir(char *str, t_com *commands)
 
 int		valid_arg_int(char *str)
 {
-	if (str[0] == LABEL_CHAR && str[1] != '\0' && str[1] != ' ')
+	if (str && str[0] == LABEL_CHAR && str[1] != '\0' && str[1] != ' ')
 		return (1);
-	if (str[0] == '-' || str[0] == '+')
+	if (str && (str[0] == '-' || str[0] == '+'))
 		str++;
-	if (ft_isdigit(str[0]))
+	if (str && ft_isdigit(str[0]))
 	{
 		while (ft_isdigit(*str))
 			str++;
@@ -52,7 +52,7 @@ int		valid_arg_reg(char *str)
 {
 	int n;
 
-	if (str[0] == 'r')
+	if (str && str[0] == 'r')
 	{
 		str++;
 		n = ft_atoi(str);

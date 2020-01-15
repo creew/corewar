@@ -16,6 +16,8 @@ void	clear_commands(t_com **coms)
 {
 	t_com *q;
 
+	if (!(*coms))
+		return ;
 	while (*coms && (*coms)->next)
 	{
 		q = *coms;
@@ -48,23 +50,4 @@ void	clear_player(t_ch *player)
 {
 	free(player->name);
 	free(player->comment);
-}
-
-void	ft_exit2(char *str, int row)
-{
-	ft_printf(RED("ERROR"));
-	ft_printf(": %s\n ", str);
-	if (row > 0)
-		ft_printf("СТРОКА %d\n", row);
-	exit(0);
-}
-
-void	ft_exit3(int error_num)
-{
-	ft_printf(RED("ERROR: "));
-	ft_printf("%s %d\n", "not valide arg", error_num);
-
-//	if (row > 0)
-//		ft_printf("СТРОКА %d\n", row);
-	exit(0);
 }

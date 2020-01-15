@@ -100,7 +100,7 @@ void			wokr_with_label(char *q, t_com **commands, t_valid validator, t_ch player
 void			set_player(t_ch *player, char *str);
 void			init_line(char **line, char **q);
 void			adding_args(char **args, t_com *commands);
-void			end_name_or_comment(char **str, int i, char **line, t_ch *player, int z);
+void			end_name_or_comment(char **str, int i, t_ch *player, int z);
 int				ft_where_is_n(char *s);
 int				ft_give_row(char **str, char **line, int fd);
 int				get_row(const int fd, char **line);
@@ -109,5 +109,6 @@ void			lst_create_player(char *str, t_ch *player);
 void			init(char *argv, t_com **commands, t_ch *player);
 void        	delete_comment_and_tabs(char *str);
 void			assembler(t_com *commands, t_ch player, char *av);
-void			ft_exit3(int error_num);
+void			errors_code2(int num);
+void			errors_code3(int num);
 #endif //COREWAR_AWM_H

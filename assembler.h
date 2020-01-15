@@ -110,5 +110,5 @@ char   			*gleb_strtrim(char const *s);
 char   			*gleb_strsub(char const *s, unsigned int start, size_t len);
 void			count_byte(t_com *commands, int i);
 void			put_num_byte(t_main *str_asm);
-
+void			errors_code2(int num);
 #endif

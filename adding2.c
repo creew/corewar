@@ -92,7 +92,7 @@ void	adding_args(char **args, t_com *commands)
 }
 
 void	end_name_or_comment(char **str, int i,
-		char **line, t_ch *player, int z)
+		t_ch *player, int z)
 {
 	char *q;
 
@@ -100,11 +100,11 @@ void	end_name_or_comment(char **str, int i,
 	{
 		player->row++;
 		free(*str);
-		if (get_row(player->fd, line) > 0)
+		if (get_row(player->fd, str) > 0)
 		{
 			player->row++;
-			z == 2 ? add_with_n_comment(player, *line, 2) :
-			add_with_n_name(player, *line, 1);
+			z == 2 ? add_with_n_comment(player, *str, 2) :
+			add_with_n_name(player, *str, 1);
 		}
 	}
 	else if ((*str)[i] == '"')
@@ -114,7 +114,7 @@ void	end_name_or_comment(char **str, int i,
 		init_line(&q, str);
 		while ((*str)[++i + 1] != '\0')
 			(*str)[i] != ' ' ?
-			ft_exit2("ожидался конец строки после \"", player->row) : 0;
+			ft_exit2(23, player->row) : 0;
 		free(*str);
 	}
 }

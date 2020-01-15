@@ -18,25 +18,25 @@ void	add_comment(char *str, t_ch *player)
 
 	i = 1;
 	if (player->comment != NULL)
-		ft_exit2("коммент уже существует", player->row);
+		ft_exit2(9, player->row);
 	while (*str != '"' && *str != '\0')
 		str++;
 	if (*str == '\0')
-		ft_exit2("ожидалось имя чемпиона в символах \" \"", player->row);
+		ft_exit2(10, player->row);
 	while (str[i] != '"' && str[i] != '\0')
 		i++;
 	if (str[i] == '\0')
 	{
 		add_with_n_comment(player, ft_strdup(1 + str), 2);
 		if (ft_strlen(player->comment) > COMMENT_LENGTH)
-			ft_exit2("длина комментария слишком большая", player->row);
+			ft_exit2(11, player->row);
 		return ;
 	}
 	if (str[i + 1] && str[i + 1] != '\0')
-		ft_exit2("ожидлася конец строки после комментария", player->row);
+		ft_exit2(12, player->row);
 	player->comment = ft_strsub(str, 1, i - 1);
 	if (ft_strlen(player->comment) > COMMENT_LENGTH)
-		ft_exit2("длина комментария слишком большая", player->row);
+		ft_exit2(13, player->row);
 }
 
 void	add_with_n_comment(t_ch *player, char *str, int z)
@@ -64,7 +64,7 @@ void	add_with_n_comment(t_ch *player, char *str, int z)
 		s ? free(s) : 0;
 		free(line);
 	}
-	end_name_or_comment(&str, i, &line, player, z);
+	end_name_or_comment(&str, i, player, z);
 }
 
 void	add_name(char *str, t_ch *player)
@@ -88,10 +88,10 @@ void	add_name(char *str, t_ch *player)
 		return ;
 	}
 	(str[i + 1] && str[i + 1] != '\0') ?
-			ft_exit2("ожидался конец строки после имени", player->row) : 0;
+			ft_exit2(8, player->row) : 0;
 	player->name = ft_strsub(str, 1, i - 1);
 	if (ft_strlen(player->name) > PROG_NAME_LENGTH)
-		ft_exit2("длина имени слишком большая", player->row);
+		ft_exit2(7, player->row);
 }
 
 void	add_with_n_name(t_ch *player, char *str, int z)
@@ -119,7 +119,7 @@ void	add_with_n_name(t_ch *player, char *str, int z)
 		s ? free(s) : 0;
 		free(line);
 	}
-	end_name_or_comment(&str, i, &line, player, z);
+	end_name_or_comment(&str, i, player, z);
 }
 
 void	add_args(char **line, t_com *commands, t_ch player)
@@ -137,7 +137,7 @@ void	add_args(char **line, t_com *commands, t_ch player)
 	while (s[i] && s[i] != '\0')
 		i++;
 	if (s[i - 1] && s[i - 1] == SEPARATOR_CHAR)
-		ft_exit2("не валидное окончание строки", player.row);
+		ft_exit2(17, player.row);
 	args = ft_strsplit(s, SEPARATOR_CHAR);
 	adding_args(args, commands);
 	free(q);

@@ -23,7 +23,7 @@ int		command_is_valid(char *command, t_valid validator, int row)
 			return (1);
 		i++;
 	}
-	ft_exit2("не валидная команда", row);
+	ft_exit2(16, row);
 	return (0);
 }
 

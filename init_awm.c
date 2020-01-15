@@ -74,6 +74,11 @@ t_com	*lst_create_commands(void)
 
 void	init_line(char **line, char **q)
 {
+	if (!(*line))
+	{
+		*q = NULL;
+		return ;
+	}
 	delete_comment_and_tabs(*line);
 	*q = ft_strtrim(*line);
 	clear_line(line);
