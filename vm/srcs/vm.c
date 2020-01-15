@@ -78,6 +78,8 @@ void			destroy_all(t_vm *vm)
 
 	while (vm->count_players--)
 		ft_memdel((void **)&vm->players[vm->count_players]);
+	while (vm->count_pl_tmp--)
+		ft_memdel((void **)&vm->players[vm->count_pl_tmp]);
 	pr = vm->processes_root;
 	vm->processes_root = NULL;
 	while (pr)

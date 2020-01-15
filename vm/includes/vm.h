@@ -89,7 +89,9 @@ typedef struct	s_player {
 
 typedef struct	s_vm {
 	t_player			*players[MAX_PLAYERS];
+	t_player			*pl_tmp[MAX_PLAYERS];
 	size_t				count_players;
+	size_t				count_pl_tmp;
 	t_player			*last_player;
 	t_process			*processes_root;
 	size_t				process_count;
@@ -98,8 +100,6 @@ typedef struct	s_vm {
 	size_t				cycles_check;
 	size_t				live;
 	size_t				checks;
-	int					visualize;
-	int					print_aff;
 	t_gstate			state;
 	t_fieldelem			field[MEM_SIZE];
 	t_vis				vis;
@@ -108,6 +108,8 @@ typedef struct	s_vm {
 	int					dump_n;
 	int					do_debug;
 	t_uint				debug_args;
+	int					visualize;
+	int					print_aff;
 }				t_vm;
 
 typedef struct	s_runner

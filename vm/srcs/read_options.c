@@ -51,6 +51,27 @@ static t_result	check_order(t_player **arr, size_t count)
 	return (RET_OK);
 }
 
+static t_result	join_players(t_vm *vm)
+{
+	size_t		index;
+	t_result	err;
+	int			res;
+
+	index = -1;
+	while (++index < vm->count_pl_tmp)
+	{
+		err = get_next_free_index(vm->players, &res, sizeof(vm->players));
+		if (err != RET_OK)
+			return (err);
+		vm->pl_tmp[index]->player_id = res;
+		vm->players[res - 1] = vm->pl_tmp[index];
+		vm->count_players++;
+	}
+	ft_bzero(vm->pl_tmp, sizeof(vm->pl_tmp));
+	vm->count_pl_tmp = 0;
+	return (RET_OK);
+}
+
 t_result		read_option(t_vm *vm, int ac, char *av[])
 {
 	int			count;
@@ -65,10 +86,12 @@ t_result		read_option(t_vm *vm, int ac, char *av[])
 			return (res);
 		count++;
 	}
-	if (vm->count_players < 2)
+	if (vm->count_players + vm->count_pl_tmp < 2)
 		return (ERR_TO_LITTLE_PLAYERS);
-	if (vm->count_players > MAX_PLAYERS)
+	if (vm->count_players + vm->count_pl_tmp > MAX_PLAYERS)
 		return (ERR_TO_MUCH_PLAYERS);
+	if ((res = join_players(vm)) != RET_OK)
+		return (res);
 	if ((res = check_order(vm->players, vm->count_players)) != RET_OK)
 		return (res);
 	return (RET_OK);

@@ -71,13 +71,13 @@ static t_result		read_arg_champ(t_vm *vm, const int *index, char *av[])
 	t_player	*player;
 	t_result	err;
 
-	err = get_next_free_index(vm->players, &res, sizeof(vm->players));
+	err = get_next_free_index(vm->pl_tmp, &res, sizeof(vm->pl_tmp));
 	if (err != RET_OK)
 		return (err);
 	if ((err = read_champ(av[*index], &player, res)) != RET_OK)
 		return (err);
-	vm->players[res - 1] = player;
-	vm->count_players++;
+	vm->pl_tmp[res - 1] = player;
+	vm->count_pl_tmp++;
 	return (RET_OK);
 }
 
