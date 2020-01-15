@@ -12,51 +12,6 @@
 
 #include "assembler.h"
 
-void				arg_code_byte(t_com *i_ams, char c, int num)
-{
-	if (c == 'r')
-		i_ams->kod_arg |= (REG_CODE << num);
-	else if (c == '%')
-		i_ams->kod_arg |= (DIR_CODE << num);
-	else if (c == '-')
-		i_ams->kod_arg |= (IND_CODE << num);
-}
-
-void				write_to_file(t_main *str_asm, int num, int int_c)
-{
-	unsigned char	c;
-	unsigned char	b;
-
-	b = 0;
-	c = int_c;
-	if (num == 2)
-	{
-		if (str_asm->neg_num_zero)
-			b = 255;
-		write(str_asm->fd, &b, 1);
-		write(str_asm->fd, &c, 1);
-		if (str_asm->neg_num_zero)
-			str_asm->neg_num_zero = 0;
-		return ;
-	}
-	write(str_asm->fd, &c, num);
-}
-
-void				arg_code(t_com *i_ams)
-{
-	i_ams->kod_arg = 0;
-	arg_code_byte(i_ams, i_ams->arg1[0], 6);
-	if (i_ams->count_args == 2)
-		arg_code_byte(i_ams, i_ams->arg2[0], 4);
-	else if (i_ams->count_args == 3)
-	{
-		arg_code_byte(i_ams, i_ams->arg2[0], 4);
-		arg_code_byte(i_ams, i_ams->arg3[0], 2);
-	}
-	else if (i_ams->count_args < 0 || i_ams->count_args > 3)
-		ft_exit(4);
-}
-
 int					arg_type_(char *str, int i)
 {
 	if (str[0] == 'r')
@@ -135,7 +90,7 @@ void				write_arg_to_file(t_main *str_asm, t_com *i_ams, int i)
 	}
 }
 
-void	count_byte(t_com *commands, int i)
+void				count_byte(t_com *commands, int i)
 {
 	commands->num_byte = 1 + (op_tab[i].is_argtype ? 1 : 0)
 	+ arg_type_(commands->arg1, i);
@@ -146,27 +101,4 @@ void	count_byte(t_com *commands, int i)
 		commands->num_byte += arg_type_(commands->arg2, i);
 		commands->num_byte += arg_type_(commands->arg3, i);
 	}
-}
-
-/*
-** 164.		//выводим код операции
-** 167.		//считаем код типов аргументов, если есть
-** 168.		//выводим код типов элементов
-*/
-
-void	kod_instr(t_com *commands, t_main *str_asm)
-{
-	int i;
-
-	i = 0;
-	while (ft_strcmp(commands->name, op_tab[i].name))
-		i++;
-	count_byte(commands, i);
-	write_to_file(str_asm, 1, op_tab[i].opcode);
-	if (op_tab[i].is_argtype)
-	{
-		arg_code(commands);
-		write_to_file(str_asm, 1, commands->kod_arg);
-	}
-	write_arg_to_file(str_asm, commands, i);
 }
