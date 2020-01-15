@@ -33,6 +33,7 @@
 # define CHAMP_MAX_SIZE			(MEM_SIZE / 6)
 
 # define COMMENT_CHAR			'#'
+# define ALT_COMMENT_CHAR		';'
 # define LABEL_CHAR				':'
 # define DIRECT_CHAR			'%'
 # define SEPARATOR_CHAR			','
@@ -88,5 +89,6 @@ typedef struct	s_op
 	int				is_tdir_2bytes;
 }				t_op;
 
+extern t_op		g_op_tab[17];
 t_op			*get_op_by_id(int id);
 #endif

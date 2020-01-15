@@ -49,7 +49,7 @@ void			ft_exit(int num);
 char			*ft_strjoin(char const *s1, char const *s2);
 void			ft_write_hex(char c, t_main *st_asm);
 void			hex_convert(char *str, t_main *st_asm, int num_byte);
-void			champ_head(t_main *str_asm, t_ch *player, t_com *commands);
+void			champ_head(t_main *str_asm, t_ch *player);
 int				code_convert(char *str);
 char			**ft_strsplit(char const *s, char c);
 char			*ft_strcpy(char *dest, const char *src);
@@ -70,4 +70,5 @@ void			write_arg_to_file(t_main *str_asm, t_com *i_ams, int i);
 void			errors_code(int num);
 int 			is_num(char sym);
 int				num_struct(t_com *commands);
+int 			is_num(char sym);
 #endif

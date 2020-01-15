@@ -37,9 +37,9 @@ int			num_struct(t_com *commands)
 	if (commands->name)
 	{
 		i = 0;
-		while (op_tab[i].name != NULL)
+		while (g_op_tab[i].name != NULL)
 		{
-			if (!ft_strcmp(op_tab[i].name, commands->name))
+			if (!ft_strcmp(g_op_tab[i].name, commands->name))
 				return (i);
 			i++;
 		}
@@ -87,6 +87,6 @@ void		assembler(t_com *commands, t_ch player, char *av)
 
 	ft_check_extention(av, &str_asm);
 	ft_initial_asm(&str_asm, commands);
-	champ_head(&str_asm, &player, commands);
+	champ_head(&str_asm, &player);
 	read_file(commands, &str_asm);
 }

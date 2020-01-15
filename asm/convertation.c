@@ -24,7 +24,7 @@ unsigned int	swap_ints(unsigned int a)
 **	ft_strcpy(header....		//обращаемся к комментарию чемпиона;
 */
 
-void			champ_head(t_main *str_asm, t_ch *player, t_com *commands)
+void			champ_head(t_main *str_asm, t_ch *player)
 {
 	t_header	header;
 
@@ -58,12 +58,17 @@ void			kod_instr(t_com *commands, t_main *str_asm)
 	if (i != -1)
 	{
 		count_byte(commands, i);
-		write_to_file(str_asm, 1, op_tab[i].opcode);
-		if (op_tab[i].is_argtype)
+		write_to_file(str_asm, 1, g_op_tab[i].opcode);
+		if (g_op_tab[i].is_argtype)
 		{
 			arg_code(commands);
 			write_to_file(str_asm, 1, commands->kod_arg);
 		}
 		write_arg_to_file(str_asm, commands, i);
 	}
+}
+
+int				is_num(char sym)
+{
+	return (sym == '-' || (sym >= '0' && sym <= '9'));
 }

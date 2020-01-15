@@ -25,7 +25,6 @@ SRC 	=	adding.o \
 			init_awm.o \
 			main.o \
 			my_librires_functions.o \
-			op.o \
 			valid_args.o \
 			exit2.o \
 			valid_args_commands.o \
@@ -37,6 +36,15 @@ SRC 	=	adding.o \
 			valid_names.o \
 			what_is_it.o \
 			what_is_it2.o
+
+COMMON_SRC = ../common_resources/op.c
+COMMON_OBJ = op.o
+
+INCLUDES = 	$(LIBDIR)includes \
+			$(PRINTF_DIR)includes\
+			../common_resources
+
+INC_FLAG = $(addprefix -I, $(INCLUDES))
 
 SRCDIR	= 	$(addprefix ./, $(SRC))
 LIBDIR	=	./../libft/
@@ -56,11 +64,15 @@ all: $(NAME)
 
 %.o: %.c
 				@echo "$(GREEN)asm:$(RESET) [Compilation:$(YELLOW) $@$(RESET)]"
-				$(CC) -o $@ -c $< -I$(LIBDIR)includes -I$(PRINTF_DIR)includes #$(CFLAGS)
+				$(CC) -o $@ -c $< $(INC_FLAG) #$(CFLAGS)
 
-$(NAME): lib $(PRINTF_DIR)libftprintf.a $(SRCDIR)
+$(COMMON_OBJ): $(COMMON_SRC) ../common_resources/op.h
+				@echo "$(GREEN)asm:$(RESET) [Compilation:$(YELLOW) $@$(RESET)]"
+				$(CC) -o $@ -c $< $(INC_FLAG) #$(CFLAGS)
+
+$(NAME): lib $(PRINTF_DIR)libftprintf.a $(SRCDIR) $(COMMON_OBJ)
 				@echo "$(NAME): creating $(NAME)...$(GREEN) OK!$(RESET)"
-				@$(CC) $(CFLAGS) $(SRCDIR) -o $(NAME) -L $(LIBDIR) -lft -L $(PRINTF_DIR) -lftprintf
+				@$(CC) $(CFLAGS) $(SRCDIR) $(COMMON_OBJ) -o $(NAME) -L $(LIBDIR) -lft -L $(PRINTF_DIR) -lftprintf
 
 $(PRINTF_DIR)libftprintf.a:
 				@echo "$(NAME): creating FT_PRINTF_LIB...$(GREEN)OK!$(RESET)"
@@ -74,11 +86,12 @@ clean:
 				@make -C $(PRINTF_DIR) clean
 				@make -C $(LIBDIR) clean
 				@rm -rf $(SRCDIR)
+				@rm -rf $(COMMON_OBJ)
 
 fclean:
 				@echo "$(NAME): delete all files...$(GREEN) OK!$(RESET)"
-				@make -C ft_printf/ fclean
-				@make -C libft/ fclean
+				@make -C $(PRINTF_DIR) fclean
+				@make -C $(LIBDIR) fclean
 				@make clean
 				@rm -rf ./asm
 

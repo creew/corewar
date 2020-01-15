@@ -24,7 +24,6 @@ void				arg_code_byte(t_com *i_ams, char c, int num)
 
 void				write_to_file(t_main *str_asm, int num, int int_c)
 {
-	unsigned char	c;
 	unsigned char	b;
 	unsigned int	val;
 
@@ -85,4 +84,3 @@ void				ft_exit(int num)
 	errors_code(num);
 	exit(0);
 }
-

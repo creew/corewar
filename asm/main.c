@@ -12,25 +12,21 @@
 
 #include "awm.h"
 
+/*
+** TODO: argc
+*/
+
 int	main(int argc, char **argv)
 {
 	t_com	*commands;
 	t_ch	player;
 
-	init(argv[1], &commands, &player);
-//	 	printf("\nname ----        %s\ncomment  ------     %s\n", player.name, player.comment);
-//	 while (commands)
-//	 {
-//	 	printf("label - %s\n", commands->label);
-//	 	printf("name - %s\n", commands->name);
-//	 	printf("arg1 - %s\n", commands->arg1);
-//	 	printf("arg2 - %s\n", commands->arg2);
-//	 	printf("arg3 - %s\n", commands->arg3);
-//	 	printf("--------------------------\n");
-//	 	commands = commands->next;
-//	 }
-	assembler(commands, player, argv[1]);
-	clear_commands(&commands);
-	clear_player(&player);
-	return (1);
+	if (argc > 1)
+	{
+		init(argv[1], &commands, &player);
+		assembler(commands, player, argv[1]);
+		clear_commands(&commands);
+		clear_player(&player);
+	}
+	return (0);
 }
