@@ -38,7 +38,6 @@ object files
 *.txt
 cmake*
 .idea/
-main.c
 *.out*
 *.xml
 *.iml
