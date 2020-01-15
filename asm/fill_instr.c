@@ -12,11 +12,6 @@
 
 #include "assembler.h"
 
-int 				is_num(char sym)
-{
-	return (sym == '-' || (sym >= '0' && sym <= '9'));
-}
-
 int					arg_type_(char *str, int i)
 {
 	if (str[0] == 'r')
@@ -32,12 +27,11 @@ int					arg_type_(char *str, int i)
 	return (0);
 }
 
-int					label_num_com(t_main *str_asm, char *str)
+int					label_num_com(t_main *str_asm, char *str, int len)
 {
 	t_com			*step;
 	char			*s;
 	char			*end;
-	int 			len;
 
 	step = str_asm->start;
 	len = ft_strlen(str);
@@ -49,10 +43,8 @@ int					label_num_com(t_main *str_asm, char *str)
 			while ((end = ft_strchr(s, ' ')))
 			{
 				if (end - s == len)
-				{
 					if (!ft_strncmp(s, str, len))
 						return (step->num_byte_from_start);
-				}
 				s = end + 1;
 			}
 			if (!ft_strcmp(str, s))
@@ -61,6 +53,7 @@ int					label_num_com(t_main *str_asm, char *str)
 		step = step->next;
 	}
 	ft_exit(15);
+	return (0);
 }
 
 int					f_num_zero(t_main *str_asm, char *str, t_com *commands)
@@ -70,7 +63,7 @@ int					f_num_zero(t_main *str_asm, char *str, t_com *commands)
 
 	if ((str[0] == '%' && str[1] == ':') || str[0] == ':')
 	{
-		i = label_num_com(str_asm, str + (str[0] == ':' ? 1 : 2));
+		i = label_num_com(str_asm, str + (str[0] == ':' ? 1 : 2), 0);
 		i -= commands->num_byte_from_start;
 		return (i);
 	}

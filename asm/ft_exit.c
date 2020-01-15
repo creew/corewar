@@ -85,4 +85,3 @@ void				ft_exit(int num)
 	errors_code(num);
 	exit(0);
 }
-

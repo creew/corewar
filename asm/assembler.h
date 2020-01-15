@@ -70,4 +70,5 @@ void			write_arg_to_file(t_main *str_asm, t_com *i_ams, int i);
 void			errors_code(int num);
 int 			is_num(char sym);
 int				num_struct(t_com *commands);
+int 			is_num(char sym);
 #endif

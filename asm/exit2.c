@@ -52,7 +52,7 @@ void		errors_code2(int num)
 		tmp = "expected end of line after name\n";
 	else if (num == 13)
 		tmp = "invalid characters, "
-			  "must be the name or comment of the champion\n";
+"must be the name or comment of the champion\n";
 	else if (num == 14)
 		tmp = "Chimpion name or comment does not exist\n";
 	else if (num == 15)

@@ -67,3 +67,8 @@ void			kod_instr(t_com *commands, t_main *str_asm)
 		write_arg_to_file(str_asm, commands, i);
 	}
 }
+
+int				is_num(char sym)
+{
+	return (sym == '-' || (sym >= '0' && sym <= '9'));
+}
