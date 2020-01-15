@@ -59,7 +59,7 @@ all: $(NAME)
 
 $(NAME): lib ft_printf $(SRCDIR)
 				@echo "$(NAME): creating $(NAME)...$(GREEN) OK!$(RESET)"
-				@$(CC) $(CFLAGS) $(SRCDIR) -o $(NAME) -L $(LIBDIR) -lft -L $(PRINTF_DIR) -lft
+				@$(CC) $(CFLAGS) $(SRCDIR) -o $(NAME) -L $(LIBDIR) -lft -L $(PRINTF_DIR) -lftprintf
 
 ft_printf:
 				@echo "$(NAME): creating FT_PRINTF_LIB...$(GREEN)OK!$(RESET)"

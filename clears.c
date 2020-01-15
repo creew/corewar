@@ -12,6 +12,7 @@
 
 #include "awm.h"
 
+
 void	clear_commands(t_com **coms)
 {
 	t_com *q;

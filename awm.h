@@ -4,7 +4,19 @@
 #include "libft/src/libft.h"
 #include "libft/src/get_next_line.h"
 #include "op.h"
-#include "libft/incl/printf.h"
+#include "ft_printf/includes/ft_printf.h"
+
+
+# define BLACK(string)			"\x1b[30m" string "\x1b[0m"
+# define RED(string)			"\x1b[31m" string "\x1b[0m"
+# define GREEN(string)			"\x1b[32m" string "\x1b[0m"
+# define YELLOW(string)			"\x1b[33m" string "\x1b[0m"
+# define BLUE(string)			"\x1b[34m" string "\x1b[0m"
+# define MAGENTA(string)		"\x1b[35m" string "\x1b[0m"
+# define CYAN(string)			"\x1b[36m" string "\x1b[0m"
+# define GREY(string)			"\x1b[37m" string "\x1b[0m"
+# define RESET(string)			"\x1b[0m" string "\x1b[0m"
+
 
 typedef struct s_commands
 {
@@ -110,4 +122,6 @@ void			init(char *argv, t_com **commands, t_ch *player);
 void        	delete_comment_and_tabs(char *str);
 void			assembler(t_com *commands, t_ch player, char *av);
 void			ft_exit3(int error_num);
+int				ft_printf(const char *format, ...);
+
 #endif //COREWAR_AWM_H

@@ -20,7 +20,7 @@
 # include <wchar.h>
 # include <stdlib.h>
 # include <fcntl.h>
-# include "ft_printf/includes/ft_printf.h"
+# include "ft_printf.h"
 # include "libft/src/libft.h"
 # include "awm.h"
 
