@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "assembler.h"
-//#include "libft/incl/libft.h"
 
 unsigned int	swap_ints(unsigned int a)
 {
@@ -36,4 +35,34 @@ void			champ_head(t_main *str_asm, t_ch *player, t_com *commands)
 	header.prog_size = swap_ints(str_asm->byte_cnt);
 	ft_strcpy(header.comment, player->comment);
 	write(str_asm->fd, &header, sizeof(header));
+}
+
+void			ft_initial_asm(t_main *str_asm, t_com *commands)
+{
+	str_asm->byte_cnt = 0;
+	str_asm->start = commands;
+	str_asm->neg_num_zero = 0;
+}
+
+/*
+** 164.		//выводим код операции
+** 167.		//считаем код типов аргументов, если есть
+** 168.		//выводим код типов элементов
+*/
+
+void			kod_instr(t_com *commands, t_main *str_asm)
+{
+	int			i;
+
+	i = 0;
+	while (ft_strcmp(commands->name, op_tab[i].name))
+		i++;
+	count_byte(commands, i);
+	write_to_file(str_asm, 1, op_tab[i].opcode);
+	if (op_tab[i].is_argtype)
+	{
+		arg_code(commands);
+		write_to_file(str_asm, 1, commands->kod_arg);
+	}
+	write_arg_to_file(str_asm, commands, i);
 }

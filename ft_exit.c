@@ -12,61 +12,54 @@
 
 #include "assembler.h"
 
-void		errors_code3(int num)
+void				arg_code_byte(t_com *i_ams, char c, int num)
 {
-	char *tmp;
-
-	if (num == 16)
-		tmp = "not valid command\n";
-	else if (num == 17)
-		tmp = "invalid end of line\n";
-	else if (num == 18)
-		tmp = "args is not valid\n";
-	else if (num == 19)
-		tmp = "invalid syntax\n";
-	else if (num == 20)
-		tmp = "expected line break\n";
-	else if (num == 21)
-		tmp = "the camp has not commands\n";
-	else if (num == 22)
-		tmp = "label does not exist\n";
-	else if (num == 23)
-		tmp = "expected end of line after \"\n";
-	ft_printf("%s", tmp);
+	if (c == 'r')
+		i_ams->kod_arg |= (REG_CODE << num);
+	else if (c == '%')
+		i_ams->kod_arg |= (DIR_CODE << num);
+	else if (c == '-')
+		i_ams->kod_arg |= (IND_CODE << num);
 }
 
-void		errors_code2(int num)
+void				write_to_file(t_main *str_asm, int num, int int_c)
 {
-	char *tmp;
+	unsigned char	c;
+	unsigned char	b;
 
-	if (num == 8)
-		tmp = "expected end of line after name\n";
-	else if (num == 9)
-		tmp = "comment already exists\n";
-	else if (num == 10)
-		tmp = "expected champion comment in characters \" \"\n";
-	else if (num == 11)
-		tmp = "cooment is too long\n";
-	else if (num == 12)
-		tmp = "expected end of line after name\n";
-	else if (num == 13)
-		tmp = "invalid characters, "
-		"must be the name or comment of the champion\n";
-	else if (num == 14)
-		tmp = "Chimpion name or comment does not exist\n";
-	else if (num == 15)
-		tmp = "not valid label\n";
-	else
+	b = 0;
+	c = int_c;
+	if (num == 2)
 	{
-		errors_code3(num);
+		if (str_asm->neg_num_zero)
+			b = 255;
+		write(str_asm->fd, &b, 1);
+		write(str_asm->fd, &c, 1);
+		if (str_asm->neg_num_zero)
+			str_asm->neg_num_zero = 0;
 		return ;
 	}
-	ft_printf("%s", tmp);
+	write(str_asm->fd, &c, num);
 }
 
-void		errors_code(int num)
+void				arg_code(t_com *i_ams)
 {
-	char	*tmp;
+	i_ams->kod_arg = 0;
+	arg_code_byte(i_ams, i_ams->arg1[0], 6);
+	if (i_ams->count_args == 2)
+		arg_code_byte(i_ams, i_ams->arg2[0], 4);
+	else if (i_ams->count_args == 3)
+	{
+		arg_code_byte(i_ams, i_ams->arg2[0], 4);
+		arg_code_byte(i_ams, i_ams->arg3[0], 2);
+	}
+	else if (i_ams->count_args < 0 || i_ams->count_args > 3)
+		ft_exit(4);
+}
+
+void				errors_code(int num)
+{
+	char			*tmp;
 
 	if (num == 1)
 		tmp = "Missing or error at champion .name\n";
@@ -92,17 +85,9 @@ void		errors_code(int num)
 	ft_printf("%s", tmp);
 }
 
-void		ft_exit(int num)
+void				ft_exit(int num)
 {
 	ft_printf(RED("ERROR: "));
 	errors_code(num);
-	exit(0);
-}
-
-void		ft_exit2(int num, int row)
-{
-	ft_printf(RED("ERROR: "));
-	errors_code(num);
-	ft_printf("ROW - %d\n", row);
 	exit(0);
 }

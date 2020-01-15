@@ -20,7 +20,6 @@
 # include <wchar.h>
 # include <stdlib.h>
 # include <fcntl.h>
-# include "ft_printf/includes/ft_printf.h"
 # include "libft/src/libft.h"
 # include "awm.h"
 
@@ -37,21 +36,6 @@
 
 extern t_op    op_tab[17];
 
-
-//typedef struct s_commands
-//{
-//	char	*name;
-//	char	*arg1;
-//	char	*arg2;
-//	char	*arg3;
-//	char	*label;
-//	int		count_args;
-//	int 	num_byte;				//q byte;
-//	int 	num_byte_from_start;
-//	unsigned char 	kod_arg;		//коды элементов в байте;
-//	struct s_commands *next;
-//}			t_com;
-
 typedef struct	s_main
 {
 	char	*name;
@@ -61,34 +45,7 @@ typedef struct	s_main
 	int 	neg_num_zero;
 	char 	*tmp;
 }				t_main;
-/*
-typedef struct 	s_instr
-{
-	char			*metka;					//метка операции;
-	char			kod;					//код операции;
-	char			*name;					//имя операции;
-	char			*arg1;
-	char			*arg2;
-	char			*arg3;
-	int				size_t_dir;				//размер T_DIR;
-	int				is_kod;					//atribute code;
-	unsigned char 	kod_arg;			//коды элементов в байте;
 
-}				t_instr;
-*/
-//typedef struct s_champ
-//{
-//	char	*name;
-//	char	*comment;
-//	int		fd;
-//}				t_ch;
-//
-//typedef	struct	s_valid
-//{
-//	int		(*valid_com[16])(t_com *commands);
-//}				t_valid;
-
-int				get_next_line(const int fd, char **line);
 void			ft_exit(int num);
 char			*ft_strjoin(char const *s1, char const *s2);
 void			ft_write_hex(char c, t_main *st_asm);
@@ -99,16 +56,17 @@ char			**ft_strsplit(char const *s, char c);
 char			*ft_strcpy(char *dest, const char *src);
 void			kod_instr(t_com *commands, t_main *str_asm);
 static char		can_use_command[16][8];
-static	char	 can_use_args[3][5];
+static char		can_use_args[3][5];
 char			**ft_my_strsplit(char const *s, char c);
 int				ft_is_strstr(char *src, char *to_find);
-char   			 *ft_strdup(const char *src);
+char			*ft_strdup(const char *src);
 void			clear_commands(t_com **coms);
 void			clear_player(t_ch *player);
-int				 gleb (char *str, t_ch *player, t_com **commands);
-char   			*gleb_strtrim(char const *s);
-char   			*gleb_strsub(char const *s, unsigned int start, size_t len);
 void			count_byte(t_com *commands, int i);
 void			put_num_byte(t_main *str_asm);
-void			errors_code2(int num);
+void			ft_initial_asm(t_main *str_asm, t_com *commands);
+void			write_to_file(t_main *str_asm, int num, int int_c);
+void			arg_code(t_com *i_ams);
+void			write_arg_to_file(t_main *str_asm, t_com *i_ams, int i);
+void			errors_code(int num);
 #endif
