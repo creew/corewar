@@ -35,16 +35,32 @@ int					arg_type_(char *str, int i)
 int					label_num_com(t_main *str_asm, char *str)
 {
 	t_com			*step;
+	char			*s;
+	char			*end;
+	int 			len;
 
 	step = str_asm->start;
+	len = ft_strlen(str);
 	while (step)
 	{
 		if (step->label && str)
-			if (!ft_strcmp(str, step->label))
+		{
+			s = step->label;
+			while ((end = ft_strchr(s, ' ')))
+			{
+				if (end - s == len)
+				{
+					if (!ft_strncmp(s, str, len))
+						return (step->num_byte_from_start);
+				}
+				s = end + 1;
+			}
+			if (!ft_strcmp(str, s))
 				return (step->num_byte_from_start);
+		}
 		step = step->next;
 	}
-	return (77);
+	ft_exit(15);
 }
 
 int					f_num_zero(t_main *str_asm, char *str, t_com *commands)
@@ -56,15 +72,7 @@ int					f_num_zero(t_main *str_asm, char *str, t_com *commands)
 	{
 		i = label_num_com(str_asm, str + (str[0] == ':' ? 1 : 2));
 		i -= commands->num_byte_from_start;
-		b = i;
-		if (i < 0)
-		{
-			b = i * (-1);
-			b = ~b;
-			str_asm->neg_num_zero = 1;
-			return ((int)(b + 1));
-		}
-		return ((int)(b));
+		return (i);
 	}
 	return (ft_atoi(is_num(*str) ? str : str + 1));
 }

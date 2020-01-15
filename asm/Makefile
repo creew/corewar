@@ -50,7 +50,7 @@ RESET 		= 	\033[0m
 
 
 CC			=	gcc
-CFLAGS		=	-Wall -Wextra -Werror
+CFLAGS		=	-Wall -Wextra -Werror -g
 
 all: $(NAME)
 
