@@ -57,8 +57,11 @@ void			kod_instr(t_com *commands, t_main *str_asm)
 	i = 0;
 	while (ft_strcmp(commands->name, op_tab[i].name))
 		i++;
-	count_byte(commands, i);
-	write_to_file(str_asm, 1, op_tab[i].opcode);
+//	if (op_tab[i].is_argtype)
+//	{
+		count_byte(commands, i);
+		write_to_file(str_asm, 1, op_tab[i].opcode);
+//	}
 	if (op_tab[i].is_argtype)
 	{
 		arg_code(commands);

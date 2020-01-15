@@ -29,7 +29,7 @@ int	main(int argc, char **argv)
 	// 	printf("--------------------------\n");
 	// 	commands = commands->next;
 	// }
-//	assembler(commands, player, argv[1]);
+	assembler(commands, player, argv[1]);
 	clear_commands(&commands);
 	clear_player(&player);
 	return (1);

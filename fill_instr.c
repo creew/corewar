@@ -45,7 +45,7 @@ int					label_num_com(t_main *str_asm, char *str)
 int					f_num_zero(t_main *str_asm, char *str, t_com *commands)
 {
 	int				i;
-	unsigned char	b;
+	unsigned int	b;
 
 	if (str[1] == ':')
 	{
@@ -57,9 +57,9 @@ int					f_num_zero(t_main *str_asm, char *str, t_com *commands)
 			b = i * (-1);
 			b = ~b;
 			str_asm->neg_num_zero = 1;
-			return (b + 1);
+			return ((int)(b + 1));
 		}
-		return (b);
+		return ((int)(b));
 	}
 	return (ft_atoi(str + 1));
 }
