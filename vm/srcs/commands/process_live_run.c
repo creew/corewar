@@ -28,7 +28,7 @@ void		process_live_run(t_vm *vm, t_process *pr, t_runner *run)
 	if (index >= 1 && index <= (int)vm->count_players)
 	{
 		pl = vm->players[index - 1];
-		if (!vm->do_debug)
+		if (!vm->do_debug && !vm->do_dump)
 			ft_printf("A process shows that player %d (%s) is alive\n",
 				-run->args[A1], pl->name);
 		vm->last_player = pl;

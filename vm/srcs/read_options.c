@@ -86,7 +86,7 @@ t_result		read_option(t_vm *vm, int ac, char *av[])
 			return (res);
 		count++;
 	}
-	if (vm->count_players + vm->count_pl_tmp < 2)
+	if (vm->count_players + vm->count_pl_tmp < 1)
 		return (ERR_TO_LITTLE_PLAYERS);
 	if (vm->count_players + vm->count_pl_tmp > MAX_PLAYERS)
 		return (ERR_TO_MUCH_PLAYERS);

@@ -48,6 +48,7 @@ void		init_vm(t_vm *vm)
 		}
 		add_process(&vm->processes_root, pl->player_id, start,
 			&vm->process_count);
+		vm->last_player = pl;
 	}
 	vm->state = RUNNING;
 	vm->cycle_to_die = CYCLE_TO_DIE;

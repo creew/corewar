@@ -17,7 +17,7 @@ static t_result		check_dump(t_vm *vm, int *index, int ac, char *av[])
 	if (*index + 1 < ac && ft_safe_atoi(av[*index + 1], &vm->dump_n) ==
 		FT_ATOI_OK && vm->dump_n >= 0)
 	{
-		vm->do_dump = 1;
+		vm->do_dump = !ft_strcmp(av[*index], "-d") ? 64 : 32;
 		(*index)++;
 	}
 	else
@@ -61,7 +61,7 @@ static t_result		check_debug(t_vm *vm, int *index, int ac, char *av[])
 		(*index)++;
 	}
 	else
-		return (ERR_INCORRECT_DARG);
+		return (ERR_INCORRECT_VARG);
 	return (RET_OK);
 }
 
@@ -86,13 +86,13 @@ t_result			parse_arg(t_vm *vm, int *index, int ac, char *av[])
 	t_result	err;
 
 	err = RET_OK;
-	if (!ft_strcmp(av[*index], "-dump"))
+	if (!ft_strcmp(av[*index], "-d") || !ft_strcmp(av[*index], "-dump"))
 		err = check_dump(vm, index, ac, av);
 	else if (!ft_strcmp(av[*index], "-n"))
 		err = check_order_flag(vm, index, ac, av);
-	else if (!ft_strcmp(av[*index], "-v"))
+	else if (!ft_strcmp(av[*index], "-s"))
 		vm->visualize = 1;
-	else if (!ft_strcmp(av[*index], "-d"))
+	else if (!ft_strcmp(av[*index], "-v"))
 		err = check_debug(vm, index, ac, av);
 	else if (!ft_strcmp(av[*index], "-a"))
 		vm->print_aff = 1;

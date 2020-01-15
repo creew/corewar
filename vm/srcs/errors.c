@@ -27,7 +27,7 @@ static t_errdesc	g_errs[] = {
 	{ERR_INCORRECT_ORDER_PLAYERS, "Wrong order players"},
 	{ERR_INCORRECT_DUMPARG, "Wrong argument in -dump"},
 	{ERR_INCORRECT_NARG, "Wrong argument in -n"},
-	{ERR_INCORRECT_DARG, "Wrong argument in -d"},
+	{ERR_INCORRECT_VARG, "Wrong argument in -v"},
 	{ERR_CANT_ASSIGN_INDEX, "Can't assign index for player"}
 };
 
@@ -36,8 +36,9 @@ static const char	g_usage[] =
 "    -a        : Prints output from \"aff\" (Default is to hide it)\n"
 "#### TEXT OUTPUT MODE ###################"
 "#######################################\n"
-"    -dump N   : Dumps memory after N cycles then exits\n"
-"    -d N      : Verbosity levels, can be added together to enable several\n"
+"    -d N      : Dumps memory by 64 octets after N cycles then exits\n"
+"    -dump N   : Dumps memory by 32 octets after N cycles then exits\n"
+"    -v N      : Verbosity levels, can be added together to enable several\n"
 "                - 0 : Show only essentials\n"
 "                - 1 : Show lives\n"
 "                - 2 : Show cycles\n"
@@ -46,10 +47,10 @@ static const char	g_usage[] =
 "                - 16 : Show PC movements (Except for jumps)\n"
 "#### SDL2 OUTPUT MODE ###################"
 "#######################################\n"
-"    -v        : Sdl2 graphic output mode\n"
+"    -s        : Sdl2 graphic output mode\n"
 "#### USE OWN ORDER CHAMP ################"
 "#######################################\n"
-"    -n <champ.cor>       : sets the number of the next player\n"
+"    -n N <champ.cor>       : sets the number N of the next player\n"
 "#########################################"
 "#######################################\n";
 

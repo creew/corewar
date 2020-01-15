@@ -21,7 +21,8 @@ void		process_ldi_run(t_vm *vm, t_process *pr, t_runner *run)
 
 	val1 = get_reg_dir_ind_arg(pr, run, A1);
 	val2 = get_reg_dir_arg(pr, run, A2);
-	val = read_be_map(vm->field, pr->pc + (val1 + val2) % IDX_MOD, DIR_SIZE, 0);
+	val = read_be_map(vm->field, pr->pc + (val1 + val2) % IDX_MOD, DIR_SIZE,
+		SIGNED);
 	write_varlen_be(pr->regs[run->args[A3]], val, DIR_SIZE);
 	if (vm->debug_args & VERB_SHOW_OPERATIONS)
 	{

@@ -26,6 +26,6 @@ void		process_zjmp_run(t_vm *vm, t_process *pr, t_runner *run)
 		run->skip = 0;
 	}
 	if (vm->debug_args & VERB_SHOW_OPERATIONS)
-		ft_printf("P% 5d | zjmp %d %s\n",
-			pr->id, diff, pr->carry ? "OK" : "FAILED");
+		ft_printf("P% 5d | zjmp %ld %s\n",
+			pr->id, run->args[A1], pr->carry ? "OK" : "FAILED");
 }
