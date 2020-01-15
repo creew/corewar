@@ -10,15 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "awm.h"
+#include "assembler.h"
 
 int	main(int argc, char **argv)
 {
 	t_com	*commands;
 	t_ch	player;
+	t_main	str_asm;
 
+	ft_check_extention(argv[1], &str_asm);
 	init(argv[1], &commands, &player);
-	assembler(commands, player, argv[1]);
+	close(player.fd);
+	assembler(commands, player, &str_asm);
 	clear_commands(&commands);
 	clear_player(&player);
 	return (1);

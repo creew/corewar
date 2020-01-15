@@ -68,12 +68,9 @@ void		read_file(t_com *commands, t_main *str_asm)
 	}
 }
 
-void		assembler(t_com *commands, t_ch player, char *av)
+void		assembler(t_com *commands, t_ch player, t_main *str_asm)
 {
-	t_main	str_asm;
-
-	ft_check_extention(av, &str_asm);
-	ft_initial_asm(&str_asm, commands);
-	champ_head(&str_asm, &player, commands);
-	read_file(commands, &str_asm);
+	ft_initial_asm(str_asm, commands);
+	champ_head(str_asm, &player, commands);
+	read_file(commands, str_asm);
 }

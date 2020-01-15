@@ -120,7 +120,7 @@ int				if_the_end_file_with_out_n(char *line);
 void			lst_create_player(char *str, t_ch *player);
 void			init(char *argv, t_com **commands, t_ch *player);
 void        	delete_comment_and_tabs(char *str);
-void			assembler(t_com *commands, t_ch player, char *av);
+//void			assembler(t_com *commands, t_ch player, t_main *str_asm);
 void			ft_exit2(int num, int row);
 void			errors_code2(int num);
 void			errors_code3(int num);

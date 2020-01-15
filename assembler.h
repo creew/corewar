@@ -69,4 +69,6 @@ void			write_to_file(t_main *str_asm, int num, int int_c);
 void			arg_code(t_com *i_ams);
 void			write_arg_to_file(t_main *str_asm, t_com *i_ams, int i);
 void			errors_code(int num);
+void			ft_check_extention(char *str, t_main *str_asm);
+void			assembler(t_com *commands, t_ch player, t_main *str_asm);
 #endif
