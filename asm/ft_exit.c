@@ -26,20 +26,14 @@ void				write_to_file(t_main *str_asm, int num, int int_c)
 {
 	unsigned char	c;
 	unsigned char	b;
+	unsigned int	val;
 
-	b = 0;
-	c = int_c;
-	if (num == 2)
+	val = (unsigned int)int_c;
+	while (num--)
 	{
-		if (str_asm->neg_num_zero)
-			b = 255;
+		b = (val >> (num * 8u)) & 0xFFu;
 		write(str_asm->fd, &b, 1);
-		write(str_asm->fd, &c, 1);
-		if (str_asm->neg_num_zero)
-			str_asm->neg_num_zero = 0;
-		return ;
 	}
-	write(str_asm->fd, &c, num);
 }
 
 void				arg_code(t_com *i_ams)
@@ -91,3 +85,4 @@ void				ft_exit(int num)
 	errors_code(num);
 	exit(0);
 }
+
