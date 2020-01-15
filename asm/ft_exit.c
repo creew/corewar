@@ -18,7 +18,7 @@ void				arg_code_byte(t_com *i_ams, char c, int num)
 		i_ams->kod_arg |= (REG_CODE << num);
 	else if (c == '%')
 		i_ams->kod_arg |= (DIR_CODE << num);
-	else if (c == '-')
+	else if (is_num(c) || c == ':')
 		i_ams->kod_arg |= (IND_CODE << num);
 }
 

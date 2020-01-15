@@ -12,6 +12,11 @@
 
 #include "assembler.h"
 
+int 				is_num(char sym)
+{
+	return (sym == '-' || (sym >= '0' && sym <= '9'));
+}
+
 int					arg_type_(char *str, int i)
 {
 	if (str[0] == 'r')
@@ -22,7 +27,7 @@ int					arg_type_(char *str, int i)
 			return (2);
 		return (4);
 	}
-	else if (str[0] == '-')
+	else if (is_num(*str) || str[0] == ':')
 		return (2);
 	return (0);
 }
@@ -32,7 +37,7 @@ int					label_num_com(t_main *str_asm, char *str)
 	t_com			*step;
 
 	step = str_asm->start;
-	while (step->next)
+	while (step)
 	{
 		if (step->label && str)
 			if (!ft_strcmp(str, step->label))
@@ -47,9 +52,9 @@ int					f_num_zero(t_main *str_asm, char *str, t_com *commands)
 	int				i;
 	unsigned int	b;
 
-	if (str[1] == ':')
+	if ((str[0] == '%' && str[1] == ':') || str[0] == ':')
 	{
-		i = label_num_com(str_asm, str + 2);
+		i = label_num_com(str_asm, str + (str[0] == ':' ? 1 : 2));
 		i -= commands->num_byte_from_start;
 		b = i;
 		if (i < 0)
@@ -61,7 +66,7 @@ int					f_num_zero(t_main *str_asm, char *str, t_com *commands)
 		}
 		return ((int)(b));
 	}
-	return (ft_atoi(str + 1));
+	return (ft_atoi(is_num(*str) ? str : str + 1));
 }
 
 void				write_arg_to_file(t_main *str_asm, t_com *i_ams, int i)
