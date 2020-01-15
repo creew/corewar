@@ -73,7 +73,7 @@ int     		command_is_valid(char *command, t_valid validator, int row);
 int     		label_is(char *str, t_com *commands);
 int             it_s_comment(char *line);
 void        	add_comment(char *str, t_ch *player);
-void	        ft_exit2(char *str, int row);
+void			ft_exit2(int num, int row);
 void        	add_with_n_comment(t_ch *player, char *str, int z);
 int             it_s_name(char *line);
 void        	add_name(char *str, t_ch *player);

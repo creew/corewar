@@ -26,6 +26,12 @@ void		errors_code(int num)
 		tmp = "Wrong num of argument\n";
 	else if (num == 0)
 		tmp = "Please upload valide .s file\n";
+	else if (num == 5)
+		tmp = "name already exists\n";
+	else if (num == 6)
+		tmp = "expected champion name in characters \" \"\n";
+	else if (num == 7)
+		tmp = "name is too long\n";
 	printf("%s", tmp);
 }
 
@@ -34,4 +40,11 @@ void		ft_exit(int num)
 	ft_printf(RED("ERROR: "));
 	errors_code(num);
 	exit(0);
+}
+
+void		ft_exit2(int num, int row)
+{
+	ft_printf(RED("ERROR: "));
+	errors_code(num);
+	ft_printf("ROW - %d\n", row);
 }

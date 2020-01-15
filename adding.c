@@ -73,18 +73,18 @@ void	add_name(char *str, t_ch *player)
 
 	i = 1;
 	if (player->name != NULL)
-		ft_exit2("имя уже существует", player->row);
+		ft_exit2(5, player->row);
 	while (*str != '"' && *str != '\0')
 		str++;
 	if (*str == '\0')
-		ft_exit2("ожидалось имя чемпиона в символах \" \"", player->row);
+		ft_exit2(6, player->row);
 	while (str[i] != '"' && str[i] != '\0')
 		i++;
 	if (str[i] == '\0')
 	{
 		add_with_n_name(player, ft_strdup(1 + str), 1);
 		if (ft_strlen(player->name) > PROG_NAME_LENGTH)
-			ft_exit2("длина имени слишком большая", player->row);
+			ft_exit2(7, player->row);
 		return ;
 	}
 	(str[i + 1] && str[i + 1] != '\0') ?
