@@ -32,17 +32,16 @@
 # define GREY(string)			"\x1b[37m" string "\x1b[0m"
 # define RESET(string)			"\x1b[0m" string "\x1b[0m"
 
-
-extern t_op    op_tab[17];
+extern t_op		g_op_tab[17];
 
 typedef struct	s_main
 {
 	char	*name;
-	int 	fd;
-	int 	byte_cnt;
+	int		fd;
+	int		byte_cnt;
 	t_com	*start;
-	int 	neg_num_zero;
-	char 	*tmp;
+	int		neg_num_zero;
+	char	*tmp;
 }				t_main;
 
 void			ft_exit(int num);
@@ -54,8 +53,6 @@ int				code_convert(char *str);
 char			**ft_strsplit(char const *s, char c);
 char			*ft_strcpy(char *dest, const char *src);
 void			kod_instr(t_com *commands, t_main *str_asm);
-static char		can_use_command[16][8];
-static char		can_use_args[3][5];
 char			**ft_my_strsplit(char const *s, char c);
 int				ft_is_strstr(char *src, char *to_find);
 char			*ft_strdup(const char *src);
@@ -68,9 +65,9 @@ void			write_to_file(t_main *str_asm, int num, int int_c);
 void			arg_code(t_com *i_ams);
 void			write_arg_to_file(t_main *str_asm, t_com *i_ams, int i);
 void			errors_code(int num);
-int 			is_num(char sym);
+int				is_num(char sym);
 int				num_struct(t_com *commands);
-int 			is_num(char sym);
-void		ft_check_extention(char *str, t_main *str_asm);
-void			assembler(t_com *commands, t_ch player, char *av, t_main *str_asm);
+void			ft_check_extention(char *str, t_main *str_asm);
+void			assembler(t_com *commands, t_ch player, char *av,
+					t_main *str_asm);
 #endif
