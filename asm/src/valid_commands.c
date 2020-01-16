@@ -23,14 +23,14 @@ int		valid_fork(t_com *commands)
 {
 	if (commands->count_args != 1)
 		return (0);
-	return (valid_arg_dir(commands->arg1, commands));
+	return (valid_arg_dir(commands->arg1));
 }
 
 int		valid_lfork(t_com *commands)
 {
 	if (commands->count_args != 1)
 		return (0);
-	return (valid_arg_dir(commands->arg1, commands));
+	return (valid_arg_dir(commands->arg1));
 }
 
 int		valid_lld(t_com *commands)

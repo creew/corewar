@@ -12,7 +12,7 @@
 
 #include "awm.h"
 
-int		valid_arg_dir(char *str, t_com *commands)
+int		valid_arg_dir(char *str)
 {
 	if (str && str[0] == DIRECT_CHAR)
 	{

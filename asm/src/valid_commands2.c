@@ -30,7 +30,7 @@ int		valid_zjmp(t_com *commands)
 {
 	if (commands->count_args != 1)
 		return (0);
-	return (valid_arg_dir(commands->arg1, commands));
+	return (valid_arg_dir(commands->arg1));
 }
 
 int		valid_ldi(t_com *commands)

@@ -90,4 +90,5 @@ void	lst_create_player(char *str, t_ch *player)
 	player->name = NULL;
 	player->comment = NULL;
 	player->fd = open(str, O_RDONLY);
+	player->row = 0;
 }

@@ -55,7 +55,7 @@ int		        valid_lld(t_com *commands);
 int		        valid_aff(t_com *commands);
 int		        valid_args(t_com *commands, t_valid validator);
 int		        valid_lld_arg(t_com *commands);
-int     		valid_arg_dir(char	*str, t_com *commands);
+int     		valid_arg_dir(char	*str);
 int		        valid_arg_reg(char *str);
 int		        valid_sti(t_com *commands);
 int		        valid_sti_arg(t_com *commands);

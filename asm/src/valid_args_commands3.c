@@ -16,12 +16,12 @@ int		valid_live(t_com *commands)
 {
 	if (commands->count_args != 1)
 		return (0);
-	return (valid_arg_dir(commands->arg1, commands));
+	return (valid_arg_dir(commands->arg1));
 }
 
 int		valid_ld_arg(t_com *commands)
 {
-	if (!valid_arg_dir(commands->arg1, commands) &&
+	if (!valid_arg_dir(commands->arg1) &&
 		!valid_arg_int(commands->arg1))
 		return (0);
 	if (!valid_arg_reg(commands->arg2))

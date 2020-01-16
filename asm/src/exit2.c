@@ -67,6 +67,9 @@ void		errors_code2(int num)
 
 void		ft_exit2(int num, int row)
 {
+	int		i;
+
+	i = row;
 	ft_printf(RED("ERROR: "));
 	errors_code(num);
 	ft_printf("ROW - %d\n", row);

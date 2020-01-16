@@ -76,12 +76,12 @@ void	adding_args(char **args, t_com *commands)
 		commands->arg1 = ft_strtrim(args[0]);
 		commands->count_args++;
 	}
-	if (args[1])
+	if (args[0] && args[1])
 	{
 		commands->arg2 = ft_strtrim(args[1]);
 		commands->count_args++;
 	}
-	if (args[2] && args[1])
+	if (args[0] && args[1] && args[2])
 	{
 		commands->arg3 = ft_strtrim(args[2]);
 		commands->count_args++;
