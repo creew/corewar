@@ -71,4 +71,6 @@ void			errors_code(int num);
 int 			is_num(char sym);
 int				num_struct(t_com *commands);
 int 			is_num(char sym);
+void		ft_check_extention(char *str, t_main *str_asm);
+void			assembler(t_com *commands, t_ch player, char *av, t_main *str_asm);
 #endif

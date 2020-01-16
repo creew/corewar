@@ -25,9 +25,7 @@ void		ft_check_extention(char *str, t_main *str_asm)
 	tmp = ft_strjoin(str, "or");
 	tmp[i - 1] = 'c';
 	str_asm->name = tmp;
-	ft_printf("Writing output program to %s\n", str_asm->name);
 	str_asm->fd = open(str_asm->name, O_CREAT | O_TRUNC | O_WRONLY, 0666);
-	free(tmp);
 }
 
 int			num_struct(t_com *commands)
@@ -81,12 +79,9 @@ void		read_file(t_com *commands, t_main *str_asm)
 	}
 }
 
-void		assembler(t_com *commands, t_ch player, char *av)
+void		assembler(t_com *commands, t_ch player, char *av, t_main *str_asm)
 {
-	t_main	str_asm;
-
-	ft_check_extention(av, &str_asm);
-	ft_initial_asm(&str_asm, commands);
-	champ_head(&str_asm, &player);
-	read_file(commands, &str_asm);
+	ft_initial_asm(str_asm, commands);
+	champ_head(str_asm, &player);
+	read_file(commands, str_asm);
 }
