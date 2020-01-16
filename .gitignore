@@ -23,3 +23,6 @@
 /asm/cmake-build-debug/
 /asemb/cmake-build-debug/
 /asemb/asm.dSYM/Contents/Resources/DWARF/
+/asm
+/corewar
+/asemb/asm
