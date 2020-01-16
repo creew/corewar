@@ -53,8 +53,6 @@ t_result			read_champ(char *filename, t_player **player, int id)
 	player_size = swap_uint_be(header.prog_size);
 	if (player_size > CHAMP_MAX_SIZE)
 		return (close_and_ret(f, NULL, ERR_CHAMP_TO_BIG));
-	if (player_size == 0)
-		return (close_and_ret(f, NULL, ERR_CHAMP_ZEROSIZE));
 	if (create_player(&header, player, id) != RET_OK)
 		return (close_and_ret(f, NULL, ERR_ENOMEM));
 	if (read(f, (*player)->prog, player_size) != player_size)
