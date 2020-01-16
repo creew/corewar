@@ -79,7 +79,8 @@ void	init_line(char **line, char **q)
 		*q = NULL;
 		return ;
 	}
-	delete_comment_and_tabs(*line);
+	delete_comment(*line);
+	ft_delete_tabs(*line);
 	*q = ft_strtrim(*line);
 	clear_line(line);
 	*line = *q;

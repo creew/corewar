@@ -27,6 +27,8 @@ void	delete_comment(char *str)
 			while (str[i] != '"' && str[i] != '\0')
 				i++;
 		}
+		if (str[i] == '\0')
+			return ;
 		if (str[i] == COMMENT_CHAR || str[i] == ALT_COMMENT_CHAR)
 		{
 			str[i] = '\0';
@@ -45,10 +47,10 @@ void	delete_comment_and_tabs(char *str)
 		return ;
 	while (str[i] != '\0')
 	{
-		if (str[i] == '"')
+		if (str[i] == '\"')
 		{
 			i++;
-			while (str[i] != '"' && str[i] != '\0')
+			while (str[i] != '\"' && str[i] != '\0')
 				i++;
 		}
 		if (str[i] == '\t')

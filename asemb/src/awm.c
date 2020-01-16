@@ -112,7 +112,7 @@ void	init(char *argv, t_com **commands, t_ch *player)
 	commands_head = *commands;
 	set_player(player, argv);
 	set_commands(player, *commands);
-	if (!(*commands)->label && !(*commands)->name)
+	if (!(commands_head)->label && !(commands_head)->name)
 		ft_exit2(21, 0);
 	if ((row = valid_labeles(commands_head)) != -1)
 		ft_exit2(22, row);

@@ -116,10 +116,14 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c $(HEADER_FILES) | $(OBJDIR)
 $(COMMON_OBJS): ./../common_resources/op.c $(HEADER_FILES)
 	gcc $(FLAGS) $(INCS) -c $< -o $@
 
-$(LIBFT_DIR)/libft.a:
+$(LIBFT_DIR)/libft.a: libft
+
+libft:
 	$(COMP_LIBFT)
 
-$(LIBFTPRINTF_DIR)/libftprintf.a:
+$(LIBFTPRINTF_DIR)/libftprintf.a: ft_printf
+
+ft_printf:
 	$(COMP_LIBFTPRINTF)
 
 clean:

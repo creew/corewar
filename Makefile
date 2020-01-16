@@ -10,7 +10,8 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME 	=	corewar
+COREWAR 	=	corewar
+ASM			=	asm
 
 ASM_DIR	=	./asemb/
 VM_DIR	=	./vm/
@@ -25,24 +26,24 @@ RESET 		= 	\033[0m
 CC			=	gcc
 CFLAGS		=	-Wall -Wextra -Werror -g
 
-all: 
+all:
+				@make -C $(VM_DIR)
+				cp $(VM_DIR)corewar corewar
 				@make -C $(ASM_DIR)
-				mv $(ASM_DIR)asm ./
-#				@make -C $(VM_DIR)
+				cp $(ASM_DIR)asm asm
 
 clean:
 				@make -C $(ASM_DIR) clean
-#				@make -C $(VM_DIR) clean
-#				@rm -rf $(SRCDIR)
-#				@rm -rf $(COMMON_OBJ)
+				@make -C $(VM_DIR) clean
 
-fclean:
-#				@echo "$(NAME): delete all files...$(GREEN) OK!$(RESET)"
-#				@make -C $(PRINTF_DIR) fclean
-#				@make -C $(LIBDIR) fclean
-#				@make clean
+fclean: clean
+				@echo "$(NAME): delete all files...$(GREEN) OK!$(RESET)"
+				@make -C $(ASM_DIR) fclean
+				@make -C $(VM_DIR) fclean
+
 				@rm -rf ./asm
+				@rm -rf ./corewar
 
 re: fclean all
 
-.PHONY: re clean fclean all lib ft_printf
+.PHONY: re clean fclean all

@@ -17,7 +17,7 @@ static t_result		check_dump(t_vm *vm, int *index, int ac, char *av[])
 	if (*index + 1 < ac && ft_safe_atoi(av[*index + 1], &vm->dump_n) ==
 		FT_ATOI_OK && vm->dump_n >= 0)
 	{
-		vm->do_dump = !ft_strcmp(av[*index], "-d") ? 64 : 32;
+		vm->do_dump = !ft_strcmp(av[*index], "-d") ? 32 : 64;
 		(*index)++;
 	}
 	else

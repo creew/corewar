@@ -71,15 +71,19 @@ $(COMMON_OBJ): $(COMMON_SRC) ../common_resources/op.h
 				@echo "$(GREEN)asm:$(RESET) [Compilation:$(YELLOW) $@$(RESET)]"
 				$(CC) -o $@ -c $< $(INC_FLAG) #$(CFLAGS)
 
-$(NAME): lib $(PRINTF_DIR)libftprintf.a $(SRCDIR) $(COMMON_OBJ)
+$(NAME): $(LIBDIR)libft.a $(PRINTF_DIR)libftprintf.a $(SRCDIR) $(COMMON_OBJ)
 				@echo "$(NAME): creating $(NAME)...$(GREEN) OK!$(RESET)"
-				@$(CC) $(CFLAGS) $(SRCDIR) $(COMMON_OBJ) -o $(NAME) -L $(LIBDIR) -lft -L $(PRINTF_DIR) -lftprintf
+				$(CC) $(CFLAGS) $(SRCDIR) $(COMMON_OBJ) -o $(NAME) -L $(LIBDIR) -lft -L $(PRINTF_DIR) -lftprintf
 
-$(PRINTF_DIR)libftprintf.a:
+$(PRINTF_DIR)libftprintf.a: ft_printf
+
+ft_printf:
 				@echo "$(NAME): creating FT_PRINTF_LIB...$(GREEN)OK!$(RESET)"
 				@make -C $(PRINTF_DIR)
 
-lib:
+$(LIBDIR)libft.a: libft
+
+libft:
 				@echo "$(NAME): creating LIBFT...$(GREEN)OK!$(RESET)"
 				@make -C $(LIBDIR)
 
@@ -98,4 +102,4 @@ fclean:
 
 re: fclean all
 
-.PHONY: re clean fclean all lib ft_printf
+.PHONY: re clean fclean all libft ft_printf

@@ -98,7 +98,6 @@ void	end_name_or_comment(char **str, int i,
 
 	if ((*str)[i] == '\0')
 	{
-		player->row++;
 		free(*str);
 		if (get_row(player->fd, str) > 0)
 		{

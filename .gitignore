@@ -21,3 +21,5 @@
 /vm/2
 /asm/.idea/
 /asm/cmake-build-debug/
+/asemb/cmake-build-debug/
+/asemb/asm.dSYM/Contents/Resources/DWARF/
