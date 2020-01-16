@@ -13,35 +13,36 @@
 NAME 	=	asm
 
 #						*****	OBJECT FILES	******
-SRC 	=	adding.o \
-			adding2.o \
-			assembler.o \
-			awm.o \
-			clears.o \
-			convertation.o \
-			delete_comments.o \
-			fill_instr.o \
-			ft_exit.o \
-			init_awm.o \
-			main.o \
-			my_librires_functions.o \
-			valid_args.o \
-			exit2.o \
-			valid_args_commands.o \
-			valid_args_commands2.o \
- 			valid_args_commands3.o \
-			valid_commands.o \
-			valid_commands2.o \
-			valid_commands3.o \
-			valid_names.o \
-			what_is_it.o \
-			what_is_it2.o
+SRC 	=	src/adding.o \
+			src/adding2.o \
+			src/assembler.o \
+			src/awm.o \
+			src/clears.o \
+			src/convertation.o \
+			src/delete_comments.o \
+			src/fill_instr.o \
+			src/ft_exit.o \
+			src/init_awm.o \
+			src/main.o \
+			src/my_librires_functions.o \
+			src/valid_args.o \
+			src/exit2.o \
+			src/valid_args_commands.o \
+			src/valid_args_commands2.o \
+ 			src/valid_args_commands3.o \
+			src/valid_commands.o \
+			src/valid_commands2.o \
+			src/valid_commands3.o \
+			src/valid_names.o \
+			src/what_is_it.o \
+			src/what_is_it2.o
 
 COMMON_SRC = ../common_resources/op.c
-COMMON_OBJ = op.o
+COMMON_OBJ = ./src/op.o
 
 INCLUDES = 	$(LIBDIR)includes \
 			$(PRINTF_DIR)includes\
+			./includes \
 			../common_resources
 
 INC_FLAG = $(addprefix -I, $(INCLUDES))
