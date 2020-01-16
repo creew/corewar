@@ -21,25 +21,25 @@ int		pf_isdigit(int c)
 
 void	pf_bzero(void *s, size_t n)
 {
-    unsigned char	*sc;
+	unsigned char	*sc;
 
-    sc = (unsigned char *)s;
-    while ((size_t)sc % sizeof(unsigned long) && n)
-    {
-        *sc++ = 0;
-        n--;
-    }
-    while (n >= sizeof(unsigned long))
-    {
-        *(unsigned long *)sc = 0;
-        sc += sizeof(unsigned long);
-        n -= sizeof(unsigned long);
-    }
-    while (n)
-    {
-        *sc++ = 0;
-        n--;
-    }
+	sc = (unsigned char *)s;
+	while ((size_t)sc % sizeof(unsigned long) && n)
+	{
+		*sc++ = 0;
+		n--;
+	}
+	while (n >= sizeof(unsigned long))
+	{
+		*(unsigned long *)sc = 0;
+		sc += sizeof(unsigned long);
+		n -= sizeof(unsigned long);
+	}
+	while (n)
+	{
+		*sc++ = 0;
+		n--;
+	}
 }
 
 char	*pf_strchr(const char *s, int c)
