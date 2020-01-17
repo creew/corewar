@@ -85,6 +85,8 @@ void	adding_args(char **args, t_com *commands)
 	{
 		commands->arg3 = ft_strtrim(args[2]);
 		commands->count_args++;
+		if (args[3])
+			commands->count_args++;
 	}
 	while (args[++i])
 		free(args[i]);
