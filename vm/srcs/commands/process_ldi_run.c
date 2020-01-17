@@ -21,14 +21,15 @@ void		process_ldi_run(t_vm *vm, t_process *pr, t_runner *run)
 
 	val1 = get_reg_dir_ind_arg(pr, run, A1);
 	val2 = get_reg_dir_arg(pr, run, A2);
-	val = read_be_map(vm->field, pr->pc + (val1 + val2) % IDX_MOD, DIR_SIZE,
-		SIGNED);
+	val = read_be_map(vm->field, pr->pc + (int)(val1 + val2) % IDX_MOD,
+		DIR_SIZE, SIGNED);
 	write_varlen_be(pr->regs[run->args[A3]], val, DIR_SIZE);
 	if (vm->debug_args & VERB_SHOW_OPERATIONS)
 	{
 		ft_printf("P% 5d | ldi %ld %ld r%ld\n", pr->id,
 			val1, val2, run->args[A3] + 1);
-		ft_printf("       | -> load from %ld + %ld = %ld (with pc and mod %ld)"
-			"\n", val1, val2, val1 + val2, pr->pc + (val1 + val2) % IDX_MOD);
+		ft_printf("       | -> load from %ld + %ld = %d (with pc and mod %d)"
+			"\n", val1, val2, (int)(val1 + val2),
+			pr->pc + (int)(val1 + val2) % IDX_MOD);
 	}
 }
